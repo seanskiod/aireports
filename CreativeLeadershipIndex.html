@@ -1,0 +1,1314 @@
+        .filter-btn.active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrandRank Design & Creative Leadership Index - Corporate Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
+            color: #ffffff;
+            overflow-x: auto;
+            min-height: 100vh;
+        }
+
+        .presentation-container {
+            width: 100%;
+            max-width: 1920px;
+            margin: 0 auto;
+            padding: 40px;
+            aspect-ratio: 16/9;
+            min-height: 100vh;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .main-title {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: #00d4ff;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: #ffffff;
+            opacity: 0.8;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .search-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 15px 20px;
+            color: #ffffff;
+            font-size: 1rem;
+            width: 400px;
+            font-family: 'Segoe UI', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-button {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 15px 25px;
+            color: #0a0e1a;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px 24px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #0a0e1a;
+            border-color: #00d4ff;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .canva-btn.active {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: #ffffff;
+            border-color: #4ecdc4;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .adobe-btn.active {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: #ffffff;
+            border-color: #ff6b6b;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .figma-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            border-color: #667eea;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .clear-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .clear-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .data-table-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 70vh;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: transparent;
+        }
+
+        th {
+            background: linear-gradient(135deg, #2a2f3a 0%, #1a1f2e 100%);
+            color: #ffffff;
+            padding: 20px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        th:first-child {
+            width: 400px;
+            min-width: 400px;
+            position: sticky;
+            left: 0;
+            z-index: 11;
+        }
+
+        .llm-header {
+            text-align: center;
+            min-width: 120px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: top;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        td:first-child {
+            background: rgba(255, 255, 255, 0.02);
+            font-weight: 500;
+            position: sticky;
+            left: 0;
+            z-index: 5;
+            border-right: 2px solid rgba(255, 255, 255, 0.1);
+            width: 400px;
+            min-width: 400px;
+        }
+
+        tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, #2a2f3a 0%, #1a1f2e 100%) !important;
+            color: #00d4ff !important;
+            font-weight: 700;
+            text-align: left;
+            font-size: 1rem;
+            padding: 20px;
+            border: none !important;
+            border-bottom: 1px solid #00d4ff !important;
+        }
+
+        .category-header:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 11;
+        }
+
+        .brand-cell {
+            text-align: center;
+            font-weight: 500;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .brand-cell:hover {
+            transform: scale(1.05);
+        }
+
+        .canva-highlight {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .adobe-highlight {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .figma-highlight {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .canva-highlight.filtered {
+            color: #4ecdc4;
+        }
+
+        .adobe-highlight.filtered {
+            color: #ff6b6b;
+        }
+
+        .figma-highlight.filtered {
+            color: #667eea;
+        }
+
+        .analysis-section {
+            margin-top: 50px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .analysis-title {
+            color: #00d4ff;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .insight-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #00d4ff;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .insight-card:hover {
+            transform: translateX(10px);
+        }
+
+        .insight-title {
+            color: #00d4ff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .insight-content {
+            color: #ffffff;
+            opacity: 0.9;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .insight-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .insight-list li {
+            margin-bottom: 8px;
+            color: #ffffff;
+            opacity: 0.85;
+        }
+
+        .highlight-stat {
+            color: #00d4ff;
+            font-weight: 600;
+        }
+
+        .risk-card {
+            border-left-color: #ff6b6b;
+        }
+
+        .opportunity-card {
+            border-left-color: #4ecdc4;
+        }
+
+        .warning-card {
+            border-left-color: #ffd93d;
+        }
+
+        @media (max-width: 1600px) {
+            .presentation-container {
+                padding: 30px;
+            }
+            
+            .main-title {
+                font-size: 2.8rem;
+            }
+            
+            th, td {
+                padding: 12px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .filter-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .main-title {
+                font-size: 2.4rem;
+            }
+            
+            .search-input {
+                width: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filter-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .presentation-container {
+                padding: 20px;
+            }
+            
+            .search-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .search-input {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            th:first-child,
+            td:first-child {
+                width: 300px;
+                min-width: 300px;
+            }
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            color: #00d4ff;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator">
+        Scroll horizontally for full data view
+    </div>
+
+    <div class="presentation-container">
+        <div class="header-section">
+            <h1 class="main-title">BrandRank Design & Creative Leadership Index</h1>
+            <p class="subtitle">Mapping AI Platform Preferences in Creative Software (Q3 2025)</p>
+            
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search questions, tools, or platforms..." class="search-input">
+                <button class="search-button">Search</button>
+            </div>
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Results</button>
+                <button class="filter-btn canva-btn" data-filter="canva">Canva</button>
+                <button class="filter-btn adobe-btn" data-filter="adobe">Adobe</button>
+                <button class="filter-btn figma-btn" data-filter="figma">Figma</button>
+                <button class="filter-btn clear-btn" data-filter="clear">Clear All</button>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th class="llm-header">ChatGPT</th>
+                            <th class="llm-header">Gemini</th>
+                            <th class="llm-header">Claude</th>
+                            <th class="llm-header">Llama</th>
+                            <th class="llm-header">Perplexity</th>
+                            <th class="llm-header">X/Grok</th>
+                            <th class="llm-header">DeepSeek</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Core Design Tools Competition -->
+                        <tr>
+                            <td class="category-header">Core Design Tools Competition</td>
+                            <td class="category-header">ChatGPT</td>
+                            <td class="category-header">Gemini</td>
+                            <td class="category-header">Claude</td>
+                            <td class="category-header">Llama</td>
+                            <td class="category-header">Perplexity</td>
+                            <td class="category-header">X/Grok</td>
+                            <td class="category-header">DeepSeek</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool for beginners to create social media graphics?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the easiest graphic design software for small businesses?</td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Express</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Express</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best free graphic design software available?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">GIMP</td>
+                            <td class="brand-cell">GIMP</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool for non-designers to create professional graphics?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best online design platform for creating marketing materials?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best drag-and-drop design tool for quick graphics?</td>
+                            <td class="brand-cell">Desygner</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design software for creating Instagram posts and stories?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best alternative to Adobe Creative Suite for simple design tasks?</td>
+                            <td class="brand-cell">Affinity Suite</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Affinity Designer</td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Affinity Designer</td>
+                            <td class="brand-cell">Affinity Designer</td>
+                        </tr>
+
+                        <!-- AI-Powered Design Tools -->
+                        <tr>
+                            <td class="category-header">AI-Powered Design Tools</td>
+                            <td class="category-header">ChatGPT</td>
+                            <td class="category-header">Gemini</td>
+                            <td class="category-header">Claude</td>
+                            <td class="category-header">Llama</td>
+                            <td class="category-header">Perplexity</td>
+                            <td class="category-header">X/Grok</td>
+                            <td class="category-header">DeepSeek</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best AI-powered design tool for creating graphics automatically?</td>
+                            <td class="brand-cell">Runway</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Midjourney</td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Express</span></td>
+                            <td class="brand-cell">Visily</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best AI tool for generating social media content?</td>
+                            <td class="brand-cell">Simplified</td>
+                            <td class="brand-cell">Simplified</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Visme</td>
+                            <td class="brand-cell">Buffer AI</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best AI tool for creating presentations?</td>
+                            <td class="brand-cell">Beautiful.ai</td>
+                            <td class="brand-cell">Gamma</td>
+                            <td class="brand-cell">Gamma</td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Visme</td>
+                            <td class="brand-cell">Beautiful.ai</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best AI image generator for marketing materials?</td>
+                            <td class="brand-cell">Midjourney</td>
+                            <td class="brand-cell">Midjourney</td>
+                            <td class="brand-cell">DALL-E 3</td>
+                            <td class="brand-cell">Visme</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Express</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Firefly</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best AI tool for creating infographics?</td>
+                            <td class="brand-cell">Visme</td>
+                            <td class="brand-cell">Piktochart AI</td>
+                            <td class="brand-cell">Piktochart AI</td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Visme</td>
+                            <td class="brand-cell">Visme</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best AI-powered design assistant?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva's Magic Design</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Express</span></td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Magic Studio</span></td>
+                            <td class="brand-cell">Typeface</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best AI tool for generating brand identities?</td>
+                            <td class="brand-cell">Brandmark</td>
+                            <td class="brand-cell">Looka</td>
+                            <td class="brand-cell">Looka</td>
+                            <td class="brand-cell">Prisma</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Kittl</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+
+                        <!-- Adobe Integration & AEO -->
+                        <tr>
+                            <td class="category-header">Adobe Integration & AEO</td>
+                            <td class="category-header">ChatGPT</td>
+                            <td class="category-header">Gemini</td>
+                            <td class="category-header">Claude</td>
+                            <td class="category-header">Llama</td>
+                            <td class="category-header">Perplexity</td>
+                            <td class="category-header">X/Grok</td>
+                            <td class="category-header">DeepSeek</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best Adobe alternative for simple design tasks?</td>
+                            <td class="brand-cell">Affinity Designer</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Affinity Designer</td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Affinity Designer</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design software with built-in AI optimization?</td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Express</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Express</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Firefly</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool for creating SEO-optimized graphics?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design platform for content that ranks well in search?</td>
+                            <td class="brand-cell">Frase</td>
+                            <td class="brand-cell">Frase</td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What design software integrates best with marketing automation?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Bannerbear</td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">HubSpot</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best creative suite for integrated design workflows?</td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool for creating search-optimized visual content?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+
+                        <!-- Template & Content Creation -->
+                        <tr>
+                            <td class="category-header">Template & Content Creation</td>
+                            <td class="category-header">ChatGPT</td>
+                            <td class="category-header">Gemini</td>
+                            <td class="category-header">Claude</td>
+                            <td class="category-header">Llama</td>
+                            <td class="category-header">Perplexity</td>
+                            <td class="category-header">X/Grok</td>
+                            <td class="category-header">DeepSeek</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best platform for design templates and pre-made graphics?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Envato Elements</td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best source for customizable social media templates?</td>
+                            <td class="brand-cell">VistaCreate</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Spark</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool with the largest template library?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best platform for creating branded templates?</td>
+                            <td class="brand-cell">Lucidpress</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Pro</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best tool for creating video content templates?</td>
+                            <td class="brand-cell">Animoto</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Renderforest</td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design platform for seasonal and trending templates?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best tool for creating email newsletter templates?</td>
+                            <td class="brand-cell">Mailchimp</td>
+                            <td class="brand-cell">Mailchimp</td>
+                            <td class="brand-cell">Mailchimp</td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Mailchimp</td>
+                        </tr>
+
+                        <!-- Team Collaboration & Enterprise -->
+                        <tr>
+                            <td class="category-header">Team Collaboration & Enterprise</td>
+                            <td class="category-header">ChatGPT</td>
+                            <td class="category-header">Gemini</td>
+                            <td class="category-header">Claude</td>
+                            <td class="category-header">Llama</td>
+                            <td class="category-header">Perplexity</td>
+                            <td class="category-header">X/Grok</td>
+                            <td class="category-header">DeepSeek</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best collaborative design platform for teams?</td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool for brand consistency across teams?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Pro</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design platform for marketing teams?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Teams</span></td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best enterprise design solution for non-designers?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva for Enterprise</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva for Enterprise</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span> + <span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Enterprise</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva for Enterprise</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool with approval workflows?</td>
+                            <td class="brand-cell">Ziflow</td>
+                            <td class="brand-cell">Ziflow</td>
+                            <td class="brand-cell">Filestage</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Enterprise</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design platform for remote teams?</td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell">Miro + <span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool for maintaining brand guidelines?</td>
+                            <td class="brand-cell">Frontify</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Frontify</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Pro</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+
+                        <!-- Specific Use Cases -->
+                        <tr>
+                            <td class="category-header">Specific Use Cases</td>
+                            <td class="category-header">ChatGPT</td>
+                            <td class="category-header">Gemini</td>
+                            <td class="category-header">Claude</td>
+                            <td class="category-header">Llama</td>
+                            <td class="category-header">Perplexity</td>
+                            <td class="category-header">X/Grok</td>
+                            <td class="category-header">DeepSeek</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best tool for creating YouTube thumbnails?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">TubeBuddy + <span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool for creating Facebook and Instagram ads?</td>
+                            <td class="brand-cell">AdCreative.ai</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">AdCreative.AI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best platform for creating Pinterest graphics?</td>
+                            <td class="brand-cell">Tailwind Create</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Tailwind + <span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best tool for creating business presentations?</td>
+                            <td class="brand-cell">Beautiful.ai</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Presentations</span></td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Visme</td>
+                            <td class="brand-cell">Beautiful.ai</td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool for creating event flyers and posters?</td>
+                            <td class="brand-cell">PosterMyWall</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best platform for creating web graphics and banners?</td>
+                            <td class="brand-cell">Bannersnack</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Pro/Teams</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best tool for creating infographics and data visualizations?</td>
+                            <td class="brand-cell">Venngage</td>
+                            <td class="brand-cell">Piktochart</td>
+                            <td class="brand-cell">Piktochart</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Visme</td>
+                            <td class="brand-cell">Visme</td>
+                        </tr>
+
+                        <!-- Pricing & Value Proposition -->
+                        <tr>
+                            <td class="category-header">Pricing & Value Proposition</td>
+                            <td class="category-header">ChatGPT</td>
+                            <td class="category-header">Gemini</td>
+                            <td class="category-header">Claude</td>
+                            <td class="category-header">Llama</td>
+                            <td class="category-header">Perplexity</td>
+                            <td class="category-header">X/Grok</td>
+                            <td class="category-header">DeepSeek</td>
+                        </tr>
+                        <tr>
+                            <td>What is the most cost-effective design tool for small businesses?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Pro</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best value design software subscription?</td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Express</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Pro</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Pro</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Pro</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best free design tool with premium features?</td>
+                            <td class="brand-cell">VistaCreate</td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">VistaCreate</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool for freelancers on a budget?</td>
+                            <td class="brand-cell">Gravit Designer</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Affinity Designer 2</td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design platform with unlimited downloads?</td>
+                            <td class="brand-cell">Envato Elements</td>
+                            <td class="brand-cell">Digifloat</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Pro</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">VistaCreate Pro</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva Pro</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool that doesn't require subscription?</td>
+                            <td class="brand-cell">Inkscape</td>
+                            <td class="brand-cell">Affinity Photo/Designer</td>
+                            <td class="brand-cell">CorelDRAW Graphics Suite</td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Affinity Designer</td>
+                            <td class="brand-cell">Affinity Designer</td>
+                        </tr>
+
+                        <!-- Market Position & Innovation -->
+                        <tr>
+                            <td class="category-header">Market Position & Innovation</td>
+                            <td class="category-header">ChatGPT</td>
+                            <td class="category-header">Gemini</td>
+                            <td class="category-header">Claude</td>
+                            <td class="category-header">Llama</td>
+                            <td class="category-header">Perplexity</td>
+                            <td class="category-header">X/Grok</td>
+                            <td class="category-header">DeepSeek</td>
+                        </tr>
+                        <tr>
+                            <td>What is the most innovative design platform in 2025?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Kittl</td>
+                            <td class="brand-cell">V0 by Vercel</td>
+                        </tr>
+                        <tr>
+                            <td>What is the fastest-growing design tool company?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the most user-friendly design software available?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool for beginners in 2025?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the most recommended design platform by content creators?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool for the future of graphic design?</td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Express</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">AI-powered tools</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the most trusted design platform for businesses?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the best design tool with the most regular updates and new features?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="adobe-highlight">Adobe Creative Cloud</span></td>
+                            <td class="brand-cell">Wix ADI</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What is the most popular design tool among marketing professionals?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                        <tr>
+                            <td>What design platform has the best integration with other business tools?</td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="figma-highlight">Figma</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                            <td class="brand-cell"><span class="canva-highlight">Canva</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h2 class="analysis-title">Strategic Analysis: AI-Powered Design Tool Disruption</h2>
+            
+            <div class="insight-card opportunity-card">
+                <h3 class="insight-title">Canva's Market Leadership Position</h3>
+                <div class="insight-content">
+                    <p>Canva dominates with a <span class="highlight-stat">75% mention rate</span> across all LLM platforms, establishing itself as the default AI recommendation for design tools. This represents unprecedented brand preference in the AI-mediated discovery era - a critical advantage as consumers increasingly rely on AI assistants for software recommendations.</p>
+                </div>
+            </div>
+
+            <div class="insight-card warning-card">
+                <h3 class="insight-title">The AI-Native Tool Disruption Window</h3>
+                <div class="insight-content">
+                    <p><strong>Critical Market Opportunity:</strong> Our analysis reveals significant fragmentation in AI-powered design tool recommendations. When asked about AI-specific capabilities, LLMs show no clear consensus:</p>
+                    <ul class="insight-list">
+                        <li><strong>AI-powered graphics:</strong> 7 different tools recommended across platforms</li>
+                        <li><strong>AI social content:</strong> 6 different tools, with Canva mentioned only 2/7 times</li>
+                        <li><strong>AI image generation:</strong> Midjourney, DALL-E, Adobe Firefly splitting recommendations</li>
+                        <li><strong>AI design assistant:</strong> Canva leads but not unanimously</li>
+                    </ul>
+                    <p><strong>Strategic Implication:</strong> The market hasn't yet crowned an AI design leader. This represents a 6-12 month window where Canva could establish AI design dominance before competitors solidify their positions in LLM training data.</p>
+                </div>
+            </div>
+
+            <div class="insight-card risk-card">
+                <h3 class="insight-title">Adobe's AEO Integration Threat</h3>
+                <div class="insight-content">
+                    <p>Adobe's Answer Engine Optimization integration is showing early competitive signals:</p>
+                    <ul class="insight-list">
+                        <li><strong>AI optimization:</strong> Adobe Express recommended by 3/7 LLMs</li>
+                        <li><strong>Integrated workflows:</strong> Adobe Creative Cloud dominates 5/7 platforms</li>
+                        <li><strong>Business trust:</strong> Adobe ties with Canva for enterprise credibility</li>
+                    </ul>
+                    <p><strong>Risk Assessment:</strong> Adobe's systematic AEO implementation could shift LLM recommendations toward their integrated AI tools, potentially eroding Canva's current AI platform preference advantage.</p>
+                </div>
+            </div>
+
+            <div class="insight-card">
+                <h3 class="insight-title">Strategic Recommendations</h3>
+                <div class="insight-content">
+                    <p><strong>Immediate Actions (0-6 months):</strong></p>
+                    <ul class="insight-list">
+                        <li><strong>AI Leadership Capture:</strong> Aggressively position Canva's AI features in content marketing to establish clear AI design leadership before competitors</li>
+                        <li><strong>LLM Training Optimization:</strong> Develop systematic approach to influence LLM training data through strategic content and partnership placements</li>
+                        <li><strong>Enterprise Collaboration Push:</strong> Accelerate development of approval workflows and advanced team features to compete with Figma</li>
+                    </ul>
+                    <p><strong>Long-term Positioning (6-18 months):</strong></p>
+                    <ul class="insight-list">
+                        <li><strong>AI-Native Integration:</strong> Position Canva as the leading AI-first design platform, not just a tool with AI features</li>
+                        <li><strong>Adobe Counter-Strategy:</strong> Develop specific competitive responses to Adobe's AEO integration, potentially including Canva's own AEO initiatives</li>
+                        <li><strong>Market Education:</strong> Lead industry conversation about AI-powered design to establish Canva as the thought leader and preferred platform</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="insight-card">
+                <h3 class="insight-title">Market Dynamics Summary</h3>
+                <div class="insight-content">
+                    <p>The creative software market is entering a critical transition period where AI platform preferences will determine long-term market leadership. Canva's current <span class="highlight-stat">75% LLM preference rate</span> represents a significant competitive moat, but the fragmented AI tool recommendations signal an opportunity for disruption. The next 12-18 months will likely determine which brands establish themselves as AI-native design leaders in the minds of both AI systems and users.</p>
+                    <p><strong>Key Metric to Monitor:</strong> Canva's mention rate in AI-specific design questions (currently 35% vs 75% overall) - closing this gap is critical for maintaining market leadership in the AI-driven future.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.querySelector('.search-button');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const tableRows = document.querySelectorAll('tbody tr');
+
+        function searchTable() {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            tableRows.forEach(row => {
+                const rowText = row.textContent.toLowerCase();
+                if (rowText.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function filterByBrand(brand) {
+            // Remove all filtered classes first
+            document.querySelectorAll('.canva-highlight, .adobe-highlight, .figma-highlight').forEach(el => {
+                el.classList.remove('filtered');
+            });
+
+            tableRows.forEach(row => {
+                if (row.querySelector('.category-header')) {
+                    row.style.display = '';
+                    return;
+                }
+
+                if (brand === 'all' || brand === 'clear') {
+                    row.style.display = '';
+                } else {
+                    const brandCells = row.querySelectorAll(`.${brand}-highlight`);
+                    if (brandCells.length > 0) {
+                        row.style.display = '';
+                        // Add filtered class to highlight the selected brand
+                        brandCells.forEach(cell => cell.classList.add('filtered'));
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Event listeners
+        searchInput.addEventListener('input', searchTable);
+        searchButton.addEventListener('click', searchTable);
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                console.log('Button clicked:', button.getAttribute('data-filter'));
+                const filter = button.getAttribute('data-filter');
+                
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Filter table and apply colors
+                filterByBrand(filter);
+                
+                // Clear search when filtering
+                searchInput.value = '';
+            });
+        });
+
+        // Enter key support for search
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchTable();
+            }
+        });
+    </script>
+</body>
+</html>

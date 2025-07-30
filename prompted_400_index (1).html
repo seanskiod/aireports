@@ -1,0 +1,1179 @@
+        .highlight {
+            background: rgba(255, 211, 61, 0.3) !important;
+            border: 1px solid #ffd93d !important;
+        }<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumer Products 400 Answer Share Index</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00d4ff;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #00d4ff;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .search-controls {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-row {
+            display: grid;
+            grid-template-columns: 1fr auto auto auto;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 0.75rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .category-filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .filter-section-label {
+            color: #00d4ff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .brand-filter {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .brand-filter.active {
+            background: rgba(0, 212, 255, 0.3);
+            border-color: #00d4ff;
+            color: #00d4ff;
+            font-weight: 600;
+        }
+
+        .brand-filter:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+        }
+
+        .search-input, .category-filter {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus, .category-filter:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .category-filter option {
+            background: #1a1f35;
+            color: #ffffff;
+        }
+
+        .results-info {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #000000;
+            padding: 1rem 0.5rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 2px solid rgba(0, 212, 255, 0.5);
+            min-width: 80px;
+            max-width: 100px;
+        }
+
+        th:first-child {
+            min-width: 50px;
+            max-width: 60px;
+        }
+
+        th:nth-child(2) {
+            min-width: 300px;
+            max-width: 400px;
+            text-align: left;
+            padding-left: 1rem;
+        }
+
+        td {
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        tr:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .category-row {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%) !important;
+        }
+
+        .category-row td {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%) !important;
+            color: #ffffff !important;
+            font-weight: bold;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 1.5rem 1rem;
+        }
+
+        .question-number {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 0.9rem;
+            min-width: 50px;
+            max-width: 60px;
+        }
+
+        .question-text {
+            text-align: left;
+            font-weight: 500;
+            background: rgba(0, 212, 255, 0.05);
+            min-width: 300px;
+            max-width: 400px;
+            word-wrap: break-word;
+            line-height: 1.4;
+            padding-left: 1rem;
+        }
+
+        .brand-cell {
+            font-weight: 500;
+            color: #ffffff;
+            min-width: 80px;
+            max-width: 100px;
+            word-wrap: break-word;
+        }
+
+        .brand-highlight {
+            background: rgba(255, 211, 61, 0.4) !important;
+            border: 2px solid #ffd93d !important;
+            color: #ffd93d !important;
+            font-weight: bold;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #00d4ff;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00d4ff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            margin-left: 1rem;
+        }
+
+        .footer {
+            margin-top: 4rem;
+            padding: 3rem 0 2rem 0;
+            border-top: 2px solid rgba(0, 212, 255, 0.3);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer h3 {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            line-height: 1.7;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .search-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .stat-card {
+                padding: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Consumer Products 400 Answer Share Index</h1>
+            <p>Comprehensive analysis of AI model brand recommendations across 400 consumer questions spanning 17 categories | Powered by BrandRank.AI</p>
+        </div>
+
+        <div class="search-controls">
+            <div class="search-row">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search questions, brands, or categories...">
+                <select id="categoryFilter" class="category-filter">
+                    <option value="">All Categories</option>
+                </select>
+                <button id="clearFilters" class="search-input" style="cursor: pointer; background: rgba(255, 107, 107, 0.2); border-color: #ff6b6b;">Clear Filters</button>
+            </div>
+            
+            <div class="filter-section-label">Major Brand Families</div>
+            <div class="filter-row">
+                <div class="brand-filter" data-filter="pg">P&G</div>
+                <div class="brand-filter" data-filter="unilever">Unilever</div>
+                <div class="brand-filter" data-filter="jj">J&J</div>
+                <div class="brand-filter" data-filter="colgate">Colgate</div>
+                <div class="brand-filter" data-filter="coke">Coca-Cola</div>
+                <div class="brand-filter" data-filter="pepsico">PepsiCo</div>
+                <div class="brand-filter" data-filter="nestle">Nestlé</div>
+                <div class="brand-filter" data-filter="mars">Mars</div>
+                <div class="brand-filter" data-filter="loreal">L'Oréal</div>
+                <div class="brand-filter" data-filter="generalmills">General Mills</div>
+                <div class="brand-filter" data-filter="kraftheinz">Kraft Heinz</div>
+                <div class="brand-filter" data-filter="kc">KC</div>
+                <div class="brand-filter" data-filter="clorox">Clorox Co</div>
+                <div class="brand-filter" data-filter="reckitt">Reckitt</div>
+                <div class="brand-filter" data-filter="scjohnson">SC Johnson</div>
+            </div>
+            
+            <div class="filter-section-label">Retailer & Channel</div>
+            <div class="filter-row">
+                <div class="brand-filter" data-filter="amazon">Amazon</div>
+                <div class="brand-filter" data-filter="costco">Costco</div>
+                <div class="brand-filter" data-filter="walmart">Walmart</div>
+                <div class="brand-filter" data-filter="target">Target</div>
+                <div class="brand-filter" data-filter="private">Private Label</div>
+                <div class="brand-filter" data-filter="challenger">Challenger</div>
+            </div>
+            
+            <div class="filter-section-label">Category Groups</div>
+            <div class="category-filter-row">
+                <div class="brand-filter" data-filter="personalcare">Personal Care</div>
+                <div class="brand-filter" data-filter="household">Household</div>
+                <div class="brand-filter" data-filter="foodbev">Food & Beverage</div>
+                <div class="brand-filter" data-filter="health">Health & Wellness</div>
+                <div class="brand-filter" data-filter="garden">Home & Garden</div>
+                <div class="brand-filter" data-filter="petcare">Pet Care</div>
+            </div>
+            
+            <div class="results-info" id="resultsInfo">Showing 400 of 400 questions across 17 categories</div>
+        </div>
+
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Question</th>
+                            <th>ChatGPT</th>
+                            <th>Gemini</th>
+                            <th>Claude</th>
+                            <th>X/Grok</th>
+                            <th>Perplexity</th>
+                            <th>DeepSeek</th>
+                            <th>Meta/Llama</th>
+                            <th>Amazon Rufus</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr class="loading">
+                            <td colspan="10">Loading data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-content">
+                <h3>About BrandRank.AI</h3>
+                <p>We help Brands measure, protect, and grow trust through the power of AI-driven search and discovery. Combining AI with expert insight, we monitor the major AI "Answer Engines" to pinpoint vulnerabilities and opportunities, identify key insights driving purchase behavior, and uncover category needs and opportunities to strengthen brand equity and consumer loyalty.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Complete dataset - ALL 400 questions
+        const allData = [
+            [1, "Oral Care", "What is the best toothpaste for oral health?", "Crest", "Oral-B", "Crest", "Colgate", "Crest", "Colgate", "Colgate", "Crest"],
+            [2, "Oral Care", "What is the best toothbrush brand for gum care?", "Oral-B", "Oral-B", "Oral-B", "Oral-B", "Oral-B", "Oral-B", "Oral-B", "Oral-B"],
+            [3, "Oral Care", "What is the best whitening toothpaste?", "Crest", "Crest", "Crest", "Crest", "Crest 3D White", "Crest", "Crest", "Sensodyne"],
+            [4, "Oral Care", "What is the best mouthwash for bad breath?", "Listerine", "Listerine", "Listerine", "TheraBreath", "TheraBreath", "Listerine", "Listerine", "TheraBreath"],
+            [5, "Oral Care", "What is the best electric toothbrush brand?", "Oral-B", "Philips Sonicare", "Oral-B", "Philips Sonicare", "Oral-B", "Philips Sonicare", "Oral-B", "Oral-B"],
+            [6, "Oral Care", "What is the best dental floss brand?", "Oral-B", "Glide", "Oral-B", "Glide", "Glide", "Oral-B Glide", "Johnson & Johnson", "Colgate"],
+            [7, "Oral Care", "What is the best teeth whitening strips?", "Crest", "Crest Whitestrips", "Crest", "Crest 3D White", "Crest Whitestrips", "Crest 3D White", "Crest", "REACH"],
+            [8, "Oral Care", "What is the best water flosser brand?", "Waterpik", "Waterpik", "Waterpik", "Waterpik", "Waterpik", "Waterpik", "Waterpik", "Crest"],
+            [9, "Oral Care", "What is the best toothpaste for sensitive teeth?", "Sensodyne", "Sensodyne", "Sensodyne", "Sensodyne", "Sensodyne", "Sensodyne", "Sensodyne", "Aquafresh"],
+            [10, "Oral Care", "What is the best children's toothpaste?", "Crest Kids", "Tom's of Maine", "Crest Kids", "Colgate Kids", "Tom's of Maine", "Crest Kids", "Colgate", "Crest"],
+            [11, "Oral Care", "What is the best natural toothpaste brand?", "Tom's of Maine", "Tom's of Maine", "Tom's of Maine", "Dr. Bronner's", "Hello", "Jason Natural", "Tom's of Maine", "Waterpik"],
+            [12, "Oral Care", "What is the best denture cleaner brand?", "Polident", "Polident", "Polident", "Efferdent", "Polident", "Polident", "Efferdent", "Crest"],
+            [13, "Oral Care", "What is the best mouthguard for teeth grinding?", "DenTek", "Plackers", "DenTek", "SleepRight", "Plackers", "SleepRight", "DenTek", "Oral-B"],
+            [14, "Oral Care", "What is the best breath spray brand?", "Binaca", "TheraBreath", "Binaca", "Listerine", "TheraBreath", "Listerine PocketPaks", "TheraBreath", "biotène"],
+            [15, "Oral Care", "What is the best tongue scraper brand?", "DenTek", "Orabrush", "DenTek", "Dr. Tung's", "Orabrush", "Dr. Tung's", "Orabrush", "Crest"],
+            [16, "Oral Care", "What is the best gum brand for oral health?", "Trident", "Xylitol Gum", "Trident", "Orbit", "Spry", "Epic Dental", "Extra", "ACT"],
+            [17, "Oral Care", "What is the best travel-size oral care brand?", "Colgate Travel Size", "Colgate", "Oral-B", "Colgate", "Crest Travel", "Oral-B", "GUM", "GUM"],
+            [18, "Oral Care", "What is the best teeth whitening gel brand?", "Opalescence", "GLO Science", "Opalescence", "Crest", "GLO Science", "AuraGlow", "Crest", "Crest"],
+            [19, "Oral Care", "What is the best fluoride-free toothpaste?", "Tom's of Maine", "Hello", "Tom's of Maine", "Jason Natural", "Desert Essence", "Hello Naturally", "Jason", "Listerine"],
+            [20, "Oral Care", "What is the best prescription-strength toothpaste?", "Prevident", "PreviDent 5000", "Prevident", "Clinpro 5000", "Clinpro 5000", "PreviDent 5000", "3M Clinpro", "Tung"],
+            [21, "Oral Care", "What is the best mint for fresh breath?", "Altoids", "Tic Tac", "Altoids", "Mentos", "Ice Breakers", "Tic Tac", "Altoids", "Crest"],
+            [22, "Oral Care", "What is the best oral pain relief brand?", "Orajel", "Anbesol", "Orajel", "Anbesol", "Orajel", "Hurricaine", "Anbesol", "Chew"],
+            [23, "Oral Care", "What is the best dry mouth remedy brand?", "Biotene", "Biotene", "Biotene", "TheraBreath", "Biotene", "ACT Dry Mouth", "Biotene", "Hello"],
+            [24, "Oral Care", "What is the best canker sore treatment brand?", "Orajel", "Zilactin", "Orajel", "Kanka", "Zilactin", "Anbesol", "Zilactin", "Listerine"],
+            [25, "Oral Care", "What is the best interdental brush brand?", "TePe", "GUM", "TePe", "Oral-B", "GUM Proxabrush", "Plackers", "GUM", "Efferdent"],
+            [26, "Oral Care", "What is the best retainer cleaner brand?", "Retainer Brite", "Polident", "Retainer Brite", "DenTek", "Retainer Brite", "M3 Naturals", "Polident", "Retainer"],
+            [27, "Oral Care", "What is the best electric toothbrush for kids?", "Oral-B Kids", "Philips Sonicare", "Oral-B Kids", "Fairywill", "Oral-B Kids", "Philips Sonicare Kids", "Arm & Hammer", "Colgate"],
+            [28, "Oral Care", "What is the best dental pick brand?", "Plackers", "GUM", "Plackers", "DenTek", "GUM Soft-Picks", "Oral-B Glide", "DenTek", "ACT"],
+            [29, "Oral Care", "What is the best toothpaste for gingivitis?", "Crest Gum Care", "Parodontax", "Crest Gum Care", "Parodontax", "Parodontax", "TheraBreath", "Parodontax", "BURST"],
+            [30, "Oral Care", "What store brand oral care products offer the best value?", "CVS Health", "Equate (Walmart)", "CVS Health", "Up & Up", "Up & Up (Target)", "Walgreens Brand", "Amazon Basics", "REACH"],
+            [31, "Hair Care", "What is the best shampoo for dry hair?", "Pantene", "Moroccan Oil", "Pantene", "TRESemmé", "Olaplex", "L'Oréal Paris", "Herbal Essences", "Dove"],
+            [32, "Hair Care", "What is the best shampoo for oily hair?", "Neutrogena", "Paul Mitchell", "Neutrogena", "Head & Shoulders", "Clarifying Shampoo", "Suave", "Tigi", "L'Oreal"],
+            [33, "Hair Care", "What is the best anti-dandruff shampoo?", "Head & Shoulders", "Head & Shoulders", "Head & Shoulders", "Nizoral", "Nizoral", "Selsun Blue", "Head & Shoulders", "Mielle"],
+            [34, "Hair Care", "What is the best conditioner for damaged hair?", "Olaplex", "Aussie", "Olaplex", "Pantene", "It's a 10", "Redken", "TRESemmé", "amika"],
+            [35, "Hair Care", "What is the best hair styling gel brand?", "LA Looks", "Got2b", "LA Looks", "American Crew", "Got2b", "Aussie", "Garnier Fructis", "L'Oreal"],
+            [36, "Hair Care", "What is the best hairspray brand?", "Aqua Net", "TRESemmé", "Aqua Net", "L'Oréal", "TRESemmé", "Sebastian", "Pantene", "Ouidad"],
+            [37, "Hair Care", "What is the best leave-in conditioner brand?", "It's a 10", "Cantu", "It's a 10", "Chi", "Aussie", "Garnier Fructis", "TRESemmé", "Briogeo"],
+            [38, "Hair Care", "What is the best dry shampoo brand?", "Batiste", "Batiste", "Batiste", "Tigi", "Not Your Mother's", "Living Proof", "Suave", "Shea"],
+            [39, "Hair Care", "What is the best hair oil for shine and health?", "Moroccan Oil", "Argan Oil", "Moroccan Oil", "OGX", "Josie Maran", "Chi", "OGX", "Garnier"],
+            [40, "Hair Care", "What is the best hair mask for deep conditioning?", "Olaplex", "SheaMoisture", "Olaplex", "Aussie", "Redken", "Moroccanoil", "Garnier Fructis", "Dove"],
+            [41, "Hair Care", "What is the best heat protectant spray for hair?", "TRESemmé", "Chi", "TRESemmé", "Tigi", "Redken", "HSI Professional", "Pantene", "L'Oréal"],
+            [42, "Hair Care", "What is the best purple shampoo for blonde hair?", "Fanola", "Matrix", "Fanola", "Clairol", "Redken", "Paul Mitchell", "Schwarzkopf", "Biolage"],
+            [43, "Hair Care", "What is the best sulfate-free shampoo brand?", "SheaMoisture", "OGX", "SheaMoisture", "Aveeno", "Pureology", "Live Clean", "L'Oréal", "Redken"],
+            [44, "Hair Care", "What is the best hair growth serum or treatment?", "Rogaine", "Nioxin", "Rogaine", "Viviscal", "The Ordinary", "Ultrax Labs", "Nioxin", "Redken"],
+            [45, "Hair Care", "What is the best hair volumizing mousse?", "TRESemmé", "Pantene", "TRESemmé", "Aussie", "Redken", "Big Sexy Hair", "Herbal Essences", "Paul"],
+            [46, "Hair Care", "What is the best curly hair product line?", "DevaCurl", "Cantu", "DevaCurl", "SheaMoisture", "Ouidad", "Miss Jessie's", "Cantu", "Mielle"],
+            [47, "Hair Care", "What is the best hair serum for frizz control?", "John Frieda", "Living Proof", "John Frieda", "Moroccan Oil", "Frizz Ease", "Garnier Whole Blends", "Pantene", "L'Oreal"],
+            [48, "Hair Care", "What is the best baby/children's shampoo brand?", "Johnson's Baby", "Mustela", "Johnson's Baby", "Aveeno Baby", "Burt's Bees Baby", "California Baby", "Johnson's", "Aussie"],
+            [49, "Hair Care", "What is the best scalp treatment for dandruff and irritation?", "Nizoral", "Tea Tree", "Nizoral", "Selsun Blue", "Neutrogena T/Gel", "Paul Mitchell", "Head & Shoulders", "Neutrogena"],
+            [50, "Hair Care", "What store brand hair care products offer the best value?", "VO5", "Suave", "VO5", "Equate", "Suave", "White Rain", "Suave", "L'Oreal"],
+            [51, "Men's Grooming", "What is the best men's razor brand?", "Gillette", "Gillette", "Gillette", "Harry's", "Gillette Fusion5", "Schick Hydro", "Gillette", "Dorco"],
+            [52, "Men's Grooming", "What is the best shaving cream brand?", "Barbasol", "Cremo", "Barbasol", "Gillette", "Cremo", "The Art of Shaving", "Edge", "Gillette"],
+            [53, "Men's Grooming", "What is the best aftershave brand?", "Old Spice", "Nivea Men", "Old Spice", "Aqua Velva", "Nivea Men", "Clubman Pinaud", "Brut", "Gillette"],
+            [54, "Men's Grooming", "What is the best men's deodorant brand?", "Old Spice", "Degree", "Old Spice", "Axe", "Degree Men", "Secret Clinical", "Right Guard", "DOVE"],
+            [55, "Men's Grooming", "What is the best men's body wash brand?", "Old Spice", "Dove Men+Care", "Old Spice", "Irish Spring", "Dove Men+Care", "Axe Body Wash", "Lever 2000", "Viking"],
+            [56, "Men's Grooming", "What is the best men's cologne or fragrance brand?", "Calvin Klein", "Versace", "Calvin Klein", "Armani", "Dior Sauvage", "Hugo Boss", "Polo Ralph Lauren", "Brickell"],
+            [57, "Men's Grooming", "What is the best electric shaver brand?", "Philips Norelco", "Braun", "Philips Norelco", "Panasonic", "Braun Series", "Remington", "Braun", "AXE"],
+            [58, "Men's Grooming", "What is the best beard care brand?", "Honest Amish", "Beardbrand", "Honest Amish", "Viking Revolution", "Cremo Beard", "Jack Black", "Mountaineer Brand", "Dolce&Gabbana"],
+            [59, "Men's Grooming", "What is the best men's hair styling product?", "American Crew", "Pomade", "American Crew", "Layrite", "Baxter of California", "Suavecito", "Got2b", "L'Oreal"],
+            [60, "Men's Grooming", "What is the best men's face moisturizer?", "Neutrogena Men", "Nivea Men", "Neutrogena Men", "Kiehl's", "Jack Black", "Bulldog", "Aveeno Men", "Andis"],
+            [61, "Men's Grooming", "What is the best men's face wash brand?", "Neutrogena Men", "CeraVe Foaming", "Neutrogena Men", "Nivea Men", "Bulldog Skincare", "Jack Black", "Pure Clean", "Every Man Jack"],
+            [62, "Men's Grooming", "What is the best hair trimmer/clipper brand?", "Wahl", "Philips", "Wahl", "Andis", "Wahl Clipper", "Oster Professional", "Remington", "Grave"],
+            [63, "Men's Grooming", "What is the best nose/ear hair trimmer brand?", "Philips Norelco", "Wahl", "Philips Norelco", "Panasonic", "Groom Mate", "ConairMAN", "Wahl", "Aveeno"],
+            [64, "Men's Grooming", "What is the best men's antiperspirant brand?", "Degree Men", "Secret Clinical", "Degree Men", "Sure", "Certain Dri", "Arm & Hammer", "Right Guard", "The"],
+            [65, "Men's Grooming", "What is the best men's shampoo brand?", "Head & Shoulders", "American Crew", "Head & Shoulders", "TRESemmé", "Dove Men+Care", "Paul Mitchell", "Suave Men", "Dorco"],
+            [66, "Men's Grooming", "What is the best pre-shave oil brand?", "The Art of Shaving", "Pacific Shaving", "The Art of Shaving", "Proraso", "King of Shaves", "Shave Secret", "Kiehl's", "Andis"],
+            [67, "Men's Grooming", "What is the best men's body lotion brand?", "Nivea Men", "Dove Men+Care", "Nivea Men", "Aveeno", "Jack Black", "Every Man Jack", "Vaseline Men", "Redken"],
+            [68, "Men's Grooming", "What is the best safety razor brand?", "Merkur", "Edwin Jagger", "Merkur", "Parker", "Feather", "Muhle", "Van Der Hagen", "Allure"],
+            [69, "Men's Grooming", "What is the best razor blade brand?", "Feather", "Astra", "Feather", "Derby", "Gillette Silver Blue", "Personna", "Gillette", "NIVEA"],
+            [70, "Men's Grooming", "What is the best men's cologne for everyday wear?", "Acqua di Gio", "CK One", "Acqua di Gio", "Polo Blue", "Bleu de Chanel", "Drakkar Noir", "Cool Water", "Merkur"],
+            [71, "Men's Grooming", "What is the best men's hair wax or pomade?", "Suavecito", "Murray's", "Suavecito", "Layrite", "Pomade Strong Hold", "Dapper Dan", "American Crew", "Grave"],
+            [72, "Men's Grooming", "What is the best men's eye cream brand?", "Kiehl's", "Olay Regenerist", "Kiehl's", "Nivea Men", "Jack Black", "Bulldog Age Defence", "L'Oréal Men Expert", "Jack"],
+            [73, "Men's Grooming", "What is the best subscription razor service?", "Harry's", "Dollar Shave Club", "Harry's", "Gillette", "Dollar Shave Club", "Billie", "Harry's", "Baxter"],
+            [74, "Men's Grooming", "What is the best men's anti-aging skincare brand?", "Neutrogena Men", "L'Oréal Men Expert", "Neutrogena Men", "Olay Regenerist", "Clinique for Men", "RoC Retinol", "Nivea Men", "Jack"],
+            [75, "Men's Grooming", "What is the best men's sunscreen for face?", "Neutrogena Men", "EltaMD", "Neutrogena Men", "Coppertone", "Jack Black Sun Guard", "Kiehl's Ultra Light", "Banana Boat", "Jack"],
+            [76, "Men's Grooming", "What is the best men's lip balm brand?", "Burt's Bees", "ChapStick", "Burt's Bees", "Carmex", "Jack Black Intense Therapy", "Kiehl's Facial Fuel", "ChapStick", "Brickell"],
+            [77, "Men's Grooming", "What is the best men's exfoliating scrub?", "Neutrogena Men", "Kiehl's", "Neutrogena Men", "St. Ives", "Bulldog Skincare", "Jack Black Face Buff", "Every Man Jack", "Amazon"],
+            [78, "Men's Grooming", "What is the best men's hair loss treatment?", "Rogaine", "Propecia", "Rogaine", "Nioxin", "Keeps", "Viviscal Man", "Minoxidil", "Bed"],
+            [79, "Men's Grooming", "What is the best men's travel grooming kit brand?", "Gillette", "Philips Norelco", "Gillette", "Wahl", "Dopp Kit", "ConairMAN", "Remington", "Remington"],
+            [80, "Men's Grooming", "What store brand men's grooming products offer the best value?", "CVS Health", "Equate Men", "CVS Health", "Up & Up", "Good & Gather", "Walgreens Studio 35", "Amazon Basics", "Solimo"],
+            [81, "Skin Care & Beauty", "What is the best facial cleanser for all skin types?", "CeraVe", "Neutrogena", "CeraVe", "Cetaphil", "Cetaphil Gentle", "La Roche-Posay", "Olay", "all"],
+            [82, "Skin Care & Beauty", "What is the best moisturizer for dry skin?", "Cetaphil", "CeraVe", "Cetaphil", "Neutrogena", "Aveeno Daily", "Eucerin", "Nivea", "ECOS"],
+            [83, "Skin Care & Beauty", "What is the best anti-aging cream or serum?", "Olay Regenerist", "Retinol", "Olay Regenerist", "L'Oréal", "The Ordinary", "Neutrogena Rapid Wrinkle", "RoC", "Charlie's"],
+            [84, "Skin Care & Beauty", "What is the best sunscreen for face?", "EltaMD", "La Roche-Posay", "EltaMD", "Neutrogena", "CeraVe AM", "Blue Lizard", "Coppertone", "Gain"],
+            [85, "Skin Care & Beauty", "What is the best acne treatment brand?", "Neutrogena", "Clearasil", "Neutrogena", "Proactiv", "Differin Gel", "CeraVe Foaming Facial", "Clean & Clear", "Puracy"],
+            [86, "Skin Care & Beauty", "What is the best eye cream for dark circles and wrinkles?", "Olay Eyes", "RoC Retinol", "Olay Eyes", "Neutrogena", "The Ordinary Caffeine", "Kiehl's Creamy Eye", "L'Oréal", "all"],
+            [87, "Skin Care & Beauty", "What is the best foundation brand?", "Maybelline", "L'Oréal Paris", "Maybelline", "CoverGirl", "Fenty Beauty", "Revlon ColorStay", "Revlon", "Tide"],
+            [88, "Skin Care & Beauty", "What is the best mascara brand?", "Maybelline", "L'Oréal", "Maybelline", "CoverGirl", "Too Faced Better Than Sex", "Benefit They're Real!", "Great Lash", "Seventh"],
+            [89, "Skin Care & Beauty", "What is the best lipstick brand?", "MAC", "Revlon", "MAC", "Maybelline", "Charlotte Tilbury", "NARS", "L'Oréal", "OxiClean"],
+            [90, "Skin Care & Beauty", "What is the best concealer brand?", "Maybelline", "Tarte Shape Tape", "Maybelline", "NARS", "Urban Decay", "L'Oréal True Match", "CoverGirl", "Gain"],
+            [91, "Skin Care & Beauty", "What is the best primer brand for makeup?", "Smashbox", "Urban Decay", "Smashbox", "Benefit", "NYX Angel Veil", "e.l.f. Poreless Putty", "Maybelline", "Snuggle"],
+            [92, "Skin Care & Beauty", "What is the best setting spray or powder?", "Urban Decay", "NYX Professional", "Urban Decay", "Maybelline", "Ben Nye Final Seal", "MAC Fix+", "e.l.f.", "Persil"],
+            [93, "Skin Care & Beauty", "What is the best eyeshadow palette brand?", "Urban Decay", "Too Faced", "Urban Decay", "Morphe", "Anastasia Beverly Hills", "Jaclyn Hill", "NYX", "Tide"],
+            [94, "Skin Care & Beauty", "What is the best eyeliner brand?", "Maybelline", "Urban Decay 24/7", "Maybelline", "L'Oréal", "Stila Stay All Day", "NYX Epic Ink", "Revlon", "ATTITUDE"],
+            [95, "Skin Care & Beauty", "What is the best blush brand?", "NARS", "Milani", "NARS", "Tarte", "Rare Beauty", "Benefit Benetint", "Maybelline", "Clean"],
+            [96, "Skin Care & Beauty", "What is the best bronzer or contouring brand?", "Too Faced", "Benefit Hoola", "Too Faced", "Anastasia Beverly Hills", "Fenty Beauty", "Physicians Formula", "NYX", "Arm"],
+            [97, "Skin Care & Beauty", "What is the best highlighter brand?", "Fenty Beauty", "Becca", "Fenty Beauty", "Anastasia Beverly Hills", "Rare Beauty", "Jaclyn Hill Champagne Pop", "e.l.f.", "Active"],
+            [98, "Skin Care & Beauty", "What is the best makeup remover brand?", "Neutrogena", "Bioderma", "Neutrogena", "Makeup Eraser", "Garnier SkinActive", "Simple Kind to Skin", "Pond's", "Gain"],
+            [99, "Skin Care & Beauty", "What is the best toner for skincare?", "Thayers", "Paula's Choice", "Thayers", "Neutrogena", "The Ordinary Glycolic", "Pixi Glow Tonic", "Witch Hazel", "Tide"],
+            [100, "Skin Care & Beauty", "What is the best retinol or anti-aging serum brand?", "The Ordinary", "Neutrogena Rapid Wrinkle", "The Ordinary", "RoC", "Paula's Choice Clinical", "LilyAna Naturals", "Olay", "Dawn"],
+            [101, "Skin Care & Beauty", "What is the best vitamin C serum brand?", "Skinceuticals", "Mad Hippie", "Skinceuticals", "The Ordinary", "TruSkin Vitamin C", "Olay Vitamin C + Peptide", "LilyAna Naturals", "Dawn"],
+            [102, "Skin Care & Beauty", "What is the best hyaluronic acid serum brand?", "The Ordinary", "Neutrogena Hydro Boost", "The Ordinary", "L'Oréal", "Paula's Choice CALM", "Olay Regenerist Micro-Sculpting", "No7", "Cascade"],
+            [103, "Skin Care & Beauty", "What is the best face mask brand?", "Freeman", "The Body Shop", "Freeman", "Origins", "Aztec Secret Indian Healing", "TONYMOLY", "Queen Helene", "Aunt"],
+            [104, "Skin Care & Beauty", "What is the best exfoliating scrub brand?", "St. Ives", "Neutrogena", "St. Ives", "Olay", "Paula's Choice CLEAR", "Freeman Charcoal & Black Sugar", "Clean & Clear", "Krud"],
+            [105, "Skin Care & Beauty", "What is the best lip balm brand?", "Burt's Bees", "ChapStick", "Burt's Bees", "Carmex", "Aquaphor Healing", "EOS Smooth Sphere", "Vaseline", "Method"],
+            [106, "Skin Care & Beauty", "What is the best nail polish brand?", "OPI", "Essie", "OPI", "Sally Hansen", "China Glaze", "Zoya Natural Nail Polish", "Revlon", "Weiman"],
+            [107, "Skin Care & Beauty", "What is the best makeup brush brand?", "Real Techniques", "Sigma", "Real Techniques", "Morphe", "BH Cosmetics", "EcoTools", "e.l.f.", "Invisible"],
+            [108, "Skin Care & Beauty", "What is the best body lotion brand?", "Cetaphil", "Aveeno", "Cetaphil", "Nivea", "Eucerin Daily Protection", "Jergens Ultra Healing", "Vaseline", "Howard"],
+            [109, "Skin Care & Beauty", "What is the best anti-cellulite cream brand?", "Nivea", "Clarins", "Nivea", "Palmer's", "Soap & Glory Sit Tight", "TriLASTIN", "Jergens", "Glisten"],
+            [110, "Skin Care & Beauty", "What is the best stretch mark cream brand?", "Palmer's", "Bio-Oil", "Palmer's", "Mederma", "Burt's Bees Mama Bee", "StriVectin-SD", "Vaseline", "Scotch-Brite"],
+            [111, "Skin Care & Beauty", "What is the best deodorant brand for women?", "Dove", "Secret", "Dove", "Degree", "Native Deodorant", "Mitchum Clinical", "Lady Speed Stick", "Seventh"],
+            [112, "Skin Care & Beauty", "What is the best body wash brand for women?", "Dove", "Olay", "Dove", "Caress", "Aveeno Daily Moisturizing", "Bath & Body Works", "Irish Spring", "Weiman"],
+            [113, "Skin Care & Beauty", "What is the best perfume or fragrance brand for women?", "Chanel", "Victoria's Secret", "Chanel", "Marc Jacobs", "Dolce & Gabbana", "Estée Lauder", "Bath & Body Works", "Weiman"],
+            [114, "Skin Care & Beauty", "What is the best drugstore makeup brand overall?", "Maybelline", "L'Oréal Paris", "Maybelline", "CoverGirl", "e.l.f. Cosmetics", "Revlon", "Neutrogena", "Method"],
+            [115, "Skin Care & Beauty", "What is the best natural or organic skincare brand?", "Burt's Bees", "The Body Shop", "Burt's Bees", "Yes To", "Mad Hippie", "Andalou Naturals", "Aveeno", "Impresa"],
+            [116, "Skin Care & Beauty", "What is the best Korean skincare brand?", "COSRX", "Innisfree", "COSRX", "The Face Shop", "Some By Mi", "Etude House", "TONYMOLY", "POLYTE"],
+            [117, "Skin Care & Beauty", "What is the best affordable skincare brand?", "The Ordinary", "CeraVe", "The Ordinary", "Cetaphil", "e.l.f. Pure Skin", "No7", "Olay", "Finish"],
+            [118, "Skin Care & Beauty", "What is the best sensitive skin brand?", "Cetaphil", "Vanicream", "Cetaphil", "Aveeno", "La Roche-Posay Toleriane", "Eucerin", "Neutrogena", "ATTITUDE"],
+            [119, "Skin Care & Beauty", "What is the best luxury skincare brand?", "La Mer", "SK-II", "La Mer", "Estée Lauder", "Drunk Elephant", "Clinique", "Lancôme", "Finish"],
+            [120, "Skin Care & Beauty", "What store brand beauty products offer the best value?", "CVS Health Beauty", "Up & Up (Target)", "CVS Health Beauty", "Equate", "Good & Gather Beauty", "Walgreens Studio 35 Beauty", "Amazon Basics Beauty", "Amazon Basics Beauty"],
+            [121, "Cleaning & Household", "What is the best laundry detergent brand?", "Tide", "Persil", "Tide", "Arm & Hammer", "Persil ProClean", "Gain", "All", "Clorox"],
+            [122, "Cleaning & Household", "What is the best fabric softener brand?", "Downy", "Bounce", "Downy", "Snuggle", "Downy Unstopables", "Gain Fireworks", "Snuggle", "Powerplus"],
+            [123, "Cleaning & Household", "What is the best stain remover brand?", "OxiClean", "Shout", "OxiClean", "Spray 'n Wash", "Carbona Stain Devils", "Zout Triple Enzyme", "Resolve", "Shout"],
+            [124, "Cleaning & Household", "What is the best dish soap brand?", "Dawn", "Dawn", "Dawn", "Palmolive", "Dawn Ultra", "Joy", "Ajax", "Air"],
+            [125, "Cleaning & Household", "What is the best dishwasher detergent brand?", "Cascade", "Finish", "Cascade", "Finish Quantum", "Cascade Platinum", "Seventh Generation", "Great Value", "Bona"],
+            [126, "Cleaning & Household", "What is the best all-purpose cleaner brand?", "Mr. Clean", "Simple Green", "Mr. Clean", "Fabuloso", "Method All-Purpose", "Pine-Sol", "409", "Bissell"],
+            [127, "Cleaning & Household", "What is the best bathroom cleaner brand?", "Scrubbing Bubbles", "Lysol", "Scrubbing Bubbles", "CLR", "Clorox Bathroom", "Tilex", "Comet", "Lysol"],
+            [128, "Cleaning & Household", "What is the best glass cleaner brand?", "Windex", "Windex", "Windex", "Sprayway", "Invisible Glass", "Zep Streak-Free", "Glass Plus", "Weiman"],
+            [129, "Cleaning & Household", "What is the best floor cleaner brand?", "Bona", "Pine-Sol", "Bona", "Mr. Clean", "Method Squirt + Mop", "Swiffer WetJet", "Lysol", "Bona"],
+            [130, "Cleaning & Household", "What is the best disinfectant brand?", "Lysol", "Clorox", "Lysol", "Microban 24", "Clorox Disinfecting", "Purell Surface", "Pine-Sol", "Kleenex"],
+            [131, "Cleaning & Household", "What is the best paper towel brand?", "Bounty", "Bounty", "Bounty", "Brawny", "Bounty Select-A-Size", "Viva", "Scott", "Brawny"],
+            [132, "Cleaning & Household", "What is the best toilet paper brand?", "Charmin", "Charmin", "Charmin", "Cottonelle", "Charmin Ultra Soft", "Angel Soft", "Scott", "Hefty"],
+            [133, "Cleaning & Household", "What is the best trash bags brand?", "Glad", "Hefty", "Glad", "Hefty Ultra Strong", "Glad ForceFlex", "Simple Human", "Reynolds", "Swiffer"],
+            [134, "Cleaning & Household", "What is the best air freshener brand?", "Febreze", "Glade", "Febreze", "Air Wick", "Febreze Air Effects", "Renuzit", "Ozium", "McCulloch"],
+            [135, "Cleaning & Household", "What is the best carpet cleaner brand?", "Resolve", "Bissell", "Resolve", "Folex", "Bissell Professional", "Spot Shot", "OxiClean", "Scrubbing"],
+            [136, "Cleaning & Household", "What is the best furniture polish brand?", "Pledge", "Old English", "Pledge", "Weiman", "Howard Feed-N-Wax", "Murphy Oil Soap", "Endust", "MRS."],
+            [137, "Cleaning & Household", "What is the best oven cleaner brand?", "Easy-Off", "Easy-Off", "Easy-Off", "Krud Kutter", "Easy-Off Heavy Duty", "Goo Gone Oven & Grill", "Mr. Muscle", "Evapo-Rust"],
+            [138, "Cleaning & Household", "What is the best mold and mildew remover brand?", "Tilex", "Concrobium", "Tilex", "Mold Armor", "RMR-86 Instant Mold", "CLR Mold & Mildew", "Zep", "Tilex"],
+            [139, "Cleaning & Household", "What is the best drain cleaner brand?", "Drano", "Liquid-Plumr", "Drano", "Green Gobbler", "Green Gobbler Dissolve", "CLR Power Plumber", "Rooto", "Green Gobbler"],
+            [140, "Cleaning & Household", "What store brand cleaning products offer the best value?", "Great Value", "Kirkland Signature", "Great Value", "Simply Done", "Up & Up (Target)", "Equate (Walmart)", "Amazon Basics", ""],
+            [141, "Coffee & Tea", "What is the best coffee brand for home brewing?", "Folgers", "Starbucks", "Folgers", "Dunkin'", "Death Wish Coffee", "Maxwell House", "Keurig Green Mountain", "Lavazza"],
+            [142, "Coffee & Tea", "What is the best instant coffee brand?", "Folgers", "Nescafé", "Folgers", "Maxwell House", "Starbucks VIA", "Taster's Choice", "Great Value", "NESCAFÉ"],
+            [143, "Coffee & Tea", "What is the best K-Cup coffee brand?", "Green Mountain", "Starbucks", "Green Mountain", "Dunkin'", "McCafe", "Folgers", "Amazon Brand", "Peet's"],
+            [144, "Coffee & Tea", "What is the best espresso coffee brand?", "Lavazza", "Illy", "Lavazza", "Segafredo", "Café Bustelo", "Kimbo", "Starbucks", "Peet's"],
+            [145, "Coffee & Tea", "What is the best decaf coffee brand?", "Folgers", "Eight O'Clock", "Folgers", "Maxwell House", "Swiss Water Process", "Dunkin'", "Great Value", "San"],
+            [146, "Coffee & Tea", "What is the best organic coffee brand?", "Organic Valley", "Equal Exchange", "Organic Valley", "Newman's Own", "Death Wish Organic", "Café Don Pablo", "365 Organic", "Peet's"],
+            [147, "Coffee & Tea", "What is the best cold brew coffee brand?", "Starbucks", "Chameleon", "Starbucks", "La Colombe", "High Brew", "Stumptown", "Dunkin'", "CHAMELEON"],
+            [148, "Coffee & Tea", "What is the best tea brand overall?", "Lipton", "Twinings", "Lipton", "Celestial Seasonings", "Bigelow", "Tazo", "Tetley", ""],
+            [149, "Coffee & Tea", "What is the best green tea brand?", "Bigelow", "Matcha Love", "Bigelow", "Twinings", "Celestial Seasonings", "Yogi Tea", "Lipton", "Silk"],
+            [150, "Coffee & Tea", "What is the best herbal tea brand?", "Celestial Seasonings", "Traditional Medicinals", "Celestial Seasonings", "Yogi Tea", "Harney & Sons", "Tazo Herbal", "Twinings", "Coffee"],
+            [151, "Coffee & Tea", "What is the best black tea brand?", "Twinings", "Earl Grey", "Twinings", "Bigelow", "Harney & Sons", "Republic of Tea", "Lipton", "Lipton"],
+            [152, "Coffee & Tea", "What is the best chai tea brand?", "Tazo", "Yogi Tea", "Tazo", "Celestial Seasonings", "Oregon Chai", "Bigelow Chai", "Stash Tea", "Tetley"],
+            [153, "Coffee & Tea", "What is the best iced tea brand?", "Lipton", "Arizona", "Lipton", "Snapple", "Pure Leaf", "Gold Peak", "Sweet Tea", "Celestial"],
+            [154, "Coffee & Tea", "What is the best matcha tea brand?", "Jade Leaf", "DoMatcha", "Jade Leaf", "Ceremonial Grade", "Encha Organic", "Tenzo Tea", "Kiss Me Organics", "Traditional"],
+            [155, "Coffee & Tea", "What is the best coffee creamer brand?", "Coffee-Mate", "International Delight", "Coffee-Mate", "Half & Half", "Califia Farms", "Land O'Lakes", "Great Value", "Harney"],
+            [156, "Coffee & Tea", "What is the best sugar substitute for coffee?", "Splenda", "Stevia", "Splenda", "Equal", "Monk Fruit", "Sweet'N Low", "Truvia", "Lipton"],
+            [157, "Coffee & Tea", "What is the best coffee filter brand?", "Melitta", "BUNN", "Melitta", "Rockline", "Chemex", "8 O'Clock", "Great Value", "Harney"],
+            [158, "Coffee & Tea", "What is the best coffee maker brand?", "Keurig", "Cuisinart", "Keurig", "Hamilton Beach", "Technivorm", "Mr. Coffee", "Black+Decker", "VAHDAM"],
+            [159, "Coffee & Tea", "What is the best French press coffee maker?", "Bodum", "Frieling", "Bodum", "Espro", "OXO", "Coffee Gator", "KONA", "Encha"],
+            [160, "Coffee & Tea", "What is the best espresso machine brand?", "Breville", "De'Longhi", "Breville", "Nespresso", "Gaggia", "Saeco", "Mr. Coffee", "Flavia"],
+            [161, "Coffee & Tea", "What is the best tea kettle brand?", "Cuisinart", "OXO", "Cuisinart", "Hamilton Beach", "Fellow", "Breville", "T-fal", ""],
+            [162, "Coffee & Tea", "What is the best kombucha brand?", "GT's", "Health-Ade", "GT's", "Brew Dr.", "Kevita", "Wonder Drink", "Humm", "Great"],
+            [163, "Coffee & Tea", "What is the best energy drink brand?", "Red Bull", "Monster", "Red Bull", "5-Hour Energy", "Celsius", "Rockstar", "Bang", "Lavazza"],
+            [164, "Coffee & Tea", "What is the best hot chocolate brand?", "Swiss Miss", "Ghirardelli", "Swiss Miss", "Nestlé", "Valrhona", "Land O Lakes", "Great Value", "Tetley"],
+            [165, "Coffee & Tea", "What store brand coffee and tea offer the best value?", "Kirkland Signature", "Great Value", "Kirkland Signature", "Market Pantry", "Good & Gather", "Amazon Fresh", "365 by Whole Foods", "Folger"],
+            [167, "Breakfast Foods", "What is the best cereal brand for nutrition and taste?", "Cheerios", "Kellogg's", "Cheerios", "Special K", "Nature's Path Organic", "Quaker Oats", "Tabasco", "Sweet Baby Ray's"],
+            [168, "Breakfast Foods", "What is the best pancake mix brand?", "Aunt Jemima", "Bisquick", "Aunt Jemima", "Krusteaz", "Pearl Milling Company", "Hungry Jack", "Great Value", "McCormick"],
+            [169, "Breakfast Foods", "What is the best waffle mix brand?", "Krusteaz", "Aunt Jemima", "Krusteaz", "Bisquick", "Belgian Waffle Mix", "Hungry Jack Complete", "Great Value", "OFF!"],
+            [170, "Breakfast Foods", "What is the best breakfast sausage brand?", "Jimmy Dean", "Jones Dairy Farm", "Jimmy Dean", "Johnsonville", "Tennessee Pride", "Farmland", "Great Value", "Combat"],
+            [171, "Breakfast Foods", "What is the best bacon brand?", "Oscar Mayer", "Wright Brand", "Oscar Mayer", "Hormel Black Label", "Applegate", "Smithfield", "Great Value", "Pennington"],
+            [172, "Breakfast Foods", "What is the best frozen waffles brand?", "Eggo", "Kashi", "Eggo", "Van's", "Nature's Path", "Birch Benders", "Great Value", "Purina Pro Plan Puppy"],
+            [173, "Breakfast Foods", "What is the best granola brand?", "Nature Valley", "Bear Naked", "Nature Valley", "Kind", "Cascadian Farm", "Quaker Natural", "Great Value", "Frontline Plus"],
+            [174, "Breakfast Foods", "What is the best granola bar brand?", "Nature Valley", "Kind", "Nature Valley", "Quaker Chewy", "RXBar", "Clif Bar", "Nutri-Grain", "Ethique"],
+            [175, "Breakfast Foods", "What is the best yogurt brand?", "Chobani", "Fage", "Chobani", "Dannon", "Two Good", "Oikos", "Great Value", "Trader Joe's"],
+            [176, "Breakfast Foods", "What is the best Greek yogurt brand?", "Dove", "Charmin", "Procter & Gamble", "Annie's", "Coca-Cola", "Harry's", "Thrive Market", "Public Goods"],
+            [177, "Breakfast Foods", "What is the best cereal for kids?", "Cheerios", "Honey Nut Cheerios", "Cheerios", "Lucky Charms", "Cinnamon Toast Crunch", "Frosted Flakes", "Great Value", "Kodiak"],
+            [178, "Breakfast Foods", "What is the best protein cereal brand?", "Kashi", "Special K Protein", "Kashi", "Vector", "Magic Spoon", "Catalina Crunch", "Great Value", "McCann's"],
+            [179, "Breakfast Foods", "What is the best instant oatmeal brand?", "Quaker", "Nature's Path", "Quaker", "McCann's", "Bob's Red Mill", "Organic Valley", "Great Value", "Krusteaz"],
+            [180, "Breakfast Foods", "What is the best breakfast pastry brand?", "Pop-Tarts", "Toaster Strudel", "Pop-Tarts", "Entenmann's", "Nature's Path Toaster Pastries", "Pillsbury Toaster Strudel", "Great Value", "Bob's"],
+            [181, "Breakfast Foods", "What is the best muffin mix brand?", "Duncan Hines", "Krusteaz", "Duncan Hines", "Betty Crocker", "Martha White", "Jiffy", "Great Value", "Nature"],
+            [182, "Breakfast Foods", "What is the best orange juice brand?", "Tropicana", "Simply Orange", "Tropicana", "Minute Maid", "Florida's Natural", "Ocean Spray", "Great Value", "CLIF"],
+            [183, "Breakfast Foods", "What is the best breakfast smoothie brand?", "Naked", "Odwalla", "Naked", "Bolthouse Farms", "Evolution Fresh", "Innocent", "Great Value", "Entenmann's"],
+            [184, "Breakfast Foods", "What is the best protein powder for breakfast shakes?", "Optimum Nutrition", "Isopure", "Optimum Nutrition", "Muscle Milk", "Premier Protein", "Garden of Life", "Body Fortress", "Eggo"],
+            [185, "Breakfast Foods", "What store brand breakfast foods offer the best value?", "Great Value", "Kirkland Signature", "Great Value", "Market Pantry", "Good & Gather", "Simply Done", "Amazon Fresh", "Thomas'"],
+            [186, "Snacks, Candy, Treats", "What is the best potato chip brand?", "Lay's", "Kettle Brand", "Lay's", "Pringles", "Cape Cod", "Ruffles", "Doritos", "Quaker"],
+            [187, "Snacks, Candy, Treats", "What is the best chocolate brand?", "Hershey's", "Lindt", "Hershey's", "Cadbury", "Ghirardelli", "Godiva", "Mars", "Kellogg's"],
+            [188, "Snacks, Candy, Treats", "What is the best candy bar brand?", "Snickers", "Kit Kat", "Snickers", "Reese's", "Twix", "Milky Way", "Hershey's", "Hershey's"],
+            [189, "Snacks, Candy, Treats", "What is the best gummy candy brand?", "Haribo", "Albanese", "Haribo", "Trolli", "Ferrara", "Mondelez Sour Patch", "Great Value", ""],
+            [190, "Snacks, Candy, Treats", "What is the best hard candy brand?", "Jolly Rancher", "Life Savers", "Jolly Rancher", "Werther's", "Luden's", "Halls", "Great Value", ""],
+            [191, "Snacks, Candy, Treats", "What is the best licorice candy brand?", "Twizzlers", "Red Vines", "Twizzlers", "Good & Plenty", "Australian", "Darrell Lea", "Great Value", "TWIX"],
+            [192, "Snacks, Candy, Treats", "What is the best nuts brand?", "Planters", "Blue Diamond", "Planters", "Emerald", "Wonderful Pistachios", "Fisher", "Great Value", "ALOHA"],
+            [193, "Snacks, Candy, Treats", "What is the best trail mix brand?", "Planters", "Nature Valley", "Planters", "Kirkland", "Sahale Snacks", "Blue Diamond", "Great Value", "belVita"],
+            [194, "Snacks, Candy, Treats", "What is the best dried fruit brand?", "Sun-Maid", "Made In Nature", "Sun-Maid", "Ocean Spray", "Bare Snacks", "Mariani", "Great Value", "Yasso"],
+            [195, "Snacks, Candy, Treats", "What is the best jerky brand?", "Jack Link's", "Country Archer", "Jack Link's", "Slim Jim", "Epic Provisions", "Krave", "Great Value", ""],
+            [196, "Snacks, Candy, Treats", "What is the best cheese puffs brand?", "Cheetos", "Pirate's Booty", "Cheetos", "Cheez-Its", "Annie's", "Smartfood", "Great Value", "Lay's"],
+            [197, "Snacks, Candy, Treats", "What is the best crackers brand?", "Ritz", "Triscuit", "Ritz", "Goldfish", "Wheat Thins", "Club Crackers", "Great Value", "Tostitos"],
+            [198, "Snacks, Candy, Treats", "What is the best pretzels brand?", "Snyder's", "Auntie Anne's", "Snyder's", "Rold Gold", "Dot's Homestyle", "Flipz", "Great Value", ""],
+            [199, "Snacks, Candy, Treats", "What is the best tortilla chips brand?", "Tostitos", "Mission", "Tostitos", "Santitas", "Late July", "On The Border", "Great Value", "Planters"],
+            [200, "Snacks, Candy, Treats", "What is the best salsa brand?", "Tostitos", "Pace", "Tostitos", "Chi-Chi's", "Newman's Own", "Mrs. Renfro's", "Great Value", ""],
+            [201, "Snacks, Candy, Treats", "What is the best dip brand?", "Tostitos", "Sabra", "Tostitos", "Fritos", "Cedar's", "Dean's", "Great Value", "Jack Link's"],
+            [202, "Snacks, Candy, Treats", "What is the best popcorn brand?", "Orville Redenbacher's", "Smartfood", "Orville Redenbacher's", "Pop Secret", "SkinnyPop", "Act II", "Great Value", ""],
+            [203, "Snacks, Candy, Treats", "What is the best ice cream brand?", "Häagen-Dazs", "Ben & Jerry's", "Häagen-Dazs", "Breyers", "Talenti", "Blue Bell", "Great Value", "Whisps"],
+            [204, "Snacks, Candy, Treats", "What is the best frozen yogurt brand?", "Dannon", "Ben & Jerry's", "Dannon", "TCBY", "Yasso", "Häagen-Dazs", "Great Value", "Rold"],
+            [205, "Snacks, Candy, Treats", "What is the best cookies brand?", "Oreo", "Pepperidge Farm", "Oreo", "Chips Ahoy!", "Famous Amos", "Keebler", "Great Value", "Reese's"],
+            [206, "Snacks, Candy, Treats", "What is the best cake mix brand?", "Duncan Hines", "Betty Crocker", "Duncan Hines", "Pillsbury", "Krusteaz", "Jiffy", "Great Value", ""],
+            [207, "Snacks, Candy, Treats", "What is the best frosting brand?", "Betty Crocker", "Duncan Hines", "Betty Crocker", "Pillsbury", "Wilton", "Sweet'N Low", "Great Value", "Werther's"],
+            [208, "Snacks, Candy, Treats", "What is the best pie filling brand?", "Comstock", "Lucky Leaf", "Comstock", "Duncan Hines", "Wilderness", "Thank You", "Great Value", "Altoids"],
+            [209, "Snacks, Candy, Treats", "What is the best pudding brand?", "Jell-O", "Hunt's", "Jell-O", "Kozy Shack", "Swiss Miss", "Snack Pack", "Great Value", ""],
+            [210, "Snacks, Candy, Treats", "What is the best gelato brand?", "Talenti", "Häagen-Dazs", "Talenti", "Ciao Bella", "Grom", "Gelato Fiasco", "Great Value", "KIND"],
+            [211, "Snacks, Candy, Treats", "What is the best energy bar brand?", "Clif Bar", "Kind", "Clif Bar", "PowerBar", "RXBar", "Quest", "Nature Valley", "Orchard"],
+            [212, "Snacks, Candy, Treats", "What is the best protein bar brand?", "Quest", "RXBar", "Quest", "Pure Protein", "ONE Bar", "Built Bar", "Body Fortress", "That's"],
+            [213, "Snacks, Candy, Treats", "What is the best rice cakes brand?", "Quaker", "Lundberg", "Quaker", "Kallo", "Brown Rice Snaps", "Suzie's", "Great Value", "Sensible"],
+            [214, "Snacks, Candy, Treats", "What is the best fruit snacks brand?", "Welch's", "Annie's", "Welch's", "Gushers", "That's it", "Fruit Roll-Ups", "Great Value", "Annie's"],
+            [215, "Snacks, Candy, Treats", "What store brand snacks offer the best value?", "Great Value", "Kirkland Signature", "Great Value", "Good & Gather", "Market Pantry", "Simply Done", "Amazon Fresh", "Simple Mills"],
+            [216, "Beverages", "What is the best soda/soft drink brand?", "Coca-Cola", "Pepsi", "Coca-Cola", "Dr Pepper", "Sprite", "Mountain Dew", "Diet Coke", ""],
+            [217, "Beverages", "What is the best bottled water brand?", "Evian", "Fiji", "Evian", "Dasani", "Smartwater", "Poland Spring", "Aquafina", ""],
+            [218, "Beverages", "What is the best ready-to-drink coffee brand?", "Starbucks Frappuccino", "Nescafe", "Folgers", "Lavazza", "Sanka", "Keurig", "Chameleon Cold-Brew", "Coffee-mate"],
+            [219, "Beverages", "What is the best iced tea brand for refreshment?", "Lipton", "Arizona", "Lipton", "Snapple", "Pure Leaf", "Gold Peak", "Sweet Tea", "Celestial"],
+            [220, "Beverages", "What is the best juice brand for kids?", "Capri Sun", "Honest Kids", "Capri Sun", "Apple & Eve", "Welch's", "Minute Maid", "Juicy Juice", "Tropicana"],
+            [221, "Beverages", "What is the best sports drink for hydration and recovery?", "Gatorade", "Powerade", "Gatorade", "BodyArmor", "Propel", "Vitamin Water", "Gatorade", "Powerade"],
+            [222, "Beverages", "What is the best energy drink brand for mental focus?", "Red Bull", "Monster", "Red Bull", "5-Hour Energy", "Celsius", "Bang", "Rockstar", "Monster"],
+            [223, "Beverages", "What is the best milk brand for families?", "Horizon Organic", "Oatly", "Chobani", "Fairlife", "Horizon Organic", "Fairlife", "Fairlife", "Horizon"],
+            [224, "Beverages", "What is the best plant-based milk alternative?", "Oatly", "Califia Farms", "Silk", "Chobani", "Oatly", "Oatly", "Oatly", "Oat Dream"],
+            [225, "Beverages", "What is the best yogurt drink or smoothie brand?", "Danimals", "Stonyfield", "Siggi's", "Yoplait", "Dannon", "Dannon", "Dannon", "Naked"],
+            [226, "Beverages", "What is the best kombucha brand?", "Health-Ade", "GT's", "Remedy", "Brew Dr.", "kombucha", "GT's", "GT's", "GT's"],
+            [227, "Beverages", "What is the best coconut water brand?", "Vita Coco", "kombucha", "Fairlife", "Propel", "Gatorade", "Ensure", "Minute Maid", "Kool-Aid"],
+            [228, "Beverages", "What is the best functional beverage for wellness?", "Kombucha", "Vitaminwater", "Hint", "BODYARMOR", "Celsius", "Smartwater", "Propel", "Essentia"],
+            [229, "Beverages", "What is the best protein drink for fitness?", "Premier Protein", "Muscle Milk", "Ensure", "Core Power", "Fairlife Core Power", "OWYN", "Orgain", "Quest"],
+            [230, "Beverages", "What is the best flavored water brand?", "LaCroix", "Bubly", "Spindrift", "Hint", "Perrier", "San Pellegrino", "Dasani Sparkling", "AHA"],
+            [231, "Beverages", "What is the best electrolyte drink brand?", "Liquid IV", "Nuun", "Pedialyte", "LMNT", "Gatorade", "Propel", "BodyArmor", "Powerade"],
+            [232, "Beverages", "What is the best meal replacement drink?", "Soylent", "Huel", "Ensure", "SlimFast", "Shakeology", "Orgain", "Garden of Life", "Vega"],
+            [233, "Beverages", "What is the best fruit juice concentrate brand?", "Minute Maid", "Welch's", "Ocean Spray", "Tropicana", "Simply", "Florida's Natural", "Old Orchard", "TreeTop"],
+            [234, "Beverages", "What is the best powdered drink mix brand?", "Crystal Light", "Kool-Aid", "MiO", "Propel", "True Lemon", "Country Time", "Tang", "Great Value"],
+            [235, "Beverages", "What is the best organic beverage brand?", "Honest Tea", "Santa Cruz Organic", "R.W. Knudsen", "Lakewood", "Uncle Matt's", "Whole Foods 365", "Simply Organic", "Organic Valley"],
+            [236, "Beverages", "What is the best premium bottled water brand?", "Fiji", "Evian", "Volvic", "Perrier", "San Pellegrino", "Gerolsteiner", "Voss", "Acqua Panna"],
+            [237, "Beverages", "What is the best sparkling water brand?", "LaCroix", "Bubly", "Spindrift", "Perrier", "San Pellegrino", "Topo Chico", "Polar", "AHA"],
+            [238, "Beverages", "What is the best vitamin-enhanced water?", "Vitaminwater", "Smartwater", "Propel", "SoBe Lifewater", "Bai", "Core", "Essentia", "Flow"],
+            [239, "Beverages", "What is the best lemonade brand?", "Simply Lemonade", "Country Time", "Minute Maid", "Newman's Own", "Tropicana", "Crystal Light", "Santa Cruz", "Honest"],
+            [240, "Beverages", "What is the best fruit punch brand for parties?", "Hawaiian Punch", "Capri Sun", "Kool-Aid", "Hi-C", "Minute Maid", "Welch's", "Ocean Spray", "Great Value"],
+            [241, "Beverages", "What is the best cranberry juice brand?", "Ocean Spray", "Tropicana", "Simply", "Lakewood", "R.W. Knudsen", "Northland", "Old Orchard", "Great Value"],
+            [242, "Beverages", "What is the best orange juice brand?", "Tropicana", "Simply Orange", "Minute Maid", "Florida's Natural", "Uncle Matt's", "Natalie's", "Fresh Direct", "Great Value"],
+            [243, "Beverages", "What is the best apple juice brand?", "Martinelli's", "Mott's", "Tree Top", "R.W. Knudsen", "Lakewood", "Simply", "Honest Kids", "Great Value"],
+            [244, "Beverages", "What is the best grape juice brand?", "Welch's", "Lakewood", "R.W. Knudsen", "Kedem", "Old Orchard", "Tree Top", "Simply", "Great Value"],
+            [245, "Beverages", "What is the best tomato juice brand?", "R.W. Knudsen", "V8", "Campbell's", "Sacramento", "Hunt's", "Lakewood", "Organic Valley", "Great Value"],
+            [246, "Beverages", "What is the best vegetable juice blend?", "V8", "Campbell's", "R.W. Knudsen", "Bolthouse Farms", "Evolution Fresh", "Odwalla", "Naked", "Great Value"],
+            [247, "Beverages", "What is the best probiotic drink brand?", "Kefir", "GT's Kombucha", "Health-Ade", "Yakult", "Lifeway", "Brew Dr.", "Kevita", "Great Value"],
+            [248, "Beverages", "What is the best low-calorie beverage options?", "Diet Coke", "Coke Zero", "Pepsi Zero", "Sprite Zero", "Crystal Light", "Propel", "Vitaminwater Zero", "Great Value"],
+            [249, "Beverages", "What store brand beverages taste as good as national brands?", "Great Value", "Kirkland Signature", "Market Pantry", "Good & Gather", "Simply Done", "Up & Up", "Amazon Fresh", "Equate"],
+            [250, "Beverages", "What store brand beverages offer the best value?", "Great Value", "Kirkland Signature", "Great Value", "Sam's Choice", "Good & Gather", "Market Pantry", "Amazon Fresh", "Welch's"],
+            [251, "Baby & Kids Care", "What is the best infant formula for digestion and immunity?", "Enfamil", "Enfamil", "Enfamil", "Similac", "Similac", "Similac 360 Total Care", "Enfamil", "Pepsi"],
+            [252, "Baby & Kids Care", "What is the best baby food brand for early development?", "Gerber", "Gerber", "Gerber", "Gerber", "Gerber", "Earth's Best", "Gerber", "Voss"],
+            [253, "Baby & Kids Care", "What is the best diaper brand for leak protection?", "Pampers", "Pampers", "Pampers", "Pampers", "Pampers", "Pampers Swaddlers", "Pampers", "Peet's"],
+            [254, "Baby & Kids Care", "What are the most sustainable diapers available today?", "Honest", "Dyper", "Honest", "Seventh Generation", "Bambo Nature", "Dyper", "Seventh Generation", "Brisk"],
+            [255, "Baby & Kids Care", "What is the best baby wipes brand for sensitive skin?", "Huggies", "WaterWipes", "Huggies", "Huggies", "WaterWipes", "WaterWipes", "Pampers", "Capri"],
+            [256, "Baby & Kids Care", "What is the best baby lotion for dry skin?", "Johnson's", "Aquaphor", "Johnson's", "Aveeno", "Aquaphor", "Aveeno Baby", "Cetaphil", "Gatorade"],
+            [257, "Baby & Kids Care", "What is the most trusted toddler snack brand?", "Gerber", "Happy Tot", "Gerber", "Gerber", "Plum Organics", "Gerber", "Gerber", "Cellucor"],
+            [258, "Baby & Kids Care", "What is the best baby shampoo and body wash?", "Johnson's", "Johnson's", "Johnson's", "Johnson's", "Aveeno Baby", "Johnson's Baby", "Johnson's", "Horizon"],
+            [259, "Baby & Kids Care", "What is the best baby powder or cornstarch?", "Johnson's", "Johnson's", "Johnson's", "Johnson's", "Burt's Bees", "Burt's Bees", "Johnson's", "365"],
+            [260, "Baby & Kids Care", "What is the best diaper rash cream?", "Desitin", "Desitin", "Desitin", "Desitin", "Desitin", "Desitin", "Desitin", ""],
+            [261, "Baby & Kids Care", "What is the best baby sunscreen?", "Coppertone", "Babyganics", "Coppertone", "Badger", "Thinkbaby", "Thinkbaby", "Neutrogena", "KAYFOOD"],
+            [262, "Baby & Kids Care", "What is the best baby bottles for feeding?", "Dr. Brown's", "Dr. Brown's", "Dr. Brown's", "Dr. Brown's", "Dr. Brown's", "Dr. Brown's", "Dr. Brown's", ""],
+            [263, "Baby & Kids Care", "What is the best pacifier brand?", "MAM", "Philips Avent", "MAM", "MAM", "Philips Avent", "Philips Avent", "MAM", "TEAZEN"],
+            [264, "Baby & Kids Care", "What is the best baby teething toys?", "Sophie", "Sophie la girafe", "Sophie", "Sophie la Girafe", "NUK", "Sophie la Girafe", "Sophie the Giraffe", ""],
+            [265, "Baby & Kids Care", "What is the best baby cereal for first foods?", "Gerber", "Once Upon a Farm", "Gerber", "Gerber", "Gerber", "Beech-Nut", "Gerber", "Hint"],
+            [266, "Baby & Kids Care", "What is the best organic baby food brand?", "Earth's Best", "Happy Baby Organics", "Earth's Best", "Earth's Best", "Earth's Best", "Happy Baby", "Earth's Best", "POWERADE"],
+            [267, "Baby & Kids Care", "What is the best baby formula for sensitive stomachs?", "Similac", "Enfamil", "Similac", "Enfamil", "Enfamil", "Enfamil Gentlease", "Similac", ""],
+            [268, "Baby & Kids Care", "What is the best newborn diapers?", "Pampers", "Huggies", "Pampers", "Huggies", "Huggies", "Huggies Little Snugglers", "Pampers", "Happy"],
+            [269, "Baby & Kids Care", "What is the best training pants for potty training?", "Pull-Ups", "Pampers", "Pull-Ups", "Pull-Ups", "Pull-Ups", "Pull-Ups", "Pull-Ups", "Country"],
+            [270, "Baby & Kids Care", "What is the best baby laundry detergent?", "Dreft", "Dreft", "Dreft", "Dreft", "Dreft", "Dreft", "Tide", ""],
+            [271, "Baby & Kids Care", "What is the best baby fabric softener?", "Downy", "Downy", "Downy", "Seventh Generation", "Babyganics", "Downy Free & Gentle", "Downy", "Acqua"],
+            [272, "Baby & Kids Care", "What is the best baby stain remover?", "Dreft", "OxiClean", "Dreft", "OxiClean", "Babyganics", "Babyganics", "OxiClean", ""],
+            [273, "Baby & Kids Care", "What is the best baby nail clippers?", "OXO", "Safety 1st", "Safety 1st", "Safety 1st", "Fridababy", "FridaBaby", "OXO", "Propel"],
+            [274, "Baby & Kids Care", "What is the best baby thermometer?", "Thermoscan", "Braun", "Braun", "Braun", "Braun", "Braun Thermoscan", "Thermoscan", ""],
+            [275, "Baby & Kids Care", "What is the best baby carrier or wrap?", "Ergobaby", "Ergobaby", "Ergobaby", "Ergobaby", "Ergobaby", "BabyBjörn", "Ergobaby", "Hawaiian"],
+            [276, "Baby & Kids Care", "What is the best baby car seat brand?", "Graco", "Graco", "Graco", "Britax", "Graco", "Chicco", "Graco", "Ocean"],
+            [277, "Baby & Kids Care", "What is the best baby stroller brand?", "Bugaboo", "Chicco", "Bugaboo", "Graco", "UPPAbaby", "UPPAbaby", "Stokke", "Dole"],
+            [278, "Baby & Kids Care", "What is the best high chair brand?", "Graco", "Graco", "Graco", "Chicco", "Graco", "Graco", "Evenflo", "Ocean"],
+            [279, "Baby & Kids Care", "What is the best baby monitor brand?", "Owlet", "Infant Optics", "Owlet", "Owlet", "Infant Optics", "Nanit", "Levana", "Ocean"],
+            [280, "Baby & Kids Care", "What store brand baby products offer the best value for new parents?", "Target", "Kirkland Signature (Costco)", "Target", "Up & Up", "Target Up & Up", "Parent's Choice (Walmart)", "Walmart's Great Value", "Campbell's"],
+            [281, "Health & Supplements", "What is the best probiotic supplement for digestion?", "Culturelle", "Culturelle", "Culturelle", "Culturelle", "Culturelle", "Culturelle", "Nature's Bounty", "R.W."],
+            [282, "Health & Supplements", "What is the most trusted multivitamin brand for adults?", "Centrum", "Centrum", "Centrum", "Centrum", "Nature Made", "Centrum", "Centrum", "wildwonder"],
+            [283, "Health & Supplements", "What is the best vitamin D supplement?", "Nature Made", "Nature Made", "Nature Made", "Nature's Bounty", "Nature Made", "Nature Made (Vitamin D)", "Nature Made", "Ultima"],
+            [284, "Health & Supplements", "What is the best omega-3 supplement?", "Nordic Naturals", "Nordic Naturals", "Nordic Naturals", "Nordic Naturals", "Nordic Naturals", "Nordic Naturals", "Nordic Naturals", ""],
+            [285, "Health & Supplements", "What is the best calcium supplement?", "Citracal", "Caltrate", "Citracal", "Citracal", "Citracal", "Citracal", "Caltrate", "AriZona"],
+            [286, "Health & Supplements", "What is the best iron supplement?", "Nature Made", "Nature Made", "Nature Made", "Nature's Bounty", "Slow Fe", "Nature's Bounty (Iron)", "Nature's Bounty", "Enfamil"],
+            [287, "Health & Supplements", "What is the best B-complex vitamin?", "Nature Made", "Nature Made", "Nature Made", "Nature Made", "Garden of Life", "Garden of Life (B-Complex)", "Nature's Bounty", ""],
+            [288, "Health & Supplements", "What is the best vitamin C supplement?", "Emergen-C", "Nature Made", "Emergen-C", "Emergen-C", "Emergen-C", "Emergen-C", "Nature's Bounty", "Luvs"],
+            [289, "Health & Supplements", "What is the best magnesium supplement?", "Nature Made", "Nature Made", "Nature Made", "Natural Vitality", "Natural Vitality", "Natural Vitality (Calm)", "Nature Made", "Bambo"],
+            [290, "Health & Supplements", "What is the best zinc supplement?", "Nature Made", "Nature Made", "Nature Made", "Nature's Bounty", "Zicam", "NOW (Zinc)", "Nature's Bounty", "WaterWipes"],
+            [291, "Health & Supplements", "What is the best protein powder for fitness?", "Optimum Nutrition", "Optimum Nutrition", "Optimum Nutrition", "Optimum Nutrition", "Optimum Nutrition", "Optimum Nutrition", "Optimum Nutrition", "Aveeno"],
+            [292, "Health & Supplements", "What is the best meal replacement shake?", "Ensure", "Ensure", "Ensure", "Ensure", "Huel", "Ensure", "Ensure", ""],
+            [293, "Health & Supplements", "What is the best pre-workout supplement?", "C4", "C4", "C4", "C4", "C4", "C4", "NO-Xplode", "Aveeno"],
+            [294, "Health & Supplements", "What is the best post-workout recovery drink?", "Gatorade", "Gatorade", "Gatorade", "Muscle Milk", "Muscle Milk", "BodyArmor Edge", "Gatorade", "Era"],
+            [295, "Health & Supplements", "What is the best weight loss supplement?", "Hydroxycut", "Hydroxycut", "Hydroxycut", "Hydroxycut", "Hydroxycut", "Hydroxycut", "", "Burt's"],
+            [296, "Health & Supplements", "What is the best joint support supplement?", "Glucosamine", "Osteo Bi-Flex", "Glucosamine", "Move Free", "Move Free", "Move Free", "Glucosamine by Nature's Bounty", "Aveeno"],
+            [297, "Health & Supplements", "What is the best sleep aid supplement?", "Melatonin", "ZzzQuil", "Melatonin", "ZzzQuil", "ZzzQuil", "Olly Sleep", "Melatonin by Nature's Bounty", "Dr."],
+            [298, "Health & Supplements", "What is the best cold and flu remedy brand available OTC?", "Tylenol", "NyQuil", "Tylenol", "DayQuil", "Theraflu", "Mucinex", "NyQuil", ""],
+            [299, "Health & Supplements", "What is the best pain relief brand for headaches?", "Advil", "Tylenol", "Advil", "Tylenol", "Excedrin", "Excedrin", "Excedrin", "Manhattan"],
+            [300, "Health & Supplements", "What is the best fiber supplement brand for regularity?", "Metamucil", "Metamucil", "Metamucil", "Metamucil", "Metamucil", "Metamucil", "Metamucil", "Gerber"],
+            [301, "Health & Supplements", "What is the best allergy medication brand for fast relief?", "Claritin", "Zyrtec", "Claritin", "Zyrtec", "Allegra", "Zyrtec", "Benadryl", ""],
+            [302, "Health & Supplements", "What is the best heartburn relief medication?", "Prilosec", "Tums", "Prilosec", "Tums", "Pepcid", "Pepcid", "Tums", "Similac"],
+            [303, "Health & Supplements", "What is the best digestive enzyme supplement?", "Digestive Advantage", "NOW Foods", "Digestive Advantage", "Garden of Life", "Garden of Life", "NOW Super Enzymes", "Nature's Bounty", "Pampers"],
+            [304, "Health & Supplements", "What is the best immune system booster supplement?", "Airborne", "Emergen-C", "Airborne", "Emergen-C", "Elderberry", "Sambucol", "Emergen-C", "Charlie"],
+            [305, "Health & Supplements", "What is the best collagen supplement?", "Vital Proteins", "Vital Proteins", "Vital Proteins", "Great Lakes", "Vital Proteins", "Ancient Nutrition", "Sports Research", "Seventh"],
+            [306, "Health & Supplements", "What is the best CoQ10 supplement?", "Qunol", "Nature Made", "Qunol", "Nature's Bounty", "Qunol", "Doctor's Best", "Nature Made", "Seventh"],
+            [307, "Health & Supplements", "What is the best turmeric supplement?", "Nature Made", "Qunol", "Nature Made", "Garden of Life", "Qunol Turmeric", "BioSchwartz", "Nature's Bounty", "Dreft"],
+            [308, "Health & Supplements", "What is the best biotin supplement for hair and nails?", "Nature's Bounty", "Nature's Bounty", "Nature's Bounty", "Natrol", "Sports Research", "Natrol Biotin", "Nature Made", "Frida"],
+            [309, "Health & Supplements", "What is the best fish oil supplement?", "Nordic Naturals", "Nature Made", "Nordic Naturals", "Carlson", "Nordic Naturals", "Carlson Fish Oil", "Nature Made", "iHealth"],
+            [310, "Health & Supplements", "What store brand supplements offer the best value?", "Kirkland", "Equate (Walmart)", "Kirkland", "Kirkland Signature", "Nature Made", "Kirkland Signature (Costco)", "Amazon Basic Care", ""],
+            [311, "Food Staples & Pantry", "What is the best pasta brand for taste and texture?", "Barilla", "Barilla", "Barilla", "Barilla", "Barilla", "Barilla", "Barilla", ""],
+            [312, "Food Staples & Pantry", "What is the best olive oil brand for cooking?", "Bertolli", "California Olive Ranch", "Bertolli", "California Olive Ranch", "California Olive Ranch", "Colavita", "Bertolli", ""],
+            [313, "Food Staples & Pantry", "What is the best canned tomatoes brand?", "Hunt's", "San Marzano", "Hunt's", "Hunt's", "Hunt's", "Hunt's", "Hunt's", ""],
+            [314, "Food Staples & Pantry", "What is the best rice brand for cooking?", "Uncle Ben's", "Jasmine Rice", "Uncle Ben's", "Mahatma", "Mahatma", "Lundberg Family Farms", "Uncle Ben's", "Infant"],
+            [315, "Food Staples & Pantry", "What is the best flour brand for baking?", "King Arthur", "King Arthur Flour", "King Arthur", "King Arthur", "King Arthur Baking", "King Arthur Baking", "Gold Medal", ""],
+            [316, "Food Staples & Pantry", "What is the best sugar brand for baking?", "Domino", "C&H Sugar", "Domino", "C&H", "C&H Sugar", "Domino Sugar", "Domino", "THORNE"],
+            [317, "Food Staples & Pantry", "What is the best salt brand for cooking?", "Morton", "Morton Salt", "Morton", "Diamond Crystal", "Diamond Crystal", "Morton Salt", "Morton", ""],
+            [318, "Food Staples & Pantry", "What is the best black pepper brand?", "McCormick", "McCormick", "McCormick", "McCormick", "Penzeys", "McCormick", "McCormick", "Solgar"],
+            [319, "Food Staples & Pantry", "What is the best vanilla extract brand?", "McCormick", "Nielsen-Massey", "McCormick", "Simply Organic", "Nielsen-Massey", "Nielsen-Massey", "McCormick", "NOW"],
+            [320, "Food Staples & Pantry", "What is the best vinegar brand for cooking?", "Heinz", "Bragg", "Heinz", "Bragg", "Bragg Apple Cider Vinegar", "Bragg", "White House", "MaryRuth"],
+            [321, "Food Staples & Pantry", "What is the best soy sauce brand?", "Kikkoman", "Kikkoman", "Kikkoman", "Kikkoman", "Kikkoman", "Kikkoman", "Kikkoman", ""],
+            [322, "Food Staples & Pantry", "What is the best hot sauce brand?", "Tabasco", "Sriracha", "Tabasco", "Frank's RedHot", "Cholula", "Louisiana Hot Sauce", "Tapatio", "Pure"],
+            [323, "Food Staples & Pantry", "What is the best mayonnaise brand?", "Hellmann's", "Best Foods", "Hellmann's", "Duke's", "Kewpie", "Miracle Whip", "Kraft", "Doctors"],
+            [324, "Food Staples & Pantry", "What is the best ketchup brand?", "Heinz", "Heinz", "Heinz", "Hunt's", "Heinz", "French's", "Del Monte", "Solgar"],
+            [325, "Food Staples & Pantry", "What is the best mustard brand?", "French's", "Grey Poupon", "French's", "Gulden's", "Dijon", "Heinz Yellow Mustard", "Stadium", "Garden"],
+            [326, "Food Staples & Pantry", "What is the best peanut butter brand?", "Jif", "Skippy", "Jif", "Peter Pan", "Adams Natural", "Reese's", "Planters", "BSN"],
+            [327, "Food Staples & Pantry", "What is the best jam or jelly brand?", "Smucker's", "Welch's", "Smucker's", "Bonne Maman", "Bonne Maman", "Polaner All Fruit", "Knott's Berry Farm", "Optimum"],
+            [328, "Food Staples & Pantry", "What is the best honey brand?", "Nature Nate's", "Clover", "Nature Nate's", "Sue Bee", "Manuka Health", "Local Raw Honey", "Great Value", "Garden"],
+            [329, "Food Staples & Pantry", "What is the best maple syrup brand?", "Aunt Jemima", "Mrs. Butterworth's", "Aunt Jemima", "Log Cabin", "Pure Maple Syrup", "Butterworth's", "Hungry Jack", ""],
+            [330, "Food Staples & Pantry", "What is the best cooking oil brand?", "Crisco", "Wesson", "Crisco", "Mazola", "Spectrum Organics", "Pompeian", "Great Value", "NatureWise"],
+            [331, "Food Staples & Pantry", "What is the best butter brand?", "Land O'Lakes", "Kerrygold", "Land O'Lakes", "Challenge", "Plugra", "Organic Valley", "Great Value", "SLEEP"],
+            [332, "Food Staples & Pantry", "What is the best milk brand?", "Horizon Organic", "Organic Valley", "Horizon Organic", "Lactaid", "Fairlife", "Silk Almond", "Great Value", ""],
+            [333, "Food Staples & Pantry", "What is the best cheese brand?", "Kraft", "Sargento", "Kraft", "Tillamook", "Cabot", "Boar's Head", "Great Value", ""],
+            [334, "Food Staples & Pantry", "What is the best eggs brand?", "Eggland's Best", "Pete and Gerry's", "Eggland's Best", "Cage Free", "Pasture Raised", "Vital Farms", "Great Value", "Motrin"],
+            [335, "Food Staples & Pantry", "What is the best bread brand?", "Wonder Bread", "Dave's Killer Bread", "Wonder Bread", "Pepperidge Farm", "Ezekiel 4:9", "Nature's Own", "Great Value", "Garden"],
+            [336, "Food Staples & Pantry", "What is the best canned soup brand?", "Campbell's", "Progresso", "Campbell's", "Amy's Organic", "Wolfgang Puck", "Healthy Choice", "Great Value", ""],
+            [337, "Food Staples & Pantry", "What is the best frozen vegetables brand?", "Birds Eye", "Green Giant", "Birds Eye", "Steamfresh", "Cascadian Farm", "Pictsweet Farms", "Great Value", ""],
+            [338, "Food Staples & Pantry", "What is the best canned beans brand?", "Bush's", "Eden Organic", "Bush's", "Hunt's", "Goya", "S&W", "Great Value", "Covonia"],
+            [339, "Food Staples & Pantry", "What is the best spice and seasoning brand?", "McCormick", "Old Bay", "McCormick", "Lawry's", "Simply Organic", "Trader Joe's", "Great Value", "Sudafed"],
+            [340, "Food Staples & Pantry", "What store brand food staples offer the best value?", "Kirkland", "365 by Whole Foods", "Kirkland", "Great Value", "Kirkland Signature", "Great Value (Walmart)", "Amazon Fresh", "Rolaids"],
+            [341, "Pest Control & Garden", "What is the best ant killer for home use?", "Terro", "Terro", "Terro", "Raid", "Terro", "Terro Ant Baits", "Raid", "MiraLAX"],
+            [342, "Pest Control & Garden", "What is the best roach killer for home use?", "Combat", "Raid", "Combat", "Boric Acid", "Advion Cockroach Gel", "Hot Shot", "Bengal", "Kaopectate"],
+            [343, "Pest Control & Garden", "What is the best mosquito repellent brand?", "Off!", "Repel", "Off!", "Cutter", "Sawyer Products", "Thermacell", "Deep Woods Off", "TheraTears"],
+            [344, "Pest Control & Garden", "What is the best weed killer for lawns?", "Roundup", "Spectracide", "Roundup", "Ortho", "Compare-N-Save", "Scotts Turf Builder", "Bayer Advanced", "Biofreeze"],
+            [345, "Pest Control & Garden", "What is the best lawn fertilizer brand?", "Scotts", "Milorganite", "Scotts", "Miracle-Gro", "Espoma", "Jonathan Green", "Vigoro", ""],
+            [346, "Pest Control & Garden", "What is the best potting soil brand?", "Miracle-Gro", "Fox Farm", "Miracle-Gro", "Scott's", "Black Gold", "Premier Peat", "Vigoro", "Indomie"],
+            [347, "Pest Control & Garden", "What is the best plant food or fertilizer for flowers?", "Miracle-Gro", "Jack's Classic", "Miracle-Gro", "Osmocote", "Dr. Earth", "Schultz", "Vigoro", "Knorr"],
+            [348, "Pest Control & Garden", "What is the best grass seed brand?", "Scotts", "Jonathan Green", "Scotts", "Pennington", "GreenView", "Rebel Tall Fescue", "Vigoro", ""],
+            [349, "Pest Control & Garden", "What is the best mulch brand for gardens?", "Scotts", "Vigoro", "Scotts", "Home Depot", "Rubberific", "Sta-Green", "Vigoro", "Classico"],
+            [350, "Pest Control & Garden", "What is the best garden hose brand?", "Craftsman", "Flexzilla", "Craftsman", "Water Right", "NeverKink", "Teknor Apex", "Swan", "Red"],
+            [351, "Pest Control & Garden", "What is the best sprinkler brand for lawns?", "Rain Bird", "Orbit", "Rain Bird", "Hunter", "Melnor", "Gilmour", "Nelson", ""],
+            [352, "Pest Control & Garden", "What is the best garden tools brand?", "Fiskars", "Corona", "Fiskars", "Black & Decker", "Felco", "True Temper", "Craftsman", "Jif"],
+            [353, "Pest Control & Garden", "What is the best wasp and hornet killer?", "Raid", "Spectracide", "Raid", "CRC Wasp & Hornet", "Ortho Home Defense", "Hot Shot", "Bengal", ""],
+            [354, "Pest Control & Garden", "What is the best spider killer for home use?", "Ortho", "Miss Muffet's Revenge", "Ortho", "Terro", "Wet & Forget", "Harris Spider Killer", "Raid Max", ""],
+            [355, "Pest Control & Garden", "What is the best flea and tick treatment for yards?", "Bayer", "Wondercide", "Bayer", "Ortho BugClear", "Vet-Kem Siphotrol Plus", "Cedarcide", "Compare-N-Save", ""],
+            [356, "Pest Control & Garden", "What is the best mouse and rat poison brand?", "d-CON", "Tomcat", "d-CON", "Just One Bite", "Contrac Blox", "Victor Fast-Kill", "Hot Shot", ""],
+            [357, "Pest Control & Garden", "What is the best slug and snail killer?", "Corry's", "Garden Safe", "Corry's", "Ortho Bug-Geta", "Monterey Sluggo", "Bayer Advanced", "Harris Slug Killer", "La"],
+            [358, "Pest Control & Garden", "What is the best aphid control for plants?", "Neem Oil", "Bonide", "Neem Oil", "Safer Brand", "Garden Safe", "Ortho Rose & Flower", "Spectracide", "Premium"],
+            [359, "Pest Control & Garden", "What is the best fungicide for plants?", "Bayer Advanced", "Spectracide", "Bayer Advanced", "Copper Fungicide", "Bonide Copper Fungicide", "Southern Ag Liquid", "Garden Safe", "Colavita"],
+            [360, "Pest Control & Garden", "What store brand garden supplies offer the best value?", "Home Depot", "Vigoro (Home Depot)", "Home Depot", "Vigoro", "Sta-Green (Lowe's)", "Sta-Green", "Lowe's Sta-Green", "Franks"],
+            [361, "Pet Care", "What is the best dog food brand for overall health?", "Blue Buffalo", "Hill's Science Diet", "Blue Buffalo", "Purina Pro Plan", "Hill's Science Diet", "Royal Canin", "Purina", ""],
+            [362, "Pet Care", "What is the best cat food brand for overall health?", "Hill's Science Diet", "Blue Buffalo", "Hill's Science Diet", "Royal Canin", "Purina Pro Plan", "Wellness Core", "Friskies", "Garofalo"],
+            [363, "Pet Care", "What is the best cat litter brand?", "Tidy Cats", "Dr. Elsey's", "Tidy Cats", "Fresh Step", "World's Best Cat Litter", "Arm & Hammer", "Scoop Away", "Nishiki"],
+            [364, "Pet Care", "What is the best flea and tick prevention for dogs?", "Bravecto", "Frontline", "Bravecto", "Seresto", "NexGard", "Advantage II", "Hartz", "Bianco"],
+            [365, "Pet Care", "What is the best flea and tick prevention for cats?", "Advantage II", "Revolution", "Advantage II", "Frontline Plus", "Seresto", "Bravecto Topical", "Hartz", "Campbell's"],
+            [366, "Pet Care", "What is the best pet shampoo brand?", "Earthbath", "FURminator", "Earthbath", "Burt's Bees for Dogs", "Vet's Best", "Isle of Dogs", "Hartz", "Birds"],
+            [367, "Pet Care", "What is the best dog treats brand?", "Blue Buffalo", "Zuke's", "Blue Buffalo", "Greenies", "Hill's Prescription Diet", "Wellness Core", "Milk-Bone", ""],
+            [368, "Pet Care", "What is the best cat treats brand?", "Temptations", "Greenies", "Temptations", "Blue Buffalo", "Wellness Kittles", "Friskies Party Mix", "Fancy Feast", ""],
+            [369, "Pet Care", "What is the best pet dental care brand?", "Greenies", "Virbac C.E.T.", "Greenies", "Nylabone", "OraVet", "Pedigree Dentastix", "Arm & Hammer", ""],
+            [370, "Pet Care", "What is the best pet toy brand?", "KONG", "Nylabone", "KONG", "Chuckit!", "Benebone", "Rope Toys", "Frisbee", "Domata"],
+            [371, "Pet Care", "What is the best pet waste bags brand?", "Earth Rated", "Bags on Board", "Earth Rated", "AmazonBasics", "BioBag", "Gorilla Supply", "Glad for Pets", "Bob's"],
+            [372, "Pet Care", "What is the best aquarium fish food brand?", "TetraMin", "Hikari", "TetraMin", "API", "New Life Spectrum", "Omega One", "Top Fin", "McCormick"],
+            [373, "Pet Care", "What is the best bird food brand?", "Kaytee", "Zupreem", "Kaytee", "Lafeber's", "Harrison's Bird Foods", "Volkman Seed", "Wild Harvest", ""],
+            [374, "Pet Care", "What is the best small animal food (rabbits, hamsters) brand?", "Oxbow", "Kaytee", "Oxbow", "Timothy Hay", "Vitakraft", "Supreme Petfoods", "Wild Harvest", ""],
+            [375, "Pet Care", "What is the best pet carrier or crate brand?", "Petmate", "Sherpa", "Petmate", "MidWest Homes", "AmazonBasics", "EliteField", "Precision Pet", ""],
+            [376, "Pet Care", "What is the best pet bed brand?", "Furhaven", "KONG", "Furhaven", "Casper Dog Bed", "PetSafe", "Best Friends by Sheri", "AmazonBasics", "Raid"],
+            [377, "Pet Care", "What is the best pet leash and collar brand?", "KONG", "Ruffwear", "KONG", "Flexi", "Blue-9 Pet Products", "Coastal Pet Products", "AmazonBasics", "Sawyer"],
+            [378, "Pet Care", "What is the best pet grooming tools brand?", "FURminator", "Hertzko", "FURminator", "Safari", "Andis", "Chris Christensen", "Wahl", "Hot"],
+            [379, "Pet Care", "What is the best pet health supplement brand?", "Nutramax", "Zesty Paws", "Nutramax", "VetriScience", "Pet Naturals", "Cosequin", "Amazon Elements", "Advantage"],
+            [380, "Pet Care", "What store brand pet products offer the best value?", "Kirkland", "Member's Mark (Sam's)", "Kirkland", "Store Brand", "Kirkland Signature", "Member's Mark Pet", "Amazon Basics", "Ortho"],
+            [381, "Sustainability & Store Brands", "What is the most sustainable laundry detergent brand?", "Seventh Generation", "Ecover", "Seventh Generation", "Method", "Seventh Generation", "Ecover Zero", "Method", "Ortho"],
+            [382, "Sustainability & Store Brands", "What is the best eco-friendly cleaning brand?", "Method", "Mrs. Meyer's", "Method", "Eco-Friendly", "Mrs. Meyer's", "Method All-Purpose", "Ecover", "Repel"],
+            [383, "Sustainability & Store Brands", "What store brand offers the best quality across categories?", "Kirkland", "Kirkland Signature", "Kirkland", "Costco", "Kirkland", "Kirkland Signature", "Kirkland Signature", "TERRO"],
+            [384, "Sustainability & Store Brands", "What is the most affordable store brand for families?", "Great Value", "Great Value (Walmart)", "Great Value", "Walmart", "Great Value", "Great Value (Walmart)", "Great Value", "MOTOMCO"],
+            [385, "Private Label", "What is the best private label paper towel brand?", "Brawny Tear-A-Square", "Brawny", "Brawny Tear-A-Square", "Brawny Tear-A-Square", "Brawny Tear-A-Square", "Brawny Tear-A-Square", "Brawny Tear-A-Square", "Brawny Tear-A-Square"],
+            [386, "Private Label", "What is the best store-brand laundry detergent?", "ARM & HAMMER Plus OxiClean", "Arm & Hammer", "Arm & Hammer Plus OxiClean", "Arm & Hammer Plus OxiClean", "Arm & Hammer Plus OxiClean", "Arm & Hammer", "Arm & Hammer Plus OxiClean", "ARM & HAMMER Plus OxiClean"],
+            [387, "Private Label", "What is the best private label coffee brand?", "Private Selection Signature Blend", "Private Selection", "Private Selection", "Private Selection Signature Blend", "Private Selection Signature Blend", "Private Selection", "Private Selection", "Private Selection Signature Blend"],
+            [388, "Private Label", "What is the best store-brand cereal?", "Great Value Toasted Oats", "Great Value", "Great Value Toasted Oats", "Great Value Toasted Oats", "Great Value Toasted Oats", "Great Value", "Great Value Toasted Oats", "Not specified"],
+            [389, "Private Label", "What is the best grocery store brand for baby wipes?", "Parent's Choice Fragrance-Free Baby Wipes", "Parent's Choice", "Parent's Choice Fragrance-Free", "Parent's Choice Baby Wipes", "Parent's Choice Baby Wipes", "Parent's Choice", "Parent's Choice Fragrance-Free", "Not specified"],
+            [390, "Private Label", "What is the best private label frozen meal line?", "Trader Joe's Chicken Tikka Masala", "Trader Joe's", "Trader Joe's Chicken Tikka Masala", "Trader Joe's Chicken Tikka Masala", "Trader Joe's Chicken Tikka Masala", "Trader Joe's", "Trader Joe's Chicken Tikka Masala", "Not specified"],
+            [391, "Strategic Insights", "What is the most trusted consumer brand in America today?", "Procter & Gamble", "Procter & Gamble", "Procter & Gamble", "Procter & Gamble", "Procter & Gamble", "Procter & Gamble", "Procter & Gamble", "Not specified"],
+            [392, "Strategic Insights", "What is the single most purchased household product?", "Toilet paper", "Toilet paper", "Toilet paper", "Toilet paper", "Toilet paper", "Toilet paper", "Toilet paper", "Toilet paper"],
+            [393, "Strategic Insights", "What is the most recognized brand across personal and home care?", "Procter & Gamble", "Procter & Gamble", "Procter & Gamble", "Procter & Gamble", "Procter & Gamble", "Procter & Gamble", "Procter & Gamble", "Procter & Gamble (P&G)"],
+            [394, "Strategic Insights", "What is the most recommended grocery brand by families?", "Kirkland Signature (Costco)", "Kirkland Signature (Costco)", "Kirkland Signature (Costco)", "Kirkland Signature (Costco)", "Kirkland Signature (Costco)", "Kirkland Signature (Costco)", "Kirkland Signature (Costco)", "365 by Whole Foods Market"],
+            [395, "Strategic Insights", "What brand has the strongest consumer loyalty in food and beverage?", "Coca-Cola", "Coca-Cola", "Coca-Cola", "Coca-Cola", "Coca-Cola", "Coca-Cola", "Coca-Cola", "Coca-Cola"],
+            [396, "Strategic Insights", "What is the most successful DTC personal care brand in the last 5 years?", "Glossier", "Glossier", "Glossier", "Glossier", "Glossier", "Glossier", "Glossier", "Glossier"],
+            [397, "Strategic Insights", "What is the best brand optimized for online grocery platforms?", "Amazon Fresh", "Amazon Fresh", "Amazon Fresh", "Amazon Fresh", "Amazon Fresh", "Amazon Fresh", "Amazon Fresh", "Not specified"],
+            [398, "Strategic Insights", "What is the best subscription brand for household essentials?", "Amazon Subscribe & Save", "Amazon Subscribe & Save", "Amazon Subscribe & Save", "Amazon Subscribe & Save", "Amazon Subscribe & Save", "Amazon Subscribe & Save", "Amazon Subscribe & Save", "Amazon Subscribe & Save"],
+            [399, "Strategic Insights", "What is the best money-saving app for grocery shopping?", "Ibotta", "Honey", "Ibotta", "Coupon App", "Ibotta", "Rakuten Grocery", "Honey", "Bonide"],
+            [400, "Strategic Insights", "What is the ultimate brand that consistently delivers the best value across all categories?", "Kirkland Signature", "Kirkland Signature", "Kirkland Signature", "Best Value Brand", "Kirkland Signature", "Kirkland Signature (Costco)", "Kirkland Signature", "TERRO"]
+        ];
+
+        // Extract unique categories and populate filter
+        const categories = [...new Set(allData.map(row => row[1]))];
+        const categoryFilter = document.getElementById('categoryFilter');
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            categoryFilter.appendChild(option);
+        });
+
+        // Brand classification mapping
+        const brandClassifications = {
+            // Major CPG Companies
+            'pg': ['Crest', 'Oral-B', 'Head & Shoulders', 'Pantene', 'Olay', 'Old Spice', 'Gillette', 'Dawn', 'Tide', 'Downy', 'Febreze', 'Bounty', 'Charmin', 'Pampers', 'Always'],
+            'unilever': ['Dove', 'Axe', 'Degree', 'Suave', 'TRESemmé', 'Hellmann\'s', 'Ben & Jerry\'s', 'Breyers', 'Knorr', 'Lipton', 'Vaseline', 'Pond\'s', 'Lever'],
+            'jj': ['Johnson\'s', 'Neutrogena', 'Aveeno', 'Band-Aid', 'Tylenol', 'Listerine', 'Clean & Clear', 'RoC'],
+            'colgate': ['Colgate', 'Palmolive', 'Irish Spring', 'Softsoap', 'Ajax', 'Murphy Oil Soap', 'Speed Stick'],
+            'coke': ['Coca-Cola', 'Coke', 'Diet Coke', 'Coke Zero', 'Sprite', 'Fanta', 'Dasani', 'Smartwater', 'Powerade', 'Minute Maid'],
+            'pepsico': ['Pepsi', 'Mountain Dew', 'Gatorade', 'Tropicana', 'Quaker', 'Lay\'s', 'Doritos', 'Cheetos', 'Tostitos', 'Ruffles', 'Fritos'],
+            'nestle': ['Nestlé', 'Kit Kat', 'Smarties', 'Coffee-mate', 'Nescafé', 'Häagen-Dazs', 'DiGiorno', 'Hot Pockets', 'Lean Cuisine', 'Stouffer\'s'],
+            'mars': ['M&M\'s', 'Snickers', 'Twix', 'Milky Way', 'Skittles', 'Starburst', 'Mars', 'Uncle Ben\'s'],
+            'loreal': ['L\'Oréal', 'Maybelline', 'Garnier', 'Urban Decay', 'NYX', 'Essie', 'Matrix'],
+            'generalmills': ['Cheerios', 'Nature Valley', 'Betty Crocker', 'Pillsbury', 'Yoplait', 'Cascadian Farm'],
+            'kraftheinz': ['Kraft', 'Heinz', 'Oscar Mayer', 'Philadelphia', 'Planters', 'Maxwell House', 'Jell-O'],
+            'kc': ['Huggies', 'Pull-Ups', 'Kotex', 'Scott', 'Kleenex', 'Depend'],
+            'clorox': ['Clorox', 'Glad', 'Brita', 'Hidden Valley', 'Pine-Sol', 'Liquid-Plumr'],
+            'reckitt': ['Lysol', 'Dettol', 'Mucinex', 'Clearasil', 'Air Wick'],
+            'scjohnson': ['Windex', 'Pledge', 'Glade', 'Raid', 'OFF!', 'Scrubbing Bubbles'],
+            
+            // Retailers & Channels
+            'amazon': ['Amazon', 'Amazon Basics', 'Amazon Fresh', 'Amazon Subscribe & Save', 'Solimo'],
+            'costco': ['Kirkland', 'Kirkland Signature'],
+            'walmart': ['Great Value', 'Equate', 'Parent\'s Choice', 'Sam\'s Choice'],
+            'target': ['Up & Up', 'Good & Gather', 'Market Pantry', 'Simply Done'],
+            'private': ['Great Value', 'Kirkland', 'Up & Up', 'Good & Gather', 'Market Pantry', 'Equate', 'Simply Done', 'Amazon Basics', 'CVS Health', 'Walgreens', '365', 'Member\'s Mark', 'Parent\'s Choice', 'Private Selection'],
+            'challenger': ['Harry\'s', 'Dollar Shave Club', 'Honest', 'Method', 'Seventh Generation', 'Native', 'Glossier', 'Warby Parker', 'Casper', 'Hello', 'Burt\'s Bees'],
+            
+            // Category Groups
+            'personalcare': [], // Will be handled by category matching
+            'household': [],
+            'foodbev': [],
+            'health': [],
+            'garden': [],
+            'petcare': []
+        };
+
+        // Category group mappings
+        const categoryGroups = {
+            'personalcare': ['Oral Care', 'Hair Care', 'Men\'s Grooming', 'Skin Care & Beauty'],
+            'household': ['Cleaning & Household', 'Baby & Kids Care'],
+            'foodbev': ['Coffee & Tea', 'Breakfast Foods', 'Snacks, Candy, Treats', 'Beverages', 'Food Staples & Pantry'],
+            'health': ['Health & Supplements'],
+            'garden': ['Pest Control & Garden'],
+            'petcare': ['Pet Care']
+        };
+
+        let activeBrandFilters = new Set();
+        let currentData = allData;
+
+        function isBrandInFilter(brand, filterType) {
+            if (!brand || !filterType) return false;
+            
+            // Handle category group filters
+            if (categoryGroups[filterType]) {
+                return false; // Category groups are handled separately
+            }
+            
+            const brandList = brandClassifications[filterType] || [];
+            return brandList.some(filterBrand => 
+                brand.toLowerCase().includes(filterBrand.toLowerCase()) || 
+                filterBrand.toLowerCase().includes(brand.toLowerCase())
+            );
+        }
+
+        function matchesCategoryGroups(row) {
+            const categoryGroupFilters = Array.from(activeBrandFilters).filter(filter => categoryGroups[filter]);
+            if (categoryGroupFilters.length === 0) return true;
+            
+            const rowCategory = row[1]; // Category column
+            return categoryGroupFilters.some(filterType => {
+                return categoryGroups[filterType].includes(rowCategory);
+            });
+        }
+
+        function matchesBrandFilters(row) {
+            const brandFilters = Array.from(activeBrandFilters).filter(filter => !categoryGroups[filter]);
+            const categoryFilters = Array.from(activeBrandFilters).filter(filter => categoryGroups[filter]);
+            
+            let matchesBrands = brandFilters.length === 0;
+            let matchesCategories = categoryFilters.length === 0;
+            
+            // Check brand filters
+            if (brandFilters.length > 0) {
+                const brands = row.slice(3, 11); // Brand columns (ChatGPT through Amazon Rufus)
+                matchesBrands = brandFilters.some(filterType => {
+                    return brands.some(brand => isBrandInFilter(brand, filterType));
+                });
+            }
+            
+            // Check category group filters
+            if (categoryFilters.length > 0) {
+                matchesCategories = matchesCategoryGroups(row);
+            }
+            
+            return matchesBrands && matchesCategories;
+        }
+
+        function updateStats(data) {
+            const uniqueCategories = [...new Set(data.map(row => row[1]))];
+            document.getElementById('resultsInfo').textContent = 
+                `Showing ${data.length} of 400 questions across ${uniqueCategories.length} categories`;
+        }
+
+        function populateTable(data = allData) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr class="no-results"><td colspan="10">No results found. Try adjusting your search or filter criteria.</td></tr>';
+                return;
+            }
+            
+            let currentCategory = '';
+            
+            data.forEach(row => {
+                // Add category header if category changed
+                if (row[1] !== currentCategory) {
+                    currentCategory = row[1];
+                    const categoryRow = document.createElement('tr');
+                    categoryRow.className = 'category-row';
+                    categoryRow.innerHTML = `
+                        <td colspan="2">${currentCategory}</td>
+                        <td>ChatGPT</td>
+                        <td>Gemini</td>
+                        <td>Claude</td>
+                        <td>X/Grok</td>
+                        <td>Perplexity</td>
+                        <td>DeepSeek</td>
+                        <td>Meta/Llama</td>
+                        <td>Amazon Rufus</td>
+                    `;
+                    tbody.appendChild(categoryRow);
+                }
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="question-number">${row[0]}</td>
+                    <td class="question-text">${row[2]}</td>
+                    <td class="brand-cell">${row[3] || '-'}</td>
+                    <td class="brand-cell">${row[4] || '-'}</td>
+                    <td class="brand-cell">${row[5] || '-'}</td>
+                    <td class="brand-cell">${row[6] || '-'}</td>
+                    <td class="brand-cell">${row[7] || '-'}</td>
+                    <td class="brand-cell">${row[8] || '-'}</td>
+                    <td class="brand-cell">${row[9] || '-'}</td>
+                    <td class="brand-cell">${row[10] || '-'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            updateStats(data);
+        }
+
+        function filterData() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            
+            currentData = allData.filter(row => {
+                const matchesSearch = !searchTerm || 
+                    row[2].toLowerCase().includes(searchTerm) || 
+                    row.slice(3).some(brand => brand && brand.toLowerCase().includes(searchTerm));
+                const matchesCategory = !categoryFilter || row[1] === categoryFilter;
+                const matchesBrands = matchesBrandFilters(row);
+                
+                return matchesSearch && matchesCategory && matchesBrands;
+            });
+            
+            populateTable(currentData);
+            if (searchTerm) highlightSearchTerms(searchTerm);
+            
+            // Highlight brands for active brand family filters
+            const activeBrandFamily = Array.from(activeBrandFilters).find(filter => 
+                brandClassifications[filter] && !categoryGroups[filter]
+            );
+            if (activeBrandFamily) {
+                highlightBrands(activeBrandFamily);
+            }
+        }
+
+        function highlightBrands(filterType) {
+            // Clear previous brand highlights
+            clearBrandHighlights();
+            
+            if (!filterType || categoryGroups[filterType]) return; // Don't highlight for category filters
+            
+            const brandList = brandClassifications[filterType] || [];
+            if (brandList.length === 0) return;
+            
+            // Highlight all cells containing brands from the selected family
+            const cells = document.querySelectorAll('.brand-cell');
+            cells.forEach(cell => {
+                const cellText = cell.textContent.trim();
+                const isMatch = brandList.some(brand => 
+                    cellText.toLowerCase().includes(brand.toLowerCase()) || 
+                    brand.toLowerCase().includes(cellText.toLowerCase())
+                );
+                
+                if (isMatch) {
+                    cell.classList.add('brand-highlight');
+                }
+            });
+        }
+
+        function clearBrandHighlights() {
+            document.querySelectorAll('.brand-highlight').forEach(cell => {
+                cell.classList.remove('brand-highlight');
+            });
+        }
+
+        function highlightSearchTerms(searchTerm) {
+            if (!searchTerm) return;
+            
+            const cells = document.querySelectorAll('td');
+            cells.forEach(cell => {
+                cell.classList.remove('highlight');
+                if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                    cell.classList.add('highlight');
+                }
+            });
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterData);
+        document.getElementById('categoryFilter').addEventListener('change', filterData);
+        
+        document.getElementById('clearFilters').addEventListener('click', function() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('categoryFilter').value = '';
+            
+            // Clear brand filters
+            activeBrandFilters.clear();
+            document.querySelectorAll('.brand-filter').forEach(filter => {
+                filter.classList.remove('active');
+            });
+            
+            // Clear all highlights
+            clearBrandHighlights();
+            document.querySelectorAll('.highlight').forEach(cell => {
+                cell.classList.remove('highlight');
+            });
+            
+            currentData = allData;
+            populateTable(currentData);
+        });
+
+        // Initialize brand filter event listeners after DOM is loaded
+        function initializeBrandFilters() {
+            document.querySelectorAll('.brand-filter').forEach(filter => {
+                filter.addEventListener('click', function() {
+                    const filterType = this.getAttribute('data-filter');
+                    
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                        activeBrandFilters.delete(filterType);
+                        clearBrandHighlights(); // Clear highlights when deactivating
+                    } else {
+                        // Clear other active brand family filters to avoid confusion
+                        document.querySelectorAll('.brand-filter').forEach(f => {
+                            if (f !== this && brandClassifications[f.getAttribute('data-filter')]) {
+                                f.classList.remove('active');
+                                activeBrandFilters.delete(f.getAttribute('data-filter'));
+                            }
+                        });
+                        
+                        this.classList.add('active');
+                        activeBrandFilters.add(filterType);
+                        
+                        // Highlight brands if it's a brand family filter
+                        if (brandClassifications[filterType] && !categoryGroups[filterType]) {
+                            highlightBrands(filterType);
+                        }
+                    }
+                    
+                    filterData();
+                });
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            populateTable();
+            initializeBrandFilters();
+            console.log('Consumer Products 400 Answer Share Index initialized with', allData.length, 'questions');
+        });
+    </script>
+</body>
+</html>

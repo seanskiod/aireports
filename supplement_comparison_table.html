@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Model Supplement Brand Recommendations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: auto;
+        }
+        
+        .presentation-container {
+            width: 100%;
+            min-height: 100vh;
+            aspect-ratio: 16/9;
+            max-width: 1920px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
+            position: relative;
+        }
+        
+        .header {
+            background: rgba(255,255,255,0.05);
+            border-bottom: 2px solid #00d4ff;
+            padding: 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            font-size: 3.2em;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #00d4ff;
+            margin-bottom: 15px;
+        }
+        
+        .header p {
+            font-size: 1.4em;
+            color: rgba(255,255,255,0.8);
+            font-weight: 400;
+            margin-bottom: 30px;
+        }
+        
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 16px 50px 16px 20px;
+            font-size: 16px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(0,212,255,0.3);
+            border-radius: 12px;
+            color: #ffffff;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .search-bar::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .search-bar:focus {
+            border-color: #00d4ff;
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 0 20px rgba(0,212,255,0.3);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00d4ff;
+            font-size: 20px;
+            pointer-events: none;
+        }
+        
+        .brand-filters {
+            margin-top: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .brand-button {
+            padding: 10px 20px;
+            background: rgba(0,212,255,0.1);
+            border: 1px solid rgba(0,212,255,0.3);
+            border-radius: 25px;
+            color: #00d4ff;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .brand-button:hover, .brand-button.active {
+            background: rgba(0,212,255,0.2);
+            border-color: #00d4ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,212,255,0.2);
+        }
+        
+        .clear-filter {
+            padding: 10px 20px;
+            background: rgba(255,107,107,0.1);
+            border: 1px solid rgba(255,107,107,0.3);
+            border-radius: 25px;
+            color: #ff6b6b;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .clear-filter:hover {
+            background: rgba(255,107,107,0.2);
+            border-color: #ff6b6b;
+            transform: translateY(-2px);
+        }
+        
+        .filtered-row {
+            background: rgba(0,212,255,0.12) !important;
+            border-left: 3px solid #00d4ff !important;
+        }
+        
+        .filtered-cell {
+            background: rgba(78,205,196,0.25) !important;
+            color: #4ecdc4 !important;
+            font-weight: 600 !important;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            background: rgba(255,255,255,0.02);
+            margin: 0;
+            min-height: calc(100vh - 200px);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            background: transparent;
+        }
+        
+        th {
+            color: #ffffff;
+            padding: 20px 16px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            font-size: 16px;
+        }
+        
+        th:first-child {
+            min-width: 400px;
+            background: linear-gradient(135deg, #0a0e1a 0%, #2c3e50 100%);
+            position: sticky;
+            left: 0;
+            z-index: 11;
+            border-right: 2px solid #00d4ff;
+        }
+        
+        th:nth-child(2) {
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a4d3a 100%);
+        }
+        
+        th:nth-child(3) {
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a2e4d 100%);
+        }
+        
+        th:nth-child(4) {
+            background: linear-gradient(135deg, #0a0e1a 0%, #4d2e1a 100%);
+        }
+        
+        th:nth-child(5) {
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a3a4d 100%);
+        }
+        
+        th:nth-child(6) {
+            background: linear-gradient(135deg, #0a0e1a 0%, #3a1a4d 100%);
+        }
+        
+        td {
+            padding: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-right: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.01);
+        }
+        
+        td:first-child {
+            background: rgba(0,212,255,0.03);
+            font-weight: 500;
+            color: #ffffff;
+            position: sticky;
+            left: 0;
+            z-index: 5;
+            border-right: 1px solid rgba(0,212,255,0.2);
+            min-width: 400px;
+        }
+        
+        tr:hover td {
+            background: rgba(0,212,255,0.06);
+        }
+        
+        tr:hover td:first-child {
+            background: rgba(0,212,255,0.08);
+        }
+        
+        .category-header {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #0a0e1a;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 16px;
+        }
+        
+        .category-header td {
+            padding: 24px 16px;
+            border-bottom: 3px solid #00d4ff;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #0a0e1a;
+            font-weight: 700;
+        }
+        
+        .brand-cell {
+            font-weight: 500;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        
+        .stats {
+            padding: 40px;
+            background: rgba(255,255,255,0.05);
+            border-top: 3px solid #00d4ff;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-item {
+            text-align: center;
+            margin: 20px;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            min-width: 180px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(0,212,255,0.1);
+            border-color: #00d4ff;
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            font-weight: 700;
+            color: #00d4ff;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            color: #ffffff;
+            font-weight: 400;
+        }
+        
+        small {
+            display: none;
+        }
+        
+        @media (max-width: 1400px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .header p {
+                font-size: 1.2em;
+            }
+            
+            table {
+                font-size: 13px;
+            }
+            
+            th, td {
+                padding: 12px 10px;
+            }
+            
+            th:first-child,
+            td:first-child {
+                min-width: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .header p {
+                font-size: 1em;
+            }
+            
+            table {
+                font-size: 11px;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+            }
+            
+            th:first-child,
+            td:first-child {
+                min-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="header">
+            <h1>Supplement Answer Share Index</h1>
+            <p>Who Shows Up Against Critical Questions: Powered by BrandRank</p>
+            
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search for brands or questions..." id="searchInput">
+                <div class="search-icon">🔍</div>
+            </div>
+            
+            <div class="brand-filters">
+                <button class="brand-button" onclick="filterByBrand('Thorne')">Thorne</button>
+                <button class="brand-button" onclick="filterByBrand('Nature Made')">Nature Made</button>
+                <button class="brand-button" onclick="filterByBrand('Garden of Life')">Garden of Life</button>
+                <button class="brand-button" onclick="filterByBrand('OLLY')">OLLY</button>
+                <button class="brand-button" onclick="filterByBrand('Optimum Nutrition')">Optimum Nutrition</button>
+                <button class="brand-button" onclick="filterByBrand('Nordic Naturals')">Nordic Naturals</button>
+                <button class="brand-button" onclick="filterByBrand('Pure Encapsulations')">Pure Encapsulations</button>
+                <button class="brand-button" onclick="filterByBrand('Natrol')">Natrol</button>
+                <button class="brand-button" onclick="filterByBrand('Seed')">Seed</button>
+                <button class="brand-button" onclick="filterByBrand('NOW Foods')">NOW Foods</button>
+                <button class="clear-filter" onclick="clearFilter()">Clear Filter</button>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>ChatGPT</th>
+                        <th>Google Gemini</th>
+                        <th>Claude</th>
+                        <th>Meta Llama</th>
+                        <th>DeepSeek</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="category-header">
+                        <td>general brand equity & trust</td>
+                        <td>ChatGPT</td>
+                        <td>Google Gemini</td>
+                        <td>Claude</td>
+                        <td>Meta Llama</td>
+                        <td>DeepSeek</td>
+                    </tr>
+                    <tr>
+                        <td>What is the most trusted supplement brand?</td>
+                        <td class="brand-cell">Thorne</td>
+                        <td class="brand-cell">Thorne</td>
+                        <td class="brand-cell">Thorne</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell">Thorne Research</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top-rated vitamin brands?</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell">Nature Made</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell">Nature's Bounty</td>
+                        <td class="brand-cell">Pure Encapsulations</td>
+                    </tr>
+                    <tr>
+                        <td>What supplement brands are recommended by doctors?</td>
+                        <td class="brand-cell">Pure Encapsulations</td>
+                        <td class="brand-cell">Designs for Sport</td>
+                        <td class="brand-cell">Pure Encapsulations</td>
+                        <td class="brand-cell">Nature Made</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best supplement brands sold on Amazon?</td>
+                        <td class="brand-cell">Nature's Bounty</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell">Nature Made</td>
+                        <td class="brand-cell">NOW Foods</td>
+                        <td class="brand-cell highlight-match">NOW Foods</td>
+                    </tr>
+                    <tr>
+                        <td>What supplement brands are made in the USA?</td>
+                        <td class="brand-cell">NOW Foods</td>
+                        <td class="brand-cell">Thorne</td>
+                        <td class="brand-cell highlight-match">NOW Foods</td>
+                        <td class="brand-cell">Thorne Research</td>
+                        <td class="brand-cell">Pure Encapsulations</td>
+                    </tr>
+                    <tr>
+                        <td>What is the healthiest supplement brand?</td>
+                        <td class="brand-cell">MegaFood</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell">Nordic Naturals</td>
+                        <td class="brand-cell highlight-match">MegaFood</td>
+                        <td class="brand-cell highlight-match">MegaFood</td>
+                    </tr>
+                    <tr>
+                        <td>What supplement brands are NSF certified?</td>
+                        <td class="brand-cell">Klean Athlete</td>
+                        <td class="brand-cell">Thorne</td>
+                        <td class="brand-cell highlight-match">Klean Athlete</td>
+                        <td class="brand-cell">Optimum Nutrition</td>
+                        <td class="brand-cell highlight-match">Klean Athlete</td>
+                    </tr>
+                    <tr>
+                        <td>What supplement brands are GMP-certified?</td>
+                        <td class="brand-cell">Doctor's Best</td>
+                        <td class="brand-cell">Robinson Pharma, Inc.</td>
+                        <td class="brand-cell">Life Extension</td>
+                        <td class="brand-cell">Pure Encapsulations</td>
+                        <td class="brand-cell highlight-match">Life Extension</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best clean-label supplement brands?</td>
+                        <td class="brand-cell">Ritual</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell highlight-match">Ritual</td>
+                        <td class="brand-cell highlight-match">Ritual</td>
+                        <td class="brand-cell highlight-match">Ritual</td>
+                    </tr>
+                    <tr>
+                        <td>What are the most popular supplement brands in 2025?</td>
+                        <td class="brand-cell">Vital Proteins</td>
+                        <td class="brand-cell">Nature Made</td>
+                        <td class="brand-cell">Athletic Greens (AG1)</td>
+                        <td class="brand-cell highlight-match">Athletic Greens</td>
+                        <td class="brand-cell">Athletic Greens (AG1)</td>
+                    </tr>
+                    
+                    <tr class="category-header">
+                        <td>energy, focus & performance</td>
+                        <td>ChatGPT</td>
+                        <td>Google Gemini</td>
+                        <td>Claude</td>
+                        <td>Meta Llama</td>
+                        <td>DeepSeek</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best brands for energy supplements?</td>
+                        <td class="brand-cell">Cellucor</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell highlight-match">Cellucor</td>
+                        <td class="brand-cell highlight-match">OLLY</td>
+                        <td class="brand-cell">Klean Athlete</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top brands for B12 vitamins?</td>
+                        <td class="brand-cell">Nature Made</td>
+                        <td class="brand-cell highlight-match">Nature Made</td>
+                        <td class="brand-cell">Jarrow Formulas</td>
+                        <td class="brand-cell">Nature's Bounty</td>
+                        <td class="brand-cell">Pure Encapsulations</td>
+                    </tr>
+                    <tr>
+                        <td>What nootropic brands actually work?</td>
+                        <td class="brand-cell">Mind Lab Pro</td>
+                        <td class="brand-cell">Hunter Evolve</td>
+                        <td class="brand-cell">Nootropics Depot</td>
+                        <td class="brand-cell highlight-match">Nootropics Depot</td>
+                        <td class="brand-cell">Onnit</td>
+                    </tr>
+                    <tr>
+                        <td>What brands make the best caffeine-free energy supplements?</td>
+                        <td class="brand-cell">Genius Brand</td>
+                        <td class="brand-cell">Synapse</td>
+                        <td class="brand-cell highlight-match">Four Sigmatic</td>
+                        <td class="brand-cell">Vital Proteins</td>
+                        <td class="brand-cell">Gaia Herbs</td>
+                    </tr>
+                    <tr>
+                        <td>What brands offer natural energy boosters?</td>
+                        <td class="brand-cell">Four Sigmatic</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell">Gaia Herbs</td>
+                        <td class="brand-cell">Ritual</td>
+                        <td class="brand-cell highlight-match">Four Sigmatic</td>
+                    </tr>
+                    <tr>
+                        <td>Which pre-workout brands are best for energy?</td>
+                        <td class="brand-cell">Legion Athletics</td>
+                        <td class="brand-cell">Alani Nu</td>
+                        <td class="brand-cell">C4 (Cellucor)</td>
+                        <td class="brand-cell">Optimum Nutrition</td>
+                        <td class="brand-cell highlight-match">Optimum Nutrition</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best brands for focus and cognition?</td>
+                        <td class="brand-cell">Qualia (Neurohacker Collective)</td>
+                        <td class="brand-cell">Hunter Evolve</td>
+                        <td class="brand-cell highlight-match">Mind Lab Pro</td>
+                        <td class="brand-cell highlight-match">Mind Lab Pro</td>
+                        <td class="brand-cell">Peak Performance</td>
+                    </tr>
+                    <tr>
+                        <td>What supplement brands help with burnout or fatigue?</td>
+                        <td class="brand-cell">Vita Sciences</td>
+                        <td class="brand-cell">Integrative Therapeutics</td>
+                        <td class="brand-cell">Adrenal Health by Gaia Herbs</td>
+                        <td class="brand-cell">Adaptogenic Functional Medicine</td>
+                        <td class="brand-cell highlight-match">Pure Encapsulations</td>
+                    </tr>
+                    <tr>
+                        <td>What brands sell adaptogenic blends for energy?</td>
+                        <td class="brand-cell">Moon Juice</td>
+                        <td class="brand-cell">Gaia Herbs</td>
+                        <td class="brand-cell highlight-match">Moon Juice</td>
+                        <td class="brand-cell">MoodRing</td>
+                        <td class="brand-cell highlight-match">Moon Juice</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best ginseng supplement brands?</td>
+                        <td class="brand-cell">Nature's Way</td>
+                        <td class="brand-cell">RidgeCrest Herbals</td>
+                        <td class="brand-cell highlight-match">Nature's Way</td>
+                        <td class="brand-cell highlight-match">Nature's Way</td>
+                        <td class="brand-cell">Gaia Herbs</td>
+                    </tr>
+                    
+                    <tr class="category-header">
+                        <td>sleep & relaxation</td>
+                        <td>ChatGPT</td>
+                        <td>Google Gemini</td>
+                        <td>Claude</td>
+                        <td>Meta Llama</td>
+                        <td>DeepSeek</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top melatonin brands?</td>
+                        <td class="brand-cell">Natrol</td>
+                        <td class="brand-cell highlight-match">Natrol</td>
+                        <td class="brand-cell highlight-match">Natrol</td>
+                        <td class="brand-cell highlight-match">Natrol</td>
+                        <td class="brand-cell highlight-match">Natrol</td>
+                    </tr>
+                    <tr>
+                        <td>What sleep supplement brands work best?</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell">Vicks ZzzQuil</td>
+                        <td class="brand-cell">ZMA by NOW Foods</td>
+                        <td class="brand-cell highlight-match">Vicks ZzzQuil</td>
+                        <td class="brand-cell">Pure Encapsulations</td>
+                    </tr>
+                    <tr>
+                        <td>Which brands make natural sleep aids without melatonin?</td>
+                        <td class="brand-cell">Nested Naturals</td>
+                        <td class="brand-cell">Vicks ZzzQuil</td>
+                        <td class="brand-cell">Natural Vitality CALM</td>
+                        <td class="brand-cell highlight-match">Vicks ZzzQuil</td>
+                        <td class="brand-cell">Calm</td>
+                    </tr>
+                    <tr>
+                        <td>What brands combine magnesium and sleep support?</td>
+                        <td class="brand-cell">Natural Vitality</td>
+                        <td class="brand-cell">Integrative Therapeutics</td>
+                        <td class="brand-cell">Nested Naturals</td>
+                        <td class="brand-cell highlight-match">Integrative Therapeutics</td>
+                        <td class="brand-cell">Natural Vitality Calm</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best ashwagandha brands for sleep?</td>
+                        <td class="brand-cell">Himalaya</td>
+                        <td class="brand-cell">Physician's Choice</td>
+                        <td class="brand-cell">KSM-66 by Ixoreal</td>
+                        <td class="brand-cell highlight-match">Physician's Choice</td>
+                        <td class="brand-cell">KSM-66</td>
+                    </tr>
+                    <tr>
+                        <td>What brands make sleep gummies that actually work?</td>
+                        <td class="brand-cell">SmartyPants</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell">Olly</td>
+                        <td class="brand-cell highlight-match">OLLY</td>
+                        <td class="brand-cell highlight-match">Olly</td>
+                    </tr>
+                    <tr>
+                        <td>What are the most effective calming supplement brands?</td>
+                        <td class="brand-cell">Calm by Natural Vitality</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell">Source Naturals</td>
+                        <td class="brand-cell highlight-match">OLLY</td>
+                        <td class="brand-cell">Pure Encapsulations</td>
+                    </tr>
+                    <tr>
+                        <td>Olly vs Natrol – which melatonin brand is better?</td>
+                        <td class="brand-cell">Natrol (slightly more effective, per user reviews)</td>
+                        <td class="brand-cell">Natrol</td>
+                        <td class="brand-cell highlight-match">Natrol</td>
+                        <td class="brand-cell highlight-match">Natrol</td>
+                        <td class="brand-cell highlight-match">Natrol</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best valerian root supplement brands?</td>
+                        <td class="brand-cell">Nature's Answer</td>
+                        <td class="brand-cell">Nature's Way</td>
+                        <td class="brand-cell highlight-match">Nature's Answer</td>
+                        <td class="brand-cell highlight-match">Nature's Way</td>
+                        <td class="brand-cell highlight-match">Nature's Way</td>
+                    </tr>
+                    <tr>
+                        <td>What sleep supplement brands are best for anxiety?</td>
+                        <td class="brand-cell">Irwin Naturals</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell">Designs for Health</td>
+                        <td class="brand-cell highlight-match">OLLY</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+
+                    <tr class="category-header">
+                        <td>cognition & mood</td>
+                        <td>ChatGPT</td>
+                        <td>Google Gemini</td>
+                        <td>Claude</td>
+                        <td>Meta Llama</td>
+                        <td>DeepSeek</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best brands for brain health supplements?</td>
+                        <td class="brand-cell">BrainMD</td>
+                        <td class="brand-cell">Nature Made</td>
+                        <td class="brand-cell">Onnit</td>
+                        <td class="brand-cell highlight-match">Nature Made</td>
+                        <td class="brand-cell highlight-match">Onnit</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top omega-3 supplement brands for cognition?</td>
+                        <td class="brand-cell">Nordic Naturals</td>
+                        <td class="brand-cell highlight-match">Nordic Naturals</td>
+                        <td class="brand-cell highlight-match">Nordic Naturals</td>
+                        <td class="brand-cell highlight-match">Nordic Naturals</td>
+                        <td class="brand-cell highlight-match">Nordic Naturals</td>
+                    </tr>
+                    <tr>
+                        <td>What brands offer mood support supplements?</td>
+                        <td class="brand-cell">Jarrow Formulas</td>
+                        <td class="brand-cell">Nature Made</td>
+                        <td class="brand-cell">Standard Process</td>
+                        <td class="brand-cell highlight-match">Nature Made</td>
+                        <td class="brand-cell">Pure Encapsulations</td>
+                    </tr>
+                    <tr>
+                        <td>What brands make the best magnesium L-threonate?</td>
+                        <td class="brand-cell">Magtein</td>
+                        <td class="brand-cell">MegaFood</td>
+                        <td class="brand-cell highlight-match">Magtein</td>
+                        <td class="brand-cell highlight-match">MegaFood</td>
+                        <td class="brand-cell">Life Extension</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best L-theanine supplement brands?</td>
+                        <td class="brand-cell">Suntheanine</td>
+                        <td class="brand-cell">Swanson</td>
+                        <td class="brand-cell highlight-match">Suntheanine</td>
+                        <td class="brand-cell highlight-match">Swanson</td>
+                        <td class="brand-cell">Pure Encapsulations</td>
+                    </tr>
+                    <tr>
+                        <td>What brands sell serotonin-boosting supplements?</td>
+                        <td class="brand-cell">Zhou Nutrition</td>
+                        <td class="brand-cell">Nature Made</td>
+                        <td class="brand-cell">Integrative Therapeutics</td>
+                        <td class="brand-cell highlight-match">Nature Made</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best brands for ADHD-focused supplements?</td>
+                        <td class="brand-cell">Vyvamind</td>
+                        <td class="brand-cell">Nordic Naturals</td>
+                        <td class="brand-cell">Focus Factor</td>
+                        <td class="brand-cell highlight-match">Nordic Naturals</td>
+                        <td class="brand-cell highlight-match">Nordic Naturals</td>
+                    </tr>
+                    <tr>
+                        <td>What brands are best for dopamine support?</td>
+                        <td class="brand-cell">Nootrogen</td>
+                        <td class="brand-cell">Nordic Naturals</td>
+                        <td class="brand-cell">Dopa Mucuna by NOW Foods</td>
+                        <td class="brand-cell highlight-match">Nordic Naturals</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>What brands offer holistic brain-boosting stacks?</td>
+                        <td class="brand-cell">Onnit</td>
+                        <td class="brand-cell">Awaken Gold</td>
+                        <td class="brand-cell">Alpha Brain by Onnit</td>
+                        <td class="brand-cell highlight-match">Awaken Gold</td>
+                        <td class="brand-cell highlight-match">Onnit</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top brands for memory supplements?</td>
+                        <td class="brand-cell">Prevagen</td>
+                        <td class="brand-cell">Onnit Alpha Brain</td>
+                        <td class="brand-cell highlight-match">Prevagen</td>
+                        <td class="brand-cell highlight-match">Onnit Alpha Brain</td>
+                        <td class="brand-cell">Life Extension</td>
+                    </tr>
+
+                    <tr class="category-header">
+                        <td>fitness, muscle & protein</td>
+                        <td>ChatGPT</td>
+                        <td>Google Gemini</td>
+                        <td>Claude</td>
+                        <td>Meta Llama</td>
+                        <td>DeepSeek</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top protein powder brands?</td>
+                        <td class="brand-cell">Optimum Nutrition</td>
+                        <td class="brand-cell highlight-match">Optimum Nutrition</td>
+                        <td class="brand-cell highlight-match">Optimum Nutrition</td>
+                        <td class="brand-cell highlight-match">Optimum Nutrition</td>
+                        <td class="brand-cell highlight-match">Optimum Nutrition</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best creatine supplement brands?</td>
+                        <td class="brand-cell">Kaged Muscle</td>
+                        <td class="brand-cell">Optimum Nutrition</td>
+                        <td class="brand-cell">Creapure</td>
+                        <td class="brand-cell highlight-match">Optimum Nutrition</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>Optimum Nutrition vs Dymatize – which is better?</td>
+                        <td class="brand-cell">Optimum Nutrition (slightly)</td>
+                        <td class="brand-cell">Dymatize</td>
+                        <td class="brand-cell highlight-match">Optimum Nutrition</td>
+                        <td class="brand-cell">Both are good; it depends on individual preferences.</td>
+                        <td class="brand-cell highlight-match">Optimum Nutrition</td>
+                    </tr>
+                    <tr>
+                        <td>What protein brands are best for muscle gain?</td>
+                        <td class="brand-cell">Dymatize</td>
+                        <td class="brand-cell highlight-match">Dymatize</td>
+                        <td class="brand-cell highlight-match">Dymatize</td>
+                        <td class="brand-cell highlight-match">Dymatize</td>
+                        <td class="brand-cell">MuscleTech</td>
+                    </tr>
+                    <tr>
+                        <td>What vegan protein brands taste the best?</td>
+                        <td class="brand-cell">Orgain</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell highlight-match">Orgain</td>
+                        <td class="brand-cell">Ritual</td>
+                        <td class="brand-cell">Vega</td>
+                    </tr>
+                    <tr>
+                        <td>What are the cleanest whey protein brands?</td>
+                        <td class="brand-cell">Naked Nutrition</td>
+                        <td class="brand-cell">Optimum Nutrition</td>
+                        <td class="brand-cell">Isopure</td>
+                        <td class="brand-cell">Naked Nutrition</td>
+                        <td class="brand-cell highlight-match">Legion Athletics</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top BCAA supplement brands?</td>
+                        <td class="brand-cell">Xtend</td>
+                        <td class="brand-cell">Optimum Nutrition</td>
+                        <td class="brand-cell">Scivation Xtend</td>
+                        <td class="brand-cell">NOW Foods</td>
+                        <td class="brand-cell">Scivation Xtend</td>
+                    </tr>
+                    <tr>
+                        <td>What brands offer best pre/post-workout formulas?</td>
+                        <td class="brand-cell">Alani Nu</td>
+                        <td class="brand-cell">Optimum Nutrition</td>
+                        <td class="brand-cell">Ghost</td>
+                        <td class="brand-cell highlight-match">Optimum Nutrition</td>
+                        <td class="brand-cell">Legion Athletics</td>
+                    </tr>
+                    <tr>
+                        <td>What brands make collagen specifically for joint health?</td>
+                        <td class="brand-cell">Move Free (Schiff)</td>
+                        <td class="brand-cell">Healthy Origins</td>
+                        <td class="brand-cell">BioCell Collagen</td>
+                        <td class="brand-cell">Vital Proteins</td>
+                        <td class="brand-cell highlight-match">Vital Proteins</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best muscle recovery supplement brands?</td>
+                        <td class="brand-cell">MuscleTech</td>
+                        <td class="brand-cell">Optimum Nutrition</td>
+                        <td class="brand-cell highlight-match">Optimum Nutrition</td>
+                        <td class="brand-cell">MusclePharm</td>
+                        <td class="brand-cell">Klean Athlete</td>
+                    </tr>
+
+                    <tr class="category-header">
+                        <td>immunity & inflammation</td>
+                        <td>ChatGPT</td>
+                        <td>Google Gemini</td>
+                        <td>Claude</td>
+                        <td>Meta Llama</td>
+                        <td>DeepSeek</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best supplement brands for immunity?</td>
+                        <td class="brand-cell">Nature's Way</td>
+                        <td class="brand-cell">Nature Made</td>
+                        <td class="brand-cell">Emergen-C</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell">Gaia Herbs</td>
+                    </tr>
+                    <tr>
+                        <td>What brands make zinc + vitamin C combinations?</td>
+                        <td class="brand-cell">Emergen-C</td>
+                        <td class="brand-cell highlight-match">Emergen-C</td>
+                        <td class="brand-cell">Airborne</td>
+                        <td class="brand-cell">Nature's Bounty</td>
+                        <td class="brand-cell">Nature's Way</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top elderberry supplement brands?</td>
+                        <td class="brand-cell">Sambucol</td>
+                        <td class="brand-cell highlight-match">Sambucol</td>
+                        <td class="brand-cell highlight-match">Sambucol</td>
+                        <td class="brand-cell highlight-match">Sambucol</td>
+                        <td class="brand-cell highlight-match">Sambucol</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best echinacea supplement brands?</td>
+                        <td class="brand-cell">Gaia Herbs</td>
+                        <td class="brand-cell">A. Vogel</td>
+                        <td class="brand-cell">Eclectic Institute</td>
+                        <td class="brand-cell">Nature's Way</td>
+                        <td class="brand-cell highlight-match">Gaia Herbs</td>
+                    </tr>
+                    <tr>
+                        <td>What brands sell liposomal vitamin C?</td>
+                        <td class="brand-cell">LivOn Labs (Lypo-Spheric)</td>
+                        <td class="brand-cell">Valimenta</td>
+                        <td class="brand-cell highlight-match">LivOn Labs</td>
+                        <td class="brand-cell">Liposomal Vitamin C by Douglas Labs</td>
+                        <td class="brand-cell highlight-match">LivOn Labs</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best anti-inflammatory supplement brands?</td>
+                        <td class="brand-cell">Curamed (Terry Naturally)</td>
+                        <td class="brand-cell">Thorne</td>
+                        <td class="brand-cell">New Chapter</td>
+                        <td class="brand-cell">Omega-3 by Nordic Naturals</td>
+                        <td class="brand-cell">Turmeric</td>
+                    </tr>
+                    <tr>
+                        <td>What turmeric supplement brands work best?</td>
+                        <td class="brand-cell">Qunol</td>
+                        <td class="brand-cell">Nature's Truth</td>
+                        <td class="brand-cell">Theracurmin</td>
+                        <td class="brand-cell">Nature's Way</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>What brands sell immune gummies for adults?</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell">Emergen-C</td>
+                        <td class="brand-cell">Vitafusion</td>
+                        <td class="brand-cell highlight-match">Olly</td>
+                        <td class="brand-cell highlight-match">Olly</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best brands for immune support blends?</td>
+                        <td class="brand-cell">Rainbow Light</td>
+                        <td class="brand-cell">Floradix</td>
+                        <td class="brand-cell">Host Defense</td>
+                        <td class="brand-cell">Athletic Greens</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top mushroom supplement brands for immunity?</td>
+                        <td class="brand-cell">Real Mushrooms</td>
+                        <td class="brand-cell">Klaire Labs</td>
+                        <td class="brand-cell highlight-match">Real Mushrooms</td>
+                        <td class="brand-cell">Host Defense</td>
+                        <td class="brand-cell highlight-match">Four Sigmatic</td>
+                    </tr>
+
+                    <tr class="category-header">
+                        <td>stress, hormones & balance</td>
+                        <td>ChatGPT</td>
+                        <td>Google Gemini</td>
+                        <td>Claude</td>
+                        <td>Meta Llama</td>
+                        <td>DeepSeek</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best brands for stress relief supplements?</td>
+                        <td class="brand-cell">Calm (Natural Vitality)</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell">Stress-Relax by Natural Factors</td>
+                        <td class="brand-cell highlight-match">OLLY</td>
+                        <td class="brand-cell">Gaia Herbs</td>
+                    </tr>
+                    <tr>
+                        <td>What ashwagandha brands are best for stress management?</td>
+                        <td class="brand-cell">KSM-66 (by Nootropics Depot)</td>
+                        <td class="brand-cell">Organic India</td>
+                        <td class="brand-cell">Sensoril</td>
+                        <td class="brand-cell highlight-match">Organic India</td>
+                        <td class="brand-cell">KSM-66</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best adrenal support supplement brands?</td>
+                        <td class="brand-cell">Gaia Herbs</td>
+                        <td class="brand-cell">Thorne</td>
+                        <td class="brand-cell">Adrenal Health by Gaia Herbs</td>
+                        <td class="brand-cell">Pure Encapsulations</td>
+                        <td class="brand-cell highlight-match">Pure Encapsulations</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top hormone-balancing supplement brands?</td>
+                        <td class="brand-cell">Smoky Mountain Nutrition</td>
+                        <td class="brand-cell">Pure Encapsulations</td>
+                        <td class="brand-cell">Vitex by Nature's Way</td>
+                        <td class="brand-cell">Seeking Health</td>
+                        <td class="brand-cell">MegaFood</td>
+                    </tr>
+                    <tr>
+                        <td>What brands make women's hormone support gummies?</td>
+                        <td class="brand-cell">O Positiv</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell">SmartyPants</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell">Olly</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best supplements for cortisol control?</td>
+                        <td class="brand-cell">Estroven</td>
+                        <td class="brand-cell">Integrative Therapeutics</td>
+                        <td class="brand-cell">Relora by Thorne</td>
+                        <td class="brand-cell">Relora by Nutra Manufacturing</td>
+                        <td class="brand-cell">Pure Encapsulations</td>
+                    </tr>
+                    <tr>
+                        <td>What brands offer PMS or menopause supplements?</td>
+                        <td class="brand-cell">Complete Herbal</td>
+                        <td class="brand-cell">Complete Herbal</td>
+                        <td class="brand-cell">Estroven</td>
+                        <td class="brand-cell">Nature's Way</td>
+                        <td class="brand-cell">MegaFood</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top testosterone booster brands?</td>
+                        <td class="brand-cell">TestoFuel</td>
+                        <td class="brand-cell">Critical T</td>
+                        <td class="brand-cell highlight-match">TestoFuel</td>
+                        <td class="brand-cell">TestoGen</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>What brands make mood-balancing blends?</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell">Nature Made</td>
+                        <td class="brand-cell">Mood Support by Gaia Herbs</td>
+                        <td class="brand-cell">Ritual</td>
+                        <td class="brand-cell">Gaia Herbs</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best maca root supplement brands?</td>
+                        <td class="brand-cell">Critical T</td>
+                        <td class="brand-cell highlight-match">Critical T</td>
+                        <td class="brand-cell">The Maca Team</td>
+                        <td class="brand-cell">Nature's Way</td>
+                        <td class="brand-cell">The Maca Team</td>
+                    </tr>
+
+                    <tr class="category-header">
+                        <td>beauty, skin, hair & nails</td>
+                        <td>ChatGPT</td>
+                        <td>Google Gemini</td>
+                        <td>Claude</td>
+                        <td>Meta Llama</td>
+                        <td>DeepSeek</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top collagen supplement brands?</td>
+                        <td class="brand-cell">Ancient Nutrition</td>
+                        <td class="brand-cell highlight-match">Ancient Nutrition</td>
+                        <td class="brand-cell">Vital Proteins</td>
+                        <td class="brand-cell highlight-match">Vital Proteins</td>
+                        <td class="brand-cell highlight-match">Vital Proteins</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best biotin vitamin brands?</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell highlight-match">OLLY</td>
+                        <td class="brand-cell">Natrol</td>
+                        <td class="brand-cell">Nature's Bounty</td>
+                        <td class="brand-cell highlight-match">Nature's Bounty</td>
+                    </tr>
+                    <tr>
+                        <td>Vital Proteins vs Ancient Nutrition – which is better?</td>
+                        <td class="brand-cell">Ancient Nutrition</td>
+                        <td class="brand-cell highlight-match">Ancient Nutrition</td>
+                        <td class="brand-cell">Vital Proteins</td>
+                        <td class="brand-cell">Both are good; it depends on individual preferences.</td>
+                        <td class="brand-cell highlight-match">Ancient Nutrition</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best skin glow supplement brands?</td>
+                        <td class="brand-cell">Vital Proteins</td>
+                        <td class="brand-cell highlight-match">Vital Proteins</td>
+                        <td class="brand-cell">Hum Nutrition</td>
+                        <td class="brand-cell">Ancient Nutrition</td>
+                        <td class="brand-cell">Moon Juice</td>
+                    </tr>
+                    <tr>
+                        <td>What brands make beauty-from-within supplements?</td>
+                        <td class="brand-cell">Vital Proteins</td>
+                        <td class="brand-cell highlight-match">Vital Proteins</td>
+                        <td class="brand-cell">Sakara</td>
+                        <td class="brand-cell">The Beauty Chef</td>
+                        <td class="brand-cell">Hum Nutrition</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best hair growth vitamin brands?</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell highlight-match">OLLY</td>
+                        <td class="brand-cell">Viviscal</td>
+                        <td class="brand-cell">Nature's Bounty</td>
+                        <td class="brand-cell">Nutrafol</td>
+                    </tr>
+                    <tr>
+                        <td>What marine collagen brands are highest quality?</td>
+                        <td class="brand-cell">Further Food</td>
+                        <td class="brand-cell highlight-match">Further Food</td>
+                        <td class="brand-cell highlight-match">Further Food</td>
+                        <td class="brand-cell">Vital Proteins</td>
+                        <td class="brand-cell highlight-match">Vital Proteins</td>
+                    </tr>
+                    <tr>
+                        <td>What brands sell hyaluronic acid in supplement form?</td>
+                        <td class="brand-cell">Amen</td>
+                        <td class="brand-cell highlight-match">Amen</td>
+                        <td class="brand-cell">BioSil</td>
+                        <td class="brand-cell">Nature's Bounty</td>
+                        <td class="brand-cell">NOW Foods</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best nail strength supplement brands?</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell highlight-match">OLLY</td>
+                        <td class="brand-cell">Nail Envy by OPI</td>
+                        <td class="brand-cell">Sports Research</td>
+                        <td class="brand-cell">Nature's Bounty</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top beauty gummy brands?</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell highlight-match">OLLY</td>
+                        <td class="brand-cell">SugarBearHair</td>
+                        <td class="brand-cell highlight-match">Olly</td>
+                        <td class="brand-cell highlight-match">Olly</td>
+                    </tr>
+
+                    <tr class="category-header">
+                        <td>daily health & core vitamins</td>
+                        <td>ChatGPT</td>
+                        <td>Google Gemini</td>
+                        <td>Claude</td>
+                        <td>Meta Llama</td>
+                        <td>DeepSeek</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best multivitamin brands for women?</td>
+                        <td class="brand-cell">One A Day</td>
+                        <td class="brand-cell highlight-match">One A Day</td>
+                        <td class="brand-cell">Rainbow Light</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell">Ritual</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best multivitamin brands for men?</td>
+                        <td class="brand-cell">One A Day</td>
+                        <td class="brand-cell highlight-match">One A Day</td>
+                        <td class="brand-cell">Centrum</td>
+                        <td class="brand-cell highlight-match">One A Day</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>What brands make prenatal vitamins?</td>
+                        <td class="brand-cell">Nature Made</td>
+                        <td class="brand-cell highlight-match">Nature Made</td>
+                        <td class="brand-cell">SmartyPants</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top magnesium supplement brands?</td>
+                        <td class="brand-cell">MegaFood</td>
+                        <td class="brand-cell highlight-match">MegaFood</td>
+                        <td class="brand-cell">Natural Calm</td>
+                        <td class="brand-cell">Nature's Bounty</td>
+                        <td class="brand-cell">Natural Vitality</td>
+                    </tr>
+                    <tr>
+                        <td>What are the most bioavailable vitamin D brands?</td>
+                        <td class="brand-cell">Llama Naturals</td>
+                        <td class="brand-cell highlight-match">Llama Naturals</td>
+                        <td class="brand-cell">Thorne D3/K2</td>
+                        <td class="brand-cell">Thorne Research</td>
+                        <td class="brand-cell highlight-match">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best iron supplement brands?</td>
+                        <td class="brand-cell">Renzo's</td>
+                        <td class="brand-cell highlight-match">Renzo's</td>
+                        <td class="brand-cell">Floradix</td>
+                        <td class="brand-cell">Nature's Bounty</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>What calcium + D3 supplement brands are best?</td>
+                        <td class="brand-cell">Nature Made</td>
+                        <td class="brand-cell highlight-match">Nature Made</td>
+                        <td class="brand-cell">Caltrate</td>
+                        <td class="brand-cell">Nature's Bounty</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best whole food vitamin brands?</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell highlight-match">Garden of Life</td>
+                        <td class="brand-cell highlight-match">MegaFood</td>
+                        <td class="brand-cell highlight-match">Garden of Life</td>
+                        <td class="brand-cell highlight-match">MegaFood</td>
+                    </tr>
+                    <tr>
+                        <td>What vitamin brands are best for seniors?</td>
+                        <td class="brand-cell">One A Day</td>
+                        <td class="brand-cell highlight-match">One A Day</td>
+                        <td class="brand-cell">Silver Centrum</td>
+                        <td class="brand-cell highlight-match">One A Day</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top gummy vitamin brands for adults?</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell highlight-match">OLLY</td>
+                        <td class="brand-cell">Vitafusion</td>
+                        <td class="brand-cell highlight-match">Olly</td>
+                        <td class="brand-cell highlight-match">Olly</td>
+                    </tr>
+
+                    <tr class="category-header">
+                        <td>gut health & probiotics</td>
+                        <td>ChatGPT</td>
+                        <td>Google Gemini</td>
+                        <td>Claude</td>
+                        <td>Meta Llama</td>
+                        <td>DeepSeek</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best probiotic supplement brands?</td>
+                        <td class="brand-cell">Seed</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                        <td class="brand-cell">Culturelle</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top fiber supplement brands?</td>
+                        <td class="brand-cell">up&up</td>
+                        <td class="brand-cell highlight-match">up&up</td>
+                        <td class="brand-cell">Metamucil</td>
+                        <td class="brand-cell">NOW Foods</td>
+                        <td class="brand-cell highlight-match">NOW Foods</td>
+                    </tr>
+                    <tr>
+                        <td>What probiotic brands are recommended by doctors?</td>
+                        <td class="brand-cell">Seed</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                        <td class="brand-cell">Align</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                    </tr>
+                    <tr>
+                        <td>What prebiotic + probiotic combo brands are best?</td>
+                        <td class="brand-cell">Seed</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best digestive enzyme brands?</td>
+                        <td class="brand-cell">Optimum Nutrition</td>
+                        <td class="brand-cell highlight-match">Optimum Nutrition</td>
+                        <td class="brand-cell">Enzymedica</td>
+                        <td class="brand-cell">Doctor's Best</td>
+                        <td class="brand-cell">NOW Foods</td>
+                    </tr>
+                    <tr>
+                        <td>Seed vs Ritual Synbiotic – which is better?</td>
+                        <td class="brand-cell">Seed</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                        <td class="brand-cell">Both are good; it depends on individual preferences.</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best probiotic brands for IBS?</td>
+                        <td class="brand-cell">Seed</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                        <td class="brand-cell">VSL#3</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                    <tr>
+                        <td>What are the top brands for bloat relief supplements?</td>
+                        <td class="brand-cell">OLLY</td>
+                        <td class="brand-cell highlight-match">OLLY</td>
+                        <td class="brand-cell">Bloat No More by Irwin Naturals</td>
+                        <td class="brand-cell">Beano</td>
+                        <td class="brand-cell">FODMATE</td>
+                    </tr>
+                    <tr>
+                        <td>What brands sell shelf-stable probiotics?</td>
+                        <td class="brand-cell">Seed</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                    </tr>
+                    <tr>
+                        <td>What are the best gut health vitamin brands?</td>
+                        <td class="brand-cell">Seed</td>
+                        <td class="brand-cell highlight-match">Seed</td>
+                        <td class="brand-cell">Microbiome Labs</td>
+                        <td class="brand-cell">Garden of Life</td>
+                        <td class="brand-cell">Thorne</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-number">100</span>
+                <span class="stat-label">Questions Analyzed</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">5</span>
+                <span class="stat-label">AI Models Compared</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">10</span>
+                <span class="stat-label">Product Categories</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">500</span>
+                <span class="stat-label">Brand Recommendations</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentFilter = '';
+        
+        function filterByBrand(brandName) {
+            currentFilter = brandName.toLowerCase();
+            
+            // Update button states
+            document.querySelectorAll('.brand-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter table rows
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                row.classList.remove('filtered-row');
+                const cells = row.querySelectorAll('td');
+                let hasMatch = false;
+                
+                if (row.classList.contains('category-header')) {
+                    row.style.display = 'table-row';
+                    return;
+                }
+                
+                cells.forEach((cell, index) => {
+                    cell.classList.remove('filtered-cell');
+                    if (index > 0 && cell.textContent.toLowerCase().includes(currentFilter)) {
+                        hasMatch = true;
+                        cell.classList.add('filtered-cell');
+                    }
+                });
+                
+                if (hasMatch) {
+                    row.classList.add('filtered-row');
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Update search bar
+            document.getElementById('searchInput').value = brandName;
+        }
+        
+        function clearFilter() {
+            currentFilter = '';
+            
+            // Clear button states
+            document.querySelectorAll('.brand-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show all rows and remove highlights
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.style.display = 'table-row';
+                row.classList.remove('filtered-row');
+                row.querySelectorAll('td').forEach(cell => {
+                    cell.classList.remove('filtered-cell');
+                });
+            });
+            
+            // Clear search bar
+            document.getElementById('searchInput').value = '';
+        }
+        
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                clearFilter();
+                return;
+            }
+            
+            currentFilter = searchTerm;
+            
+            // Clear button states
+            document.querySelectorAll('.brand-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                row.classList.remove('filtered-row');
+                const cells = row.querySelectorAll('td');
+                let hasMatch = false;
+                
+                if (row.classList.contains('category-header')) {
+                    row.style.display = 'table-row';
+                    return;
+                }
+                
+                cells.forEach(cell => {
+                    cell.classList.remove('filtered-cell');
+                    if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                        hasMatch = true;
+                        if (cell.cellIndex > 0) {
+                            cell.classList.add('filtered-cell');
+                        }
+                    }
+                });
+                
+                if (hasMatch) {
+                    row.classList.add('filtered-row');
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+        
+        // Add JavaScript to remove all highlight-match classes on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Remove all existing highlight-match classes
+            document.querySelectorAll('.highlight-match').forEach(cell => {
+                cell.classList.remove('highlight-match');
+            });
+            
+            const rows = document.querySelectorAll('tbody tr:not(.category-header)');
+            rows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('filtered-row')) {
+                        this.style.background = 'rgba(0,212,255,0.06)';
+                    }
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('filtered-row')) {
+                        this.style.background = 'rgba(255,255,255,0.01)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
