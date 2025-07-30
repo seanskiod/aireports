@@ -3,9 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrandRank AI Reports - Answer Engine Intelligence</title>
-    <meta name="description" content="Comprehensive AI-powered brand analysis across creative tools, consumer products, and supplements. Powered by BrandRank.">
+    <title>BrandRank AI - Answer Engine Intelligence Platform</title>
+    <meta name="description" content="Unlock the power of AI-driven brand intelligence. Monitor how AI models shape consumer discovery across industries.">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary: #00d4ff;
+            --primary-dark: #0099cc;
+            --secondary: #ff6b6b;
+            --accent: #4ecdc4;
+            --purple: #667eea;
+            --orange: #ff9500;
+            --green: #00c851;
+            --dark: #0a0e1a;
+            --dark-lighter: #1a1f35;
+            --text-light: rgba(255, 255, 255, 0.9);
+            --text-dim: rgba(255, 255, 255, 0.6);
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,366 +30,1099 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
-            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-lighter) 100%);
+            color: var(--text-light);
             overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .header {
-            text-align: center;
-            padding: 4rem 0 6rem 0;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
-        }
-
-        .logo {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: #00d4ff;
-            margin-bottom: 1rem;
-            letter-spacing: 2px;
-            text-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
-        }
-
-        .tagline {
-            font-size: 1.4rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 2rem;
-            font-weight: 300;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.6);
-            max-width: 800px;
-            margin: 0 auto;
             line-height: 1.6;
         }
 
-        .reports-grid {
-            padding: 6rem 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 3rem;
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: rgba(10, 14, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(78, 205, 196, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            padding: 0 2rem;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-badge i {
+            color: var(--accent);
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--dark);
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-secondary {
+            padding: 1rem 2rem;
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 6rem 2rem;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stats-container {
             max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        /* Reports Section */
+        .reports {
+            padding: 8rem 2rem;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
+        .section-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Report Categories */
+        .report-category-section {
+            margin-bottom: 5rem;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .category-description {
+            font-size: 1rem;
+            color: var(--text-dim);
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .reports-grid.compact {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
         .report-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--glass);
+            border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 3rem;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(10px);
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
             position: relative;
             overflow: hidden;
+        }
+
+        .report-card.compact {
+            padding: 1.5rem;
         }
 
         .report-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
-            transition: left 0.5s ease;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
         }
 
+        .report-card.platform::before { background: var(--purple); }
+        .report-card.market::before { background: var(--orange); }
+        .report-card.industry::before { background: var(--green); }
+
         .report-card:hover {
-            transform: translateY(-10px);
-            background: rgba(0, 212, 255, 0.08);
-            border-color: #00d4ff;
-            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+            transform: translateY(-6px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.15);
         }
 
         .report-card:hover::before {
-            left: 100%;
+            transform: scaleX(1);
         }
 
         .report-header {
             display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .report-header.compact {
+            margin-bottom: 0.75rem;
         }
 
         .report-icon {
-            font-size: 3rem;
-            margin-right: 1rem;
-            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
+            font-size: 2rem;
+            padding: 0.75rem;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 10px;
+            color: var(--primary);
+            flex-shrink: 0;
         }
 
-        .report-title {
-            font-size: 1.5rem;
+        .report-icon.platform {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--purple);
+        }
+
+        .report-icon.market {
+            background: rgba(255, 149, 0, 0.1);
+            color: var(--orange);
+        }
+
+        .report-icon.industry {
+            background: rgba(0, 200, 81, 0.1);
+            color: var(--green);
+        }
+
+        .report-meta h3 {
+            font-size: 1.2rem;
             font-weight: 600;
-            color: #00d4ff;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-light);
         }
 
         .report-category {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .report-description {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .report-description.compact {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
         }
 
         .report-stats {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+            padding: 0.75rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
 
-        .stat {
+        .report-stats.compact {
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+        }
+
+        .report-stat {
             text-align: center;
         }
 
-        .stat-number {
-            font-size: 1.8rem;
+        .report-stat-number {
+            font-size: 1.3rem;
             font-weight: 700;
-            color: #00d4ff;
+            color: var(--primary);
             display: block;
         }
 
-        .stat-label {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
+        .report-stat-number.platform { color: var(--purple); }
+        .report-stat-number.market { color: var(--orange); }
+        .report-stat-number.industry { color: var(--green); }
+
+        .report-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .report-button {
             width: 100%;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--dark);
             border: none;
-            border-radius: 8px;
-            color: #0a0e1a;
-            font-size: 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .report-button.platform {
+            background: linear-gradient(135deg, var(--purple) 0%, #5a67d8 100%);
+            color: white;
+        }
+
+        .report-button.market {
+            background: linear-gradient(135deg, var(--orange) 0%, #e68900 100%);
+            color: white;
+        }
+
+        .report-button.industry {
+            background: linear-gradient(135deg, var(--green) 0%, #00a844 100%);
+            color: white;
         }
 
         .report-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
-            background: linear-gradient(135deg, #00e5ff 0%, #00b3e6 100%);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.3);
         }
 
-        .footer {
-            text-align: center;
-            padding: 4rem 0 2rem 0;
-            border-top: 2px solid rgba(0, 212, 255, 0.3);
-            background: rgba(255, 255, 255, 0.02);
+        /* Features Section */
+        .features {
+            padding: 8rem 2rem;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
         }
 
-        .footer-content {
-            max-width: 800px;
+        .features-container {
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        .footer h3 {
-            color: #00d4ff;
-            font-size: 1.8rem;
-            font-weight: 600;
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
             margin-bottom: 1.5rem;
         }
 
-        .footer p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1rem;
-            line-height: 1.7;
-            margin-bottom: 2rem;
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-light);
         }
 
-        .contact-info {
-            color: rgba(255, 255, 255, 0.6);
+        .feature-description {
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 2rem 2rem;
+            border-top: 1px solid var(--border);
+            background: var(--dark);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .footer-description {
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-contact {
+            color: var(--text-dim);
             font-size: 0.9rem;
         }
 
-        .contact-info a {
-            color: #00d4ff;
+        .footer-contact a {
+            color: var(--primary);
             text-decoration: none;
-            transition: color 0.3s ease;
         }
 
-        .contact-info a:hover {
-            color: #00e5ff;
+        .footer-contact a:hover {
+            text-decoration: underline;
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
-            .container {
-                padding: 0 1rem;
+            .nav-links {
+                display: none;
             }
 
-            .logo {
-                font-size: 2.5rem;
-            }
-
-            .tagline {
-                font-size: 1.2rem;
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
             }
 
             .reports-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 2rem;
-                padding: 4rem 0;
             }
 
             .report-card {
-                padding: 2rem;
-            }
-
-            .report-icon {
-                font-size: 2.5rem;
-            }
-
-            .report-title {
-                font-size: 1.3rem;
-            }
-
-            .report-stats {
-                flex-direction: column;
-                gap: 1rem;
+                padding: 1.5rem;
             }
         }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content > * {
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .hero-badge { animation-delay: 0.1s; }
+        .hero-title { animation-delay: 0.2s; }
+        .hero-subtitle { animation-delay: 0.3s; }
+        .hero-cta { animation-delay: 0.4s; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1 class="logo">BrandRank AI</h1>
-            <p class="tagline">Answer Engine Intelligence Reports</p>
-            <p class="subtitle">
-                Comprehensive analysis of AI model brand recommendations across multiple industries. 
-                Understand how leading AI platforms shape consumer discovery and brand preference in the age of Answer Engines.
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="logo">BrandRank AI</a>
+            <ul class="nav-links">
+                <li><a href="#reports">Reports</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-sparkles"></i>
+                <span>Powered by Answer Engine Intelligence</span>
+            </div>
+            <h1 class="hero-title">Brand Intelligence for the AI Era</h1>
+            <p class="hero-subtitle">
+                Discover how AI models shape consumer discovery. Monitor brand preferences across ChatGPT, Gemini, Claude, and more with comprehensive analysis spanning multiple industries and platforms.
+            </p>
+            <div class="hero-cta">
+                <a href="#reports" class="btn-primary">
+                    <i class="fas fa-chart-line"></i>
+                    Explore Reports
+                </a>
+                <a href="#features" class="btn-secondary">
+                    <i class="fas fa-info-circle"></i>
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number">11</span>
+                <span class="stat-label">Intelligence Reports</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">8</span>
+                <span class="stat-label">AI Models Tracked</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">Industry Categories</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">2000+</span>
+                <span class="stat-label">Brand Data Points</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reports Section -->
+    <section class="reports" id="reports">
+        <div class="section-header">
+            <h2 class="section-title">Intelligence Reports</h2>
+            <p class="section-subtitle">
+                Comprehensive analysis of brand positioning across AI platforms, social media, and consumer markets. Each report provides actionable insights for the Answer Engine economy.
             </p>
         </div>
 
-        <div class="reports-grid">
-            <div class="report-card">
-                <div class="report-header">
-                    <div class="report-icon">🎨</div>
-                    <div>
-                        <h2 class="report-title">Creative Leadership Index</h2>
-                        <p class="report-category">Design & Creative Software</p>
+        <!-- Core Intelligence Reports -->
+        <div class="report-category-section">
+            <h3 class="category-title">Core Intelligence</h3>
+            <p class="category-description">Foundational reports covering the broadest range of AI models and consumer categories</p>
+            
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="report-header">
+                        <div class="report-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="report-meta">
+                            <h3>Creative Leadership Index</h3>
+                            <div class="report-category">Design & Creative Software</div>
+                        </div>
                     </div>
+                    <p class="report-description">
+                        Strategic analysis of AI platform preferences in creative software (Q3 2025). Discover how Canva dominates with 75% mention rate and Adobe's competitive positioning.
+                    </p>
+                    <div class="report-stats">
+                        <div class="report-stat">
+                            <span class="report-stat-number">75</span>
+                            <span class="report-stat-label">Questions</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number">7</span>
+                            <span class="report-stat-label">AI Models</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number">10</span>
+                            <span class="report-stat-label">Categories</span>
+                        </div>
+                    </div>
+                    <a href="creative-leadership.html" class="report-button">
+                        <i class="fas fa-arrow-right"></i>
+                        View Creative Index
+                    </a>
                 </div>
-                <p class="report-description">
-                    Mapping AI Platform Preferences in Creative Software (Q3 2025). Comprehensive analysis of how ChatGPT, Gemini, Claude, and other AI models recommend design tools, with strategic insights on Canva's market dominance and Adobe's competitive positioning.
-                </p>
-                <div class="report-stats">
-                    <div class="stat">
-                        <span class="stat-number">75%</span>
-                        <span class="stat-label">Questions</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">7</span>
-                        <span class="stat-label">AI Models</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">10</span>
-                        <span class="stat-label">Categories</span>
-                    </div>
-                </div>
-                <a href="creative-leadership.html" class="report-button">View Creative Index</a>
-            </div>
 
-            <div class="report-card">
-                <div class="report-header">
-                    <div class="report-icon">🛒</div>
-                    <div>
-                        <h2 class="report-title">Consumer Products 400</h2>
-                        <p class="report-category">Comprehensive Brand Analysis</p>
+                <div class="report-card">
+                    <div class="report-header">
+                        <div class="report-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="report-meta">
+                            <h3>Consumer Products 400</h3>
+                            <div class="report-category">Comprehensive Brand Analysis</div>
+                        </div>
                     </div>
+                    <p class="report-description">
+                        Definitive analysis of AI model brand recommendations across 400 consumer questions spanning 17 categories. From oral care to pet products.
+                    </p>
+                    <div class="report-stats">
+                        <div class="report-stat">
+                            <span class="report-stat-number">400</span>
+                            <span class="report-stat-label">Questions</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number">8</span>
+                            <span class="report-stat-label">AI Models</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number">17</span>
+                            <span class="report-stat-label">Categories</span>
+                        </div>
+                    </div>
+                    <a href="consumer-products.html" class="report-button">
+                        <i class="fas fa-arrow-right"></i>
+                        View Product Index
+                    </a>
                 </div>
-                <p class="report-description">
-                    Analysis of AI model brand recommendations across 400 consumer questions spanning 17 categories. From oral care to pet products, see which brands dominate AI recommendations and discover emerging opportunities in the Answer Engine economy.
-                </p>
-                <div class="report-stats">
-                    <div class="stat">
-                        <span class="stat-number">400</span>
-                        <span class="stat-label">Questions</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">8</span>
-                        <span class="stat-label">AI Models</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">17</span>
-                        <span class="stat-label">Categories</span>
-                    </div>
-                </div>
-                <a href="consumer-products.html" class="report-button">View Product Index</a>
-            </div>
 
-            <div class="report-card">
-                <div class="report-header">
-                    <div class="report-icon">💊</div>
-                    <div>
-                        <h2 class="report-title">Supplement Answer Share</h2>
-                        <p class="report-category">Health & Supplements</p>
+                <div class="report-card">
+                    <div class="report-header">
+                        <div class="report-icon">
+                            <i class="fas fa-pills"></i>
+                        </div>
+                        <div class="report-meta">
+                            <h3>Supplement Answer Share</h3>
+                            <div class="report-category">Health & Supplements</div>
+                        </div>
                     </div>
+                    <p class="report-description">
+                        Deep dive into supplement brand recommendations across major AI platforms. Understand competitive positioning from Thorne to Nordic Naturals.
+                    </p>
+                    <div class="report-stats">
+                        <div class="report-stat">
+                            <span class="report-stat-number">100</span>
+                            <span class="report-stat-label">Questions</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number">5</span>
+                            <span class="report-stat-label">AI Models</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number">10</span>
+                            <span class="report-stat-label">Categories</span>
+                        </div>
+                    </div>
+                    <a href="supplements.html" class="report-button">
+                        <i class="fas fa-arrow-right"></i>
+                        View Supplement Index
+                    </a>
                 </div>
-                <p class="report-description">
-                    Deep dive into supplement brand recommendations across major AI platforms. Discover which brands show up against critical health questions, from probiotics to protein powders, and understand the competitive landscape in AI-mediated health product discovery.
-                </p>
-                <div class="report-stats">
-                    <div class="stat">
-                        <span class="stat-number">100</span>
-                        <span class="stat-label">Questions</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">5</span>
-                        <span class="stat-label">AI Models</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">10</span>
-                        <span class="stat-label">Categories</span>
-                    </div>
-                </div>
-                <a href="supplements.html" class="report-button">View Supplement Index</a>
             </div>
         </div>
-    </div>
 
-    <div class="footer">
-        <div class="footer-content">
-            <h3>About BrandRank AI</h3>
-            <p>
-                We help brands measure, protect, and grow trust through the power of AI-driven search and discovery. 
-                Combining AI with expert insight, we monitor major AI "Answer Engines" to pinpoint vulnerabilities and opportunities, 
-                identify key insights driving purchase behavior, and uncover category needs to strengthen brand equity and consumer loyalty.
+        <!-- Platform Analysis -->
+        <div class="report-category-section">
+            <h3 class="category-title">Platform Analysis</h3>
+            <p class="category-description">Brand presence and sentiment analysis across major social and knowledge platforms</p>
+            
+            <div class="reports-grid compact">
+                <div class="report-card compact platform">
+                    <div class="report-header compact">
+                        <div class="report-icon platform">
+                            <i class="fab fa-wikipedia-w"></i>
+                        </div>
+                        <div class="report-meta">
+                            <h3>Wikipedia Brand Index</h3>
+                            <div class="report-category">Knowledge Base Analysis</div>
+                        </div>
+                    </div>
+                    <p class="report-description compact">
+                        Comprehensive analysis of brand mentions, authority, and positioning across Wikipedia articles and citations.
+                    </p>
+                    <div class="report-stats compact">
+                        <div class="report-stat">
+                            <span class="report-stat-number platform">Wiki</span>
+                            <span class="report-stat-label">Platform</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number platform">2025</span>
+                            <span class="report-stat-label">Data</span>
+                        </div>
+                    </div>
+                    <a href="wikipedia-brand-index.html" class="report-button platform">
+                        <i class="fas fa-external-link-alt"></i>
+                        View Analysis
+                    </a>
+                </div>
+
+                <div class="report-card compact platform">
+                    <div class="report-header compact">
+                        <div class="report-icon platform">
+                            <i class="fab fa-reddit"></i>
+                        </div>
+                        <div class="report-meta">
+                            <h3>Reddit Brand Index</h3>
+                            <div class="report-category">Social Sentiment Analysis</div>
+                        </div>
+                    </div>
+                    <p class="report-description compact">
+                        Real consumer sentiment and brand discussions across Reddit communities and product recommendation threads.
+                    </p>
+                    <div class="report-stats compact">
+                        <div class="report-stat">
+                            <span class="report-stat-number platform">Reddit</span>
+                            <span class="report-stat-label">Platform</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number platform">2025</span>
+                            <span class="report-stat-label">Data</span>
+                        </div>
+                    </div>
+                    <a href="reddit-brand-index.html" class="report-button platform">
+                        <i class="fas fa-external-link-alt"></i>
+                        View Analysis
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Market Intelligence -->
+        <div class="report-category-section">
+            <h3 class="category-title">Market Intelligence</h3>
+            <p class="category-description">Trust metrics, demographic insights, and retail market dynamics</p>
+            
+            <div class="reports-grid compact">
+                <div class="report-card compact market">
+                    <div class="report-header compact">
+                        <div class="report-icon market">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="report-meta">
+                            <h3>Brand Trust Index</h3>
+                            <div class="report-category">Trust & Credibility</div>
+                        </div>
+                    </div>
+                    <p class="report-description compact">
+                        Q3 2025 analysis of brand trust metrics, safety perceptions, and credibility rankings across AI platforms.
+                    </p>
+                    <div class="report-stats compact">
+                        <div class="report-stat">
+                            <span class="report-stat-number market">Q3</span>
+                            <span class="report-stat-label">2025</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number market">Trust</span>
+                            <span class="report-stat-label">Focus</span>
+                        </div>
+                    </div>
+                    <a href="brand-trust-index.html" class="report-button market">
+                        <i class="fas fa-external-link-alt"></i>
+                        View Analysis
+                    </a>
+                </div>
+
+                <div class="report-card compact market">
+                    <div class="report-header compact">
+                        <div class="report-icon market">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="report-meta">
+                            <h3>GenZ Brand Index</h3>
+                            <div class="report-category">Demographic Analysis</div>
+                        </div>
+                    </div>
+                    <p class="report-description compact">
+                        Understanding GenZ brand preferences and discovery patterns through AI-mediated search and social platforms.
+                    </p>
+                    <div class="report-stats compact">
+                        <div class="report-stat">
+                            <span class="report-stat-number market">GenZ</span>
+                            <span class="report-stat-label">Focus</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number market">2024</span>
+                            <span class="report-stat-label">Data</span>
+                        </div>
+                    </div>
+                    <a href="genz-brand-index.html" class="report-button market">
+                        <i class="fas fa-external-link-alt"></i>
+                        View Analysis
+                    </a>
+                </div>
+
+                <div class="report-card compact market">
+                    <div class="report-header compact">
+                        <div class="report-icon market">
+                            <i class="fas fa-store-alt"></i>
+                        </div>
+                        <div class="report-meta">
+                            <h3>Store Brand Risk Assessment</h3>
+                            <div class="report-category">Retail Strategy</div>
+                        </div>
+                    </div>
+                    <p class="report-description compact">
+                        Private label vs national brand competitive analysis and risk assessment for retail strategy (June 2025).
+                    </p>
+                    <div class="report-stats compact">
+                        <div class="report-stat">
+                            <span class="report-stat-number market">Risk</span>
+                            <span class="report-stat-label">Analysis</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number market">2025</span>
+                            <span class="report-stat-label">Data</span>
+                        </div>
+                    </div>
+                    <a href="store-brand-risk.html" class="report-button market">
+                        <i class="fas fa-external-link-alt"></i>
+                        View Analysis
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Industry Insights -->
+        <div class="report-category-section">
+            <h3 class="category-title">Industry Insights</h3>
+            <p class="category-description">Sector-specific analysis for targeted market intelligence</p>
+            
+            <div class="reports-grid compact">
+                <div class="report-card compact industry">
+                    <div class="report-header compact">
+                        <div class="report-icon industry">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <div class="report-meta">
+                            <h3>Fitness & Wellness Index</h3>
+                            <div class="report-category">Health & Fitness</div>
+                        </div>
+                    </div>
+                    <p class="report-description compact">
+                        Comprehensive analysis of fitness equipment, wellness products, and health brand positioning in AI recommendations.
+                    </p>
+                    <div class="report-stats compact">
+                        <div class="report-stat">
+                            <span class="report-stat-number industry">Fit</span>
+                            <span class="report-stat-label">Focus</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number industry">2025</span>
+                            <span class="report-stat-label">Data</span>
+                        </div>
+                    </div>
+                    <a href="fitness-wellness-index.html" class="report-button industry">
+                        <i class="fas fa-external-link-alt"></i>
+                        View Analysis
+                    </a>
+                </div>
+
+                <div class="report-card compact industry">
+                    <div class="report-header compact">
+                        <div class="report-icon industry">
+                            <i class="fas fa-wine-glass-alt"></i>
+                        </div>
+                        <div class="report-meta">
+                            <h3>Beverage Index</h3>
+                            <div class="report-category">Food & Beverage</div>
+                        </div>
+                    </div>
+                    <p class="report-description compact">
+                        Q2 2025 analysis of beverage brand positioning, from soft drinks to health beverages across AI platforms.
+                    </p>
+                    <div class="report-stats compact">
+                        <div class="report-stat">
+                            <span class="report-stat-number industry">Q2</span>
+                            <span class="report-stat-label">2025</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number industry">Bev</span>
+                            <span class="report-stat-label">Focus</span>
+                        </div>
+                    </div>
+                    <a href="beverage-index.html" class="report-button industry">
+                        <i class="fas fa-external-link-alt"></i>
+                        View Analysis
+                    </a>
+                </div>
+
+                <div class="report-card compact industry">
+                    <div class="report-header compact">
+                        <div class="report-icon industry">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="report-meta">
+                            <h3>New Products Launch Analysis</h3>
+                            <div class="report-category">Innovation Tracking</div>
+                        </div>
+                    </div>
+                    <p class="report-description compact">
+                        Q2 2025 tracking of new product launches and their initial AI platform presence and recommendation patterns.
+                    </p>
+                    <div class="report-stats compact">
+                        <div class="report-stat">
+                            <span class="report-stat-number industry">New</span>
+                            <span class="report-stat-label">Products</span>
+                        </div>
+                        <div class="report-stat">
+                            <span class="report-stat-number industry">Q2</span>
+                            <span class="report-stat-label">2025</span>
+                        </div>
+                    </div>
+                    <a href="new-products-launch.html" class="report-button industry">
+                        <i class="fas fa-external-link-alt"></i>
+                        View Analysis
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <div class="section-header">
+                <h2 class="section-title">Why BrandRank AI?</h2>
+                <p class="section-subtitle">
+                    The most comprehensive platform for understanding brand positioning in AI-mediated consumer discovery.
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title">Multi-Platform Intelligence</h3>
+                    <p class="feature-description">
+                        Track brand presence across AI models, social platforms, and knowledge bases. From ChatGPT to Reddit, understand how different channels influence discovery.
+                    </p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="feature-title">Interactive Analysis</h3>
+                    <p class="feature-description">
+                        Search and filter across thousands of data points with real-time highlighting. Uncover patterns and opportunities with advanced filtering capabilities.
+                    </p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="feature-title">Strategic Insights</h3>
+                    <p class="feature-description">
+                        Expert analysis beyond raw data. Discover market opportunities, competitive threats, and Answer Engine Optimization strategies for your industry.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-container">
+            <h3 class="footer-title">Ready to Transform Your Brand Strategy?</h3>
+            <p class="footer-description">
+                We help brands measure, protect, and grow trust through AI-driven search and discovery. 
+                Monitor major AI Answer Engines to identify opportunities and strengthen brand equity.
             </p>
-            <div class="contact-info">
-                <p>For inquiries about BrandRank AI services: <a href="mailto:contact@brandrank.ai">contact@brandrank.ai</a></p>
-                <p>© 2025 BrandRank AI. All rights reserved.</p>
+            <div class="footer-contact">
+                <p>For inquiries: <a href="mailto:contact@brandrank.ai">contact@brandrank.ai</a></p>
+                <p style="margin-top: 2rem; opacity: 0.7;">© 2025 BrandRank AI. All rights reserved.</p>
             </div>
         </div>
-    </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navigation background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(10, 14, 26, 0.95)';
+            } else {
+                nav.style.background = 'rgba(10, 14, 26, 0.8)';
+            }
+        });
+    </script>
 </body>
 </html>
