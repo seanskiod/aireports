@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/creative-leadership",
+      "dest": "/creative-leadership.html"
+    },
+    {
+      "src": "/consumer-products", 
+      "dest": "/consumer-products.html"
+    },
+    {
+      "src": "/supplements",
+      "dest": "/supplements.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=31536000"
+        }
+      ]
+    }
+  ]
+}
