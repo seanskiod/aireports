@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrandRank Vulnerability Index - Updated</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: auto;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            min-height: 100vh;
+            aspect-ratio: 16/9;
+            max-width: 1920px;
+            margin: 0 auto;
+            padding: 40px;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
+            position: relative;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .main-title {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: #00d4ff;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: #ffffff;
+            font-weight: 300;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .overview-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .overview-title {
+            color: #00d4ff;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .overview-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #ffffff;
+            opacity: 0.95;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        th {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #0a0e1a;
+            padding: 16px 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 14px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+            transition: background-color 0.3s ease;
+        }
+
+        .brand-name {
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .score-cell {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .risk-high {
+            background: rgba(255, 107, 107, 0.15);
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .risk-high .score-cell {
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        .risk-moderate {
+            background: rgba(255, 217, 61, 0.15);
+            border-left: 4px solid #ffd93d;
+        }
+
+        .risk-moderate .score-cell {
+            color: #ffd93d;
+            text-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+        }
+
+        .risk-lower {
+            background: rgba(78, 205, 196, 0.15);
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .risk-lower .score-cell {
+            color: #4ecdc4;
+            text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+        }
+
+        .risk-level {
+            text-align: center;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .methodology-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .methodology-title {
+            color: #00d4ff;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .methodology-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .formula-box {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .formula {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+
+        .classification-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .classification-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.05rem;
+        }
+
+        .classification-list li:last-child {
+            border-bottom: none;
+        }
+
+        .risk-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .risk-indicator.high { background: #ff6b6b; }
+        .risk-indicator.moderate { background: #ffd93d; }
+        .risk-indicator.lower { background: #4ecdc4; }
+
+        .concerns-cell, .strengths-cell, .sources-cell {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            max-width: 220px;
+            width: 220px;
+        }
+
+        .concerns-cell {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .strengths-cell {
+            color: rgba(78, 205, 196, 0.9);
+        }
+
+        .sources-cell {
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+
+        .navigation-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .search-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px 20px;
+            color: #ffffff;
+            font-size: 1rem;
+            width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-button, .clear-button {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            color: #0a0e1a;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .clear-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .search-button:hover, .clear-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .quick-links {
+            text-align: center;
+        }
+
+        .quick-links-title {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
+        .client-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .client-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pg-btn {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: #0a0e1a;
+        }
+
+        .nestle-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: #ffffff;
+        }
+
+        .mars-btn {
+            background: linear-gradient(135deg, #ffd93d 0%, #f39c12 100%);
+            color: #0a0e1a;
+        }
+
+        .vf-btn {
+            background: linear-gradient(135deg, #a8e6cf 0%, #81c784 100%);
+            color: #0a0e1a;
+        }
+
+        .bbb-btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: #ffffff;
+        }
+
+        .pepsico-btn {
+            background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+            color: #ffffff;
+        }
+
+        .independent-btn {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: #ffffff;
+        }
+
+        .all-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .client-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .client-btn.active {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+        }
+
+        .brand-row {
+            transition: all 0.3s ease;
+        }
+
+        .brand-row.hidden {
+            display: none;
+        }
+
+        .brand-row.highlighted {
+            background: rgba(0, 212, 255, 0.2) !important;
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        @media (max-width: 1400px) {
+            .presentation-container {
+                padding: 20px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            table {
+                font-size: 0.75rem;
+            }
+            
+            th, td {
+                padding: 10px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="header-section">
+            <h1 class="main-title"><strong>BrandRank.AI Vulnerability Spotlight: Wikipedia</strong></h1>
+            <p class="subtitle">Comprehensive Brand Risk Assessment with Source Documentation - Q3 2025</p>
+            
+            <!-- Interactive Search and Navigation -->
+            <div class="navigation-section">
+                <div class="search-container">
+                    <input type="text" id="brandSearch" placeholder="Search for specific brands..." class="search-input">
+                    <button onclick="searchBrands()" class="search-button">Search</button>
+                    <button onclick="clearSearch()" class="clear-button">Clear</button>
+                </div>
+                
+                <div class="quick-links">
+                    <h3 class="quick-links-title">Key Client Portfolios:</h3>
+                    <div class="client-buttons">
+                        <button onclick="filterByClient('P&G')" class="client-btn pg-btn">P&G Portfolio</button>
+                        <button onclick="filterByClient('Nestlé')" class="client-btn nestle-btn">Nestlé Portfolio</button>
+                        <button onclick="filterByClient('Mars')" class="client-btn mars-btn">Mars Portfolio</button>
+                        <button onclick="filterByClient('VF Corp')" class="client-btn vf-btn">VF Corporation</button>
+                        <button onclick="filterByClient('BBB')" class="client-btn bbb-btn">BBB Portfolio</button>
+                        <button onclick="filterByClient('PepsiCo')" class="client-btn pepsico-btn">PepsiCo Portfolio</button>
+                        <button onclick="filterByClient('Independent')" class="client-btn independent-btn">Independent Brands</button>
+                        <button onclick="showAll()" class="client-btn all-btn">Show All</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="overview-section">
+            <h2 class="overview-title">Wikipedia Vulnerability Assessment - Q3 2025</h2>
+            <p class="overview-text">
+                This vulnerability index analyzes brand exposure through Wikipedia's editorial content and discussion patterns. Wikipedia's 60+ million articles and collaborative editing environment create unique reputation risks through content disputes, bias allegations, and editorial controversies that directly impact brand perception and search visibility.
+            </p>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Brand</th>
+                        <th>Parent</th>
+                        <th>Vulnerability Score</th>
+                        <th>Trust Score</th>
+                        <th>Controversy Score</th>
+                        <th>Risk Level</th>
+                        <th>Top Vulnerabilities</th>
+                        <th>Strengths</th>
+                        <th>Top Sources</th>
+                    </tr>
+                </thead>
+                <tbody id="mainTableBody">
+                    <tr class="risk-high brand-row" data-parent="Nestlé">
+                        <td class="brand-name">Nestlé Corp</td>
+                        <td class="parent-company">Nestlé</td>
+                        <td class="score-cell">2</td>
+                        <td class="score-cell">2</td>
+                        <td class="score-cell">1</td>
+                        <td class="risk-level">High</td>
+                        <td class="concerns-cell">Water rights violations, child labour, unethical marketing</td>
+                        <td class="strengths-cell">Global scale, product innovation</td>
+                        <td class="sources-cell">Public Eye & IBFAN reports on Nestlé; rights-violation litigation</td>
+                    </tr>
+                    <tr class="risk-high brand-row" data-parent="Independent">
+                        <td class="brand-name">College Ave</td>
+                        <td class="parent-company">Independent</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">3</td>
+                        <td class="score-cell">3</td>
+                        <td class="risk-level">High</td>
+                        <td class="concerns-cell">Predatory lending, high interest rates, transparency complaints</td>
+                        <td class="strengths-cell">Student loan market presence</td>
+                        <td class="sources-cell">Better Business Bureau review and complaints</td>
+                    </tr>
+                    <tr class="risk-high brand-row" data-parent="Nestlé">
+                        <td class="brand-name">Cerelac</td>
+                        <td class="parent-company">Nestlé</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">3</td>
+                        <td class="score-cell">4</td>
+                        <td class="risk-level">High</td>
+                        <td class="concerns-cell">Added sugar; contamination incident</td>
+                        <td class="strengths-cell">Convenience, fortification</td>
+                        <td class="sources-cell">Public Eye & IBFAN reports (sugar); 2015 Indian recall</td>
+                    </tr>
+                    <tr class="risk-high brand-row" data-parent="Nestlé">
+                        <td class="brand-name">Nescafé</td>
+                        <td class="parent-company">Nestlé</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">3</td>
+                        <td class="risk-level">High</td>
+                        <td class="concerns-cell">Advertising lawsuits (model's image, Muse song)</td>
+                        <td class="strengths-cell">Brand recognition, affordability</td>
+                        <td class="sources-cell">Brazilian court decision on image use; news reports on Muse lawsuit</td>
+                    </tr>
+                    <tr class="risk-high brand-row" data-parent="PepsiCo">
+                        <td class="brand-name">PepsiCo</td>
+                        <td class="parent-company">PepsiCo</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">3</td>
+                        <td class="score-cell">7</td>
+                        <td class="risk-level">High</td>
+                        <td class="concerns-cell">Worker-strike, palm-oil, GMO and water controversies</td>
+                        <td class="strengths-cell">Diverse product portfolio</td>
+                        <td class="sources-cell">News reports on Frito-Lay strike; Break Free From Plastic ranking</td>
+                    </tr>
+                    <tr class="risk-high brand-row" data-parent="Independent">
+                        <td class="brand-name">Fifth Third Bank</td>
+                        <td class="parent-company">Independent</td>
+                        <td class="score-cell">3</td>
+                        <td class="score-cell">3</td>
+                        <td class="score-cell">7</td>
+                        <td class="risk-level">High</td>
+                        <td class="concerns-cell">Discrimination settlement; fake accounts</td>
+                        <td class="strengths-cell">Regional presence, new controls</td>
+                        <td class="sources-cell">DOJ & CFPB enforcement press releases</td>
+                    </tr>
+                    <tr class="risk-high brand-row" data-parent="Nestlé">
+                        <td class="brand-name">Perrier</td>
+                        <td class="parent-company">Nestlé</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">3</td>
+                        <td class="score-cell">6</td>
+                        <td class="risk-level">High</td>
+                        <td class="concerns-cell">1990 benzene recall & 2024 contamination</td>
+                        <td class="strengths-cell">Iconic sparkling water</td>
+                        <td class="sources-cell">1990 contamination reports; 2024 French health-agency notice</td>
+                    </tr>
+                    <tr class="risk-high brand-row" data-parent="Nestlé">
+                        <td class="brand-name">Maggi</td>
+                        <td class="parent-company">Nestlé</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">3</td>
+                        <td class="score-cell">6</td>
+                        <td class="risk-level">High</td>
+                        <td class="concerns-cell">2015 lead/MSG scandal & misleading ads</td>
+                        <td class="strengths-cell">Brand recognition, quick meals</td>
+                        <td class="sources-cell">Food Safety and Standards Authority of India recall; ASA ruling</td>
+                    </tr>
+                    <tr class="risk-high brand-row" data-parent="Nestlé">
+                        <td class="brand-name">Nespresso</td>
+                        <td class="parent-company">Nestlé</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">3</td>
+                        <td class="score-cell">7</td>
+                        <td class="risk-level">High</td>
+                        <td class="concerns-cell">Child labour & wage-theft allegations; recycling criticism</td>
+                        <td class="strengths-cell">Premium coffee, recycling program</td>
+                        <td class="sources-cell">Fair World Project article; UK Channel 4/Guardian investigation</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="Nestlé">
+                        <td class="brand-name">Laurent Freixe (CEO)</td>
+                        <td class="parent-company">Nestlé</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell">3</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">Inherits child-labour & environmental issues</td>
+                        <td class="strengths-cell">Operational excellence, growth focus</td>
+                        <td class="sources-cell">BusinessChief article on CEO challenges</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="Nestlé">
+                        <td class="brand-name">Gerber</td>
+                        <td class="parent-company">Nestlé</td>
+                        <td class="score-cell">7</td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell">4</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">1980s glass-jar breakage scandal</td>
+                        <td class="strengths-cell">Brand recognition, convenience</td>
+                        <td class="sources-cell">FDA investigation reports; media coverage of jar-breakage issue</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="P&G">
+                        <td class="brand-name">Procter & Gamble</td>
+                        <td class="parent-company">P&G</td>
+                        <td class="score-cell">3</td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell">5</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">Rely tampon toxic-shock recall; animal-testing & price-fixing scandals</td>
+                        <td class="strengths-cell">Strong brand portfolio, dividends, innovation</td>
+                        <td class="sources-cell">FDA recall documentation; Amnesty International palm-oil report</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="Mars">
+                        <td class="brand-name">Pedigree</td>
+                        <td class="parent-company">Mars</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">6</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">2024 recall for metal pieces in dog food</td>
+                        <td class="strengths-cell">Affordable, widely available</td>
+                        <td class="sources-cell">FDA recall announcement (May 2024)</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="Mars">
+                        <td class="brand-name">Cesar</td>
+                        <td class="parent-company">Mars</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">7</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">2016 plastic-piece recall & pest issues</td>
+                        <td class="strengths-cell">Convenience, palatability</td>
+                        <td class="sources-cell">Petful article on 2016 recall; follow-up reports on facility problems</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="Mars">
+                        <td class="brand-name">Temptations</td>
+                        <td class="parent-company">Mars</td>
+                        <td class="score-cell">7</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">3</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">Overfeeding can cause obesity</td>
+                        <td class="strengths-cell">Soft texture, flavor variety</td>
+                        <td class="sources-cell">Temptations brand article on obesity risks</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="Mars">
+                        <td class="brand-name">Greenies</td>
+                        <td class="parent-company">Mars</td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">7</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">Risk of intestinal blockage & lawsuits</td>
+                        <td class="strengths-cell">Plaque removal, palatability</td>
+                        <td class="sources-cell">ABC News report on surgical cases; legal filings</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="Mars">
+                        <td class="brand-name">Iams</td>
+                        <td class="parent-company">Mars</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">6</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">Weight-control additive concerns and recalls</td>
+                        <td class="strengths-cell">Broad product range</td>
+                        <td class="sources-cell">Reuters report on FDA warning; recall notices</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="Nutraceutical">
+                        <td class="brand-name">Solaray</td>
+                        <td class="parent-company">Nutraceutical</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">6</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">2023 multivitamin recall (child-safe packaging)</td>
+                        <td class="strengths-cell">Wide supplement line</td>
+                        <td class="sources-cell">CPSC recall notice</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="Independent">
+                        <td class="brand-name">VF Corporation</td>
+                        <td class="parent-company">Independent</td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">5</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">2023 cyber breach affecting 35 M consumers</td>
+                        <td class="strengths-cell">Strong apparel portfolio</td>
+                        <td class="sources-cell">Reuters report on data breach</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="VF Corp">
+                        <td class="brand-name">Timberland</td>
+                        <td class="parent-company">VF Corp</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell">3</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">1993 race-market controversy</td>
+                        <td class="strengths-cell">Durable products, sustainability efforts</td>
+                        <td class="sources-cell">New York Times interview with CEO (1993)</td>
+                    </tr>
+
+                    <tr class="risk-moderate brand-row" data-parent="Nestlé">
+                        <td class="brand-name">San Pellegrino</td>
+                        <td class="parent-company">Nestlé</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">4</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">Uranium reports; not suitable for infants</td>
+                        <td class="strengths-cell">Premium brand, mineral content</td>
+                        <td class="sources-cell">German consumer TV report on uranium; Nestlé response</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="Nestlé">
+                        <td class="brand-name">Nido</td>
+                        <td class="parent-company">Nestlé</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">4</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">Added sugar in low-income markets</td>
+                        <td class="strengths-cell">Convenience, nutrient fortification</td>
+                        <td class="sources-cell">Public Eye & IBFAN report on sugar; investigative journalism</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="P&G">
+                        <td class="brand-name">ZzzQuil</td>
+                        <td class="parent-company">P&G</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">6</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">Melatonin overdose claims</td>
+                        <td class="strengths-cell">Non-habit-forming sleep aid</td>
+                        <td class="sources-cell">ClassAction.org complaint; laboratory analysis</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="BBB">
+                        <td class="brand-name">BBB</td>
+                        <td class="parent-company">BBB</td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell">3</td>
+                        <td class="score-cell">6</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">Pay-for-rating allegations</td>
+                        <td class="strengths-cell">Long-standing consumer organization</td>
+                        <td class="sources-cell">ABC's 20/20 investigation; New York Times column</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="Pretty Litter">
+                        <td class="brand-name">Pretty Litter</td>
+                        <td class="parent-company">Pretty Litter</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">5</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">Silica dust health complaints</td>
+                        <td class="strengths-cell">Health-monitoring convenience</td>
+                        <td class="sources-cell">Cats.com review & user feedback</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="P&G">
+                        <td class="brand-name">Zevo</td>
+                        <td class="parent-company">P&G</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">6</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">2023 spray recall for leaking cans</td>
+                        <td class="strengths-cell">Plant-based insect control</td>
+                        <td class="sources-cell">CPSC recall notice (Sept 2023)</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="VF Corp">
+                        <td class="brand-name">The North Face</td>
+                        <td class="parent-company">VF Corp</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">5</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">2019 Wikipedia marketing stunt</td>
+                        <td class="strengths-cell">Strong outdoor brand, sustainability</td>
+                        <td class="sources-cell">Wikimedia Foundation blog; subsequent media coverage</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="Nestlé">
+                        <td class="brand-name">Purina Pro Plan</td>
+                        <td class="parent-company">Nestlé</td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">4</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">2023 vitamin-D recall</td>
+                        <td class="strengths-cell">Performance nutrition focus</td>
+                        <td class="sources-cell">Purina press release on recall</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="Mars">
+                        <td class="brand-name">Royal Canin</td>
+                        <td class="parent-company">Mars</td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">5</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">2007 melamine pet-food recall</td>
+                        <td class="strengths-cell">Science-based pet nutrition</td>
+                        <td class="sources-cell">News reports on the 2007 pet-food contamination crisis</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="P&G">
+                        <td class="brand-name">Align</td>
+                        <td class="parent-company">P&G</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">6</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">False-advertising lawsuit for digestive claims</td>
+                        <td class="strengths-cell">Probiotic brand recognition</td>
+                        <td class="sources-cell">Justia summary of Rikos v. P&G; class-action filings</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="P&G">
+                        <td class="brand-name">Oral-B</td>
+                        <td class="parent-company">P&G</td>
+                        <td class="score-cell">6</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">5</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">PFAS chemicals in Glide floss study</td>
+                        <td class="strengths-cell">Strong dental-care line</td>
+                        <td class="sources-cell">Harvard T.H. Chan School study on PFAS in floss</td>
+                    </tr>
+                    <tr class="risk-moderate brand-row" data-parent="P&G">
+                        <td class="brand-name">Metamucil</td>
+                        <td class="parent-company">P&G</td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">5</td>
+                        <td class="risk-level">Mod</td>
+                        <td class="concerns-cell">Lead contamination notice & labeling recall</td>
+                        <td class="strengths-cell">Trusted fiber supplement</td>
+                        <td class="sources-cell">California AG Prop 65 notice; Defense Commissary Agency withdrawal</td>
+                    </tr>
+                    <tr class="risk-lower brand-row" data-parent="Mars">
+                        <td class="brand-name">Sheba</td>
+                        <td class="parent-company">Mars</td>
+                        <td class="score-cell">9</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">2</td>
+                        <td class="risk-level">Lower</td>
+                        <td class="concerns-cell">No recalls; minor ingredient complaints</td>
+                        <td class="strengths-cell">High meat content, portioned servings</td>
+                        <td class="sources-cell">CatFoodAdvisor recall history</td>
+                    </tr>
+                    <tr class="risk-lower brand-row" data-parent="VF Corp">
+                        <td class="brand-name">Vans</td>
+                        <td class="parent-company">VF Corp</td>
+                        <td class="score-cell">8</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">2</td>
+                        <td class="risk-level">Lower</td>
+                        <td class="concerns-cell">Wavy Baby shoe trademark dispute</td>
+                        <td class="strengths-cell">Brand loyalty, youth appeal</td>
+                        <td class="sources-cell">Reuters/FashionNetwork article on lawsuit</td>
+                    </tr>
+                    <tr class="risk-lower brand-row" data-parent="P&G">
+                        <td class="brand-name">Spruce (P&G)</td>
+                        <td class="parent-company">P&G</td>
+                        <td class="score-cell">8</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">2</td>
+                        <td class="risk-level">Lower</td>
+                        <td class="concerns-cell">No major controversies found</td>
+                        <td class="strengths-cell">Innovates sustainable cleaning products</td>
+                        <td class="sources-cell">General brand information (no controversies identified)</td>
+                    </tr>
+                    <tr class="risk-lower brand-row" data-parent="Independent">
+                        <td class="brand-name">School Outfitters</td>
+                        <td class="parent-company">Independent</td>
+                        <td class="score-cell">8</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">2</td>
+                        <td class="risk-level">Lower</td>
+                        <td class="concerns-cell">No major controversies found</td>
+                        <td class="strengths-cell">Supplies educational products</td>
+                        <td class="sources-cell">General market information (no controversies identified)</td>
+                    </tr>
+                    <tr class="risk-lower brand-row" data-parent="Independent">
+                        <td class="brand-name">PetHonesty</td>
+                        <td class="parent-company">Independent</td>
+                        <td class="score-cell">9</td>
+                        <td class="score-cell">4</td>
+                        <td class="score-cell">2</td>
+                        <td class="risk-level">Lower</td>
+                        <td class="concerns-cell">No recalls; minor consumer complaints</td>
+                        <td class="strengths-cell">Vet-formulated supplements</td>
+                        <td class="sources-cell">Petfoodreviewer brand overview</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="methodology-section">
+            <h2 class="methodology-title">Risk Assessment Methodology</h2>
+            <div class="methodology-content">
+                <div class="formula-box">
+                    <div class="formula">Vulnerability Score = (Trust Score + Controversy Score) ÷ 2</div>
+                    <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">Weighted average of community sentiment metrics</p>
+                </div>
+                <div>
+                    <ul class="classification-list">
+                        <li><span class="risk-indicator high"></span><strong>High Risk:</strong> 1.0 - 3.9</li>
+                        <li><span class="risk-indicator moderate"></span><strong>Mod Risk:</strong> 4.0 - 6.9</li>
+                        <li><span class="risk-indicator lower"></span><strong>Lower Risk:</strong> 7.0 - 10.0</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchBrands() {
+            const searchTerm = document.getElementById('brandSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('.brand-row');
+            
+            rows.forEach(row => {
+                const brandName = row.querySelector('.brand-name').textContent.toLowerCase();
+                if (brandName.includes(searchTerm)) {
+                    row.classList.remove('hidden');
+                    row.classList.add('highlighted');
+                } else {
+                    row.classList.add('hidden');
+                    row.classList.remove('highlighted');
+                }
+            });
+        }
+
+        function clearSearch() {
+            document.getElementById('brandSearch').value = '';
+            const rows = document.querySelectorAll('.brand-row');
+            rows.forEach(row => {
+                row.classList.remove('hidden');
+                row.classList.remove('highlighted');
+            });
+        }
+
+        function filterByClient(client) {
+            const rows = document.querySelectorAll('.brand-row');
+            const buttons = document.querySelectorAll('.client-btn');
+            
+            // Remove active class from all buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            rows.forEach(row => {
+                const parent = row.getAttribute('data-parent');
+                if (parent === client) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+        }
+
+        function showAll() {
+            const rows = document.querySelectorAll('.brand-row');
+            const buttons = document.querySelectorAll('.client-btn');
+            
+            // Remove active class from all buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to "Show All" button
+            event.target.classList.add('active');
+            
+            rows.forEach(row => {
+                row.classList.remove('hidden');
+                row.classList.remove('highlighted');
+            });
+        }
+
+        // Enable Enter key for search
+        document.getElementById('brandSearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchBrands();
+            }
+        });
+    </script>
+</body>
+</html>
